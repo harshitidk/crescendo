@@ -3,44 +3,54 @@ import './App.css'
 const logoUrl = '/crescendo/logo.png'
 const bikeUrl = '/crescendo/bike.png'
 
-interface StatProps {
-  label: string;
-  targetValue: number;
-}
-
-const StatCounter = ({ label, targetValue }: StatProps) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    let start = 0;
-    const end = targetValue;
-    if (start === end) return;
-
-    let totalMiliseconds = 2000;
-    let incrementTime = (totalMiliseconds / end) > 10 ? (totalMiliseconds / end) : 10;
-
-    let timer = setInterval(() => {
-      start += Math.ceil(end / 100);
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(start);
-      }
-    }, incrementTime);
-
-    return () => clearInterval(timer);
-  }, [targetValue]);
-
-  return (
-    <div className="stat-item">
-      <span className="stat-label">{label}</span>
-      <span className="stat-value">{count.toLocaleString()}</span>
-    </div>
-  );
-};
+const RANKS = ["ROOKIE", "ACE", "VETERAN", "ELITE", "LEGEND"];
 
 function App() {
+  const [xp, setXp] = useState(0);
+  const [clicks, setClicks] = useState(0);
+  const [rankIndex, setRankIndex] = useState(0);
+  const [combo, setCombo] = useState(1);
+  const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const dist = Math.sqrt(
+        Math.pow(e.clientX - lastPos.x, 2) + Math.pow(e.clientY - lastPos.y, 2)
+      );
+      
+      if (dist > 0 && dist < 500) { // Filter out jumps
+        setXp(prev => prev + Math.floor(dist / 10));
+      }
+      setLastPos({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleClick = () => {
+      setClicks(prev => prev + 1);
+      // Temporary combo boost
+      setCombo(prev => Math.min(prev + 0.1, 5));
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousedown', handleClick);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousedown', handleClick);
+    };
+  }, [lastPos]);
+
+  // Handle Rank and Combo decay
+  useEffect(() => {
+    const newRank = Math.min(Math.floor(xp / 1000), RANKS.length - 1);
+    setRankIndex(newRank);
+
+    const decayTimer = setInterval(() => {
+      setCombo(prev => Math.max(1, prev - 0.05));
+    }, 100);
+
+    return () => clearInterval(decayTimer);
+  }, [xp]);
+
   return (
     <div className="container">
       <div className="crt-overlay"></div>
@@ -69,11 +79,26 @@ function App() {
       </header>
 
       <div className="stats-hud">
-        <StatCounter label="Total Visitors" targetValue={12400} />
-        <StatCounter label="Games Played" targetValue={8530} />
-        <StatCounter label="Registrations" targetValue={3200} />
-        <StatCounter label="Active Players" targetValue={152} />
-        <StatCounter label="Top Score" targetValue={99999} />
+        <div className="stat-item">
+          <span className="stat-label">EXP GAINED</span>
+          <span className="stat-value">{xp.toLocaleString()}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">CLICK POWER</span>
+          <span className="stat-value">{clicks}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">COMBO</span>
+          <span className="stat-value">X{combo.toFixed(1)}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">RANK</span>
+          <span className="stat-value" style={{ color: '#bc00ff' }}>{RANKS[rankIndex]}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">HIGH SCORE</span>
+          <span className="stat-value">99,999</span>
+        </div>
       </div>
     </div>
   )
