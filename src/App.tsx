@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-const logoUrl = 'logo.png'
-const bikeUrl = 'bike.png'
+const logoUrl = '/crescendo/logo.png'
+const bikeUrl = '/crescendo/bike.png'
 
 interface StatProps {
   label: string;
