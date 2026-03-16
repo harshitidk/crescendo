@@ -1,0 +1,285 @@
+:root {
+  font-family: 'Press Start 2P', system-ui, cursive;
+  line-height: 1.5;
+  font-weight: 400;
+
+  --neon-blue: #00f2ff;
+  --neon-purple: #bc00ff;
+  --neon-pink: #ff00ea;
+  --arcade-bg: rgba(0, 0, 0, 0.8);
+  --pixel-border: 4px solid #fff;
+
+  color-scheme: dark;
+  color: #fff;
+  background-color: #000;
+
+  font-synthesis: none;
+  text-rendering: pixelated;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: transparent;
+  overflow: hidden;
+  color: white;
+}
+
+.scene-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* CRT Scanline Overlay - should be on top of EVERYTHING */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 1000; /* Topmost layer */
+  opacity: 0.3;
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.28; }
+  50% { opacity: 0.32; }
+  100% { opacity: 0.28; }
+}
+
+.background-scroller {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: calc(200vw - 200px); /* Two parts minus overlap */
+  height: 100%;
+  animation: scrollBackground 30s linear infinite;
+}
+
+.bg-part {
+  width: 100vw;
+  height: 100%;
+  background-image: url('./assets/city-bg.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.bg-part.blended {
+  margin-left: -200px; /* Overlap width */
+  mask-image: linear-gradient(to right, transparent, black 200px);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 200px);
+}
+
+/* On mobile, we use cover to avoid stretching and center the road */
+@media (max-width: 768px) {
+  .bg-part {
+    background-size: cover;
+    background-position: center bottom;
+  }
+}
+
+@keyframes scrollBackground {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100vw + 200px)); }
+}
+
+.bike-container {
+  position: absolute;
+  bottom: 20%;
+  left: -300px;
+  width: 250px;
+  z-index: 10;
+  animation: bikeMove 12s linear infinite;
+  filter: drop-shadow(0 15px 10px rgba(0,0,0,0.6));
+}
+
+.bike-img {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  animation: bikeVibrate 0.15s ease-in-out infinite alternate;
+}
+
+@keyframes bikeMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 600px)); }
+}
+
+@keyframes bikeVibrate {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+
+/* Arcade UI Components */
+.header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5vh;
+  text-align: center;
+}
+
+.logo-img {
+  width: min(450px, 85vw);
+  height: auto;
+  filter: drop-shadow(0 0 15px var(--neon-blue));
+  margin-bottom: 10px;
+}
+
+.tagline {
+  font-size: 0.7rem;
+  color: var(--neon-blue);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px var(--neon-blue);
+  margin-top: 5px;
+  margin-bottom: 25px;
+  animation: glow 2s ease-in-out infinite;
+}
+
+.arcade-nav {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.arcade-btn {
+  background: var(--arcade-bg);
+  border: 4px solid #fff;
+  color: #fff;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #888, 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: all 0.1s active;
+  position: relative;
+  user-select: none;
+}
+
+.arcade-btn:hover {
+  border-color: var(--neon-purple);
+  color: var(--neon-purple);
+  box-shadow: 0 4px 0 #550077, 0 0 15px var(--neon-purple);
+  transform: translateY(-2px);
+}
+
+.arcade-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #550077, 0 0 5px var(--neon-purple);
+}
+
+.arcade-btn.primary {
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+  text-shadow: 0 0 5px var(--neon-pink);
+  box-shadow: 0 4px 0 #770066, 0 0 15px var(--neon-pink);
+}
+
+.arcade-btn.primary:hover {
+  box-shadow: 0 4px 0 #770066, 0 0 25px var(--neon-pink);
+}
+
+/* Stats HUD */
+.stats-hud {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  border: 4px double var(--neon-blue);
+  display: flex;
+  padding: 15px 30px;
+  gap: 40px;
+  z-index: 100;
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+  max-width: 95vw;
+  overflow-x: auto;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.stat-label {
+  font-size: 0.5rem;
+  color: var(--neon-purple);
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 0.9rem;
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; text-shadow: 0 0 15px var(--neon-blue); }
+}
+
+@media (max-width: 768px) {
+  .stats-hud {
+    gap: 20px;
+    padding: 10px;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+
+  button {
+    background-color: rgba(249, 249, 249, 0.8);
+  }
+}
