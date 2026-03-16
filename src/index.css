@@ -92,7 +92,7 @@ body {
 .bg-part {
   width: 100vw;
   height: 100%;
-  background-image: url('./assets/city-bg.jpg');
+  background-image: url('city-bg.jpg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   image-rendering: pixelated;
