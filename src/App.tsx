@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getStoredUser } from './lib/arcadeDB'
+import MissionSchedule from './components/MissionSchedule'
+import SystemTelemetry from './components/SystemTelemetry'
 import './App.css'
 const logoUrl = '/logo.png'
 const bikeUrl = '/bike.png'
@@ -178,14 +180,11 @@ function App() {
           <div className="schedule-win">
             <ArcadeWindow 
               title="MISSION SCHEDULE" 
-              style={{ top: '22%', left: '4%' }}
+              style={{ top: '22%', left: '4%', overflow: 'visible' }}
               isClosed={winStates.schedule}
               onClose={() => setWinStates({ ...winStates, schedule: true })}
             >
-              <p>&gt; 10:00 - OPENING CEREMONY</p>
-              <p>&gt; 12:00 - PIXEL BATTLE v1.2</p>
-              <p>&gt; 15:00 - NEON CONCERT [LIVE]</p>
-              <div className="stat-bar"><div className="stat-bar-fill" style={{ width: '65%' }}></div></div>
+              <MissionSchedule />
             </ArcadeWindow>
           </div>
 
@@ -196,10 +195,7 @@ function App() {
               isClosed={winStates.telemetry}
               onClose={() => setWinStates({ ...winStates, telemetry: true })}
             >
-              <p>&gt; ACTIVE PLAYERS: 1,244</p>
-              <p>&gt; PKT LOSS: 0.02%</p>
-              <p>&gt; STAGE: FINAL LEVEL</p>
-              <div className="stat-bar"><div className="stat-bar-fill" style={{ width: '88%', background: 'var(--neon-blue)' }}></div></div>
+              <SystemTelemetry />
             </ArcadeWindow>
           </div>
 

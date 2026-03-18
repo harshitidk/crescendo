@@ -1,0 +1,251 @@
+.mission-terminal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  outline: none; /* For tabIndex */
+}
+
+.mission-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.mission-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover State */
+.mission-row:hover {
+  background: rgba(0, 242, 255, 0.05);
+  border-color: rgba(0, 242, 255, 0.2);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.mission-row:hover .mission-indicator {
+  color: var(--neon-blue);
+  text-shadow: 0 0 8px var(--neon-blue);
+}
+
+/* Active State */
+.mission-row.active {
+  background: rgba(255, 94, 149, 0.1);
+  border-color: var(--neon-pink);
+  box-shadow: inset 0 0 10px rgba(255, 94, 149, 0.1), 0 0 10px rgba(255, 94, 149, 0.2);
+  animation: slightPulse 2s infinite;
+}
+
+.mission-row.active .mission-indicator {
+  color: var(--neon-pink);
+  text-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* Dimming for Tentative */
+.mission-row.tentative {
+  opacity: 0.6;
+}
+
+.mission-row.tentative:hover, .mission-row.tentative.active {
+  opacity: 1; /* Restore opacity on interaction */
+}
+
+.mission-indicator {
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease;
+  min-width: 10px;
+}
+
+/* Blinking cursor for current keyboard focus */
+.mission-row.focused .mission-indicator::after {
+  content: '_';
+  position: absolute;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+.mission-time {
+  font-size: 0.45rem;
+  color: rgba(255, 255, 255, 0.7);
+  min-width: 40px;
+}
+
+.mission-name {
+  font-size: 0.45rem;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status Tags */
+.mission-tag {
+  font-size: 0.35rem;
+  padding: 2px 4px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.tag-live {
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  box-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+  animation: tagPulse 1.5s infinite;
+}
+
+.tag-upcoming {
+  background: rgba(0, 242, 255, 0.1);
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
+}
+
+.tag-tentative {
+  background: rgba(255, 157, 0, 0.1);
+  border: 1px solid var(--arcade-orange);
+  color: var(--arcade-orange);
+}
+
+/* Day Progress Bar */
+.progress-container {
+  margin-top: 5px;
+}
+
+.progress-label {
+  font-size: 0.4rem;
+  color: var(--neon-blue);
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+/* Panel Modal */
+.mission-panel-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 90;
+  background: transparent;
+}
+
+.mission-panel {
+  position: absolute;
+  top: 0;
+  left: 105%; /* Default Desktop */
+  width: 260px;
+  background: rgba(10, 10, 20, 0.98);
+  border: 2px solid var(--neon-blue);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.2), inset 0 0 10px rgba(0, 242, 255, 0.1);
+  padding: 15px;
+  z-index: 100;
+  animation: panelOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+
+.panel-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.panel-title {
+  font-size: 0.55rem;
+  color: var(--neon-blue);
+  text-shadow: 0 0 5px var(--neon-blue);
+  line-height: 1.4;
+}
+
+.panel-close {
+  cursor: pointer;
+  font-size: 0.45rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s;
+}
+
+.panel-close:hover {
+  color: var(--neon-pink);
+}
+
+.panel-detail {
+  font-size: 0.45rem;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  gap: 8px;
+}
+
+.panel-detail-label {
+  color: var(--neon-pink);
+}
+
+.panel-desc {
+  font-size: 0.42rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 12px;
+  margin-bottom: 15px;
+}
+
+.panel-register-btn {
+  width: 100%;
+  background: rgba(0, 242, 255, 0.1);
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
+  padding: 8px;
+  font-family: inherit;
+  font-size: 0.45rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.panel-register-btn:hover {
+  background: var(--neon-blue);
+  color: #000;
+  box-shadow: 0 0 15px var(--neon-blue);
+}
+
+/* Animations */
+@keyframes slightPulse {
+  0%, 100% { background: rgba(255, 94, 149, 0.1); }
+  50% { background: rgba(255, 94, 149, 0.15); }
+}
+
+@keyframes tagPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 5px rgba(0, 255, 136, 0.3); }
+  50% { opacity: 0.7; box-shadow: 0 0 10px rgba(0, 255, 136, 0.6); }
+}
+
+@keyframes panelOpen {
+  0% { transform: translateX(-10px) scale(0.98); opacity: 0; filter: blur(2px) contrast(2); }
+  50% { filter: blur(0px) contrast(1.5); }
+  100% { transform: translateX(0) scale(1); opacity: 1; filter: blur(0) contrast(1); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .mission-panel {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    width: 85vw;
+    animation: panelPopMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes panelPopMobile {
+    0% { transform: translate(-50%, -45%) scale(0.95); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
+}
