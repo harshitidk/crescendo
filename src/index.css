@@ -96,7 +96,7 @@ body {
 .bg-part {
   width: 100vw;
   height: 100%;
-  background-image: url('/crescendo/city-bg.jpg');
+  background-image: url('/city-bg.jpg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   image-rendering: pixelated;
@@ -284,46 +284,265 @@ body {
   text-shadow: 0 0 5px #fff;
 }
 
-/* Start Screen Overlay */
+/* Start Screen Overlay — Redesigned */
 .start-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: black;
   z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.start-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center bottom;
+  image-rendering: pixelated;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.start-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 18, 0.96) 0%,
+    rgba(5, 5, 18, 0.85) 50%,
+    rgba(5, 5, 18, 0.98) 100%
+  );
+  z-index: 1;
+}
+
+.start-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 242, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 255, 0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: 2;
+}
+
+.start-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Corner brackets */
+.start-corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 4;
+}
+
+.start-tl { top: 30px; left: 30px; border-top: 2px solid var(--neon-blue); border-left: 2px solid var(--neon-blue); }
+.start-tr { top: 30px; right: 30px; border-top: 2px solid var(--neon-pink); border-right: 2px solid var(--neon-pink); }
+.start-bl { bottom: 30px; left: 30px; border-bottom: 2px solid var(--neon-pink); border-left: 2px solid var(--neon-pink); }
+.start-br { bottom: 30px; right: 30px; border-bottom: 2px solid var(--neon-blue); border-right: 2px solid var(--neon-blue); }
+
+/* Content */
+.start-content {
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
-  transition: opacity 0.5s ease;
+  padding: 20px;
+}
+
+.start-logo {
+  width: min(400px, 75vw);
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.4));
+  margin-bottom: 10px;
+  animation: startLogoGlow 3s ease-in-out infinite;
+}
+
+@keyframes startLogoGlow {
+  0%, 100% { filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.3)); }
+  50% { filter: drop-shadow(0 0 30px rgba(0, 242, 255, 0.5)) drop-shadow(0 0 60px rgba(188, 0, 255, 0.15)); }
+}
+
+.start-tagline {
+  font-size: 0.5rem;
+  color: var(--neon-blue);
+  letter-spacing: 4px;
+  text-shadow: 0 0 10px var(--neon-blue);
+  margin: 0 0 30px;
+}
+
+.start-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.start-divider-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.start-divider-text {
+  font-size: 0.4rem;
+  color: var(--neon-purple);
+  letter-spacing: 3px;
 }
 
 .hi-score-display {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--arcade-orange);
-  margin-bottom: 50px;
-  animation: pulse 1s infinite alternate;
-}
-
-.ready-prompt {
-  font-size: 2rem;
-  color: var(--neon-blue);
   margin-bottom: 40px;
-  animation: flicker 0.1s infinite alternate;
+  text-shadow: 0 0 15px rgba(255, 157, 0, 0.5);
+  animation: pulse 2s ease-in-out infinite;
 }
 
 .start-btn {
-  background: var(--neon-pink);
-  border: 8px solid white;
-  padding: 20px 40px;
-  color: white;
+  background: transparent;
+  border: 2px solid var(--neon-pink);
+  padding: 16px 40px;
+  color: var(--neon-pink);
   font-family: inherit;
-  font-size: 1.5rem;
+  font-size: 0.7rem;
   cursor: pointer;
-  animation: startBounce 0.5s infinite alternate;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px var(--neon-pink);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.start-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 94, 149, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.start-btn:hover::before {
+  transform: translateX(100%);
+}
+
+.start-btn:hover {
+  background: rgba(255, 94, 149, 0.08);
+  box-shadow:
+    0 0 20px rgba(255, 94, 149, 0.3),
+    0 0 60px rgba(255, 94, 149, 0.1);
+  transform: translateY(-2px);
+}
+
+.start-btn:active {
+  transform: translateY(1px);
+}
+
+.start-btn-icon {
+  margin-right: 8px;
+  font-size: 0.5rem;
+}
+
+/* Status indicators */
+.start-status {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.start-status-row {
+  font-size: 0.38rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.start-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.start-status-dot.online {
+  background: #00ff88;
+  box-shadow: 0 0 6px #00ff88;
+  animation: dotPulse 2s infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px #00ff88; }
+  50% { opacity: 0.6; box-shadow: 0 0 8px #00ff88; }
+}
+
+/* Player badge — shown near header */
+.player-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 242, 255, 0.25);
+  padding: 6px 16px;
+  margin-bottom: 10px;
+  font-size: 0.4rem;
+  letter-spacing: 1.5px;
+}
+
+.player-badge-icon {
+  color: var(--neon-pink);
+  font-size: 0.5rem;
+}
+
+.player-badge-name {
+  color: var(--neon-blue);
+  text-shadow: 0 0 6px var(--neon-blue);
+}
+
+@media (max-width: 768px) {
+  .start-logo {
+    width: 60vw;
+  }
+  .start-tagline {
+    font-size: 0.38rem;
+    letter-spacing: 2px;
+    width: 220px;
+    line-height: 1.5;
+  }
+  .start-corner {
+    width: 20px;
+    height: 20px;
+  }
+  .start-tl { top: 15px; left: 15px; }
+  .start-tr { top: 15px; right: 15px; }
+  .start-bl { bottom: 15px; left: 15px; }
+  .start-br { bottom: 15px; right: 15px; }
+  .hi-score-display {
+    font-size: 0.7rem;
+  }
+  .start-btn {
+    font-size: 0.55rem;
+    padding: 14px 30px;
+  }
 }
 
 /* Arcade Windows Refinement */
@@ -335,7 +554,7 @@ body {
   min-width: 250px;
   backdrop-filter: blur(10px);
   z-index: 50;
-  animation: float 4s ease-in-out infinite;
+  /* Removed float animation to allow dragging via transform */
 }
 
 .window-title-bar {
@@ -510,4 +729,38 @@ body {
   button {
     background-color: rgba(249, 249, 249, 0.8);
   }
+}
+
+/* ═══════════════════════════════════════════════════
+   ARCADE MICRO-INTERACTIONS — non-destructive additions
+   ═══════════════════════════════════════════════════ */
+
+/* Enhanced button glow on hover (subtle, not a redesign) */
+.arcade-btn {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.arcade-btn:hover {
+  box-shadow:
+    0 0 15px rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(0, 242, 255, 0.08);
+  filter: brightness(1.1);
+}
+
+/* Smooth stat value transitions */
+.stat-value {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Number roll appearance */
+@keyframes numberRoll {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Glow effect for interactive elements */
+@keyframes subtleGlow {
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 242, 255, 0.1); }
+  50% { box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
 }

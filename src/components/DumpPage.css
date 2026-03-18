@@ -1,0 +1,347 @@
+/* ═══════════════════════════════════════════════════
+   DUMP PAGE — Instagram tag pile
+   ═══════════════════════════════════════════════════ */
+
+.dump-page {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background: #050510;
+  overflow-x: hidden;
+  font-family: 'Press Start 2P', monospace;
+  color: #fff;
+}
+
+/* Background grid */
+.dump-grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dump-scanline {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Header */
+.dump-header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+
+.dump-back {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: rgba(255, 255, 255, 0.3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.dump-back:hover {
+  color: var(--neon-blue);
+}
+
+.dump-title {
+  font-size: 1.8rem;
+  color: var(--neon-pink);
+  text-shadow:
+    0 0 20px var(--neon-pink),
+    0 0 60px rgba(255, 94, 149, 0.3);
+  margin: 10px 0;
+  letter-spacing: 4px;
+}
+
+.dump-subtitle {
+  font-size: 0.4rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.dump-drop-btn {
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  padding: 12px 24px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px var(--neon-blue);
+  transition: all 0.25s ease;
+}
+
+.dump-drop-btn:hover {
+  background: rgba(0, 242, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.25);
+}
+
+/* Drop form */
+.dump-form {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.dump-form-inner {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 500px;
+}
+
+.dump-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 14px;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  outline: none;
+  min-width: 160px;
+  transition: border-color 0.2s;
+}
+
+.dump-input:focus {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 8px rgba(0, 242, 255, 0.15);
+}
+
+.dump-input::placeholder {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.dump-submit {
+  background: var(--neon-pink);
+  border: none;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dump-submit:hover {
+  box-shadow: 0 0 15px var(--neon-pink);
+}
+
+.dump-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* The pile container */
+.dump-pit {
+  position: relative;
+  z-index: 5;
+  min-height: 60vh;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+/* Individual dump card */
+.dump-card {
+  position: absolute;
+  background: rgba(10, 10, 30, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 100px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.dump-card:hover {
+  border-color: var(--neon-blue);
+  box-shadow:
+    0 0 15px rgba(0, 242, 255, 0.2),
+    0 4px 20px rgba(0, 0, 0, 0.5);
+  transform: rotate(0deg) scale(1.05) !important;
+}
+
+.dump-card-selected {
+  border-color: var(--neon-pink) !important;
+  box-shadow:
+    0 0 20px rgba(255, 94, 149, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  transform: rotate(0deg) scale(1.08) !important;
+}
+
+.dump-card-handle {
+  font-size: 0.5rem;
+  color: var(--neon-purple);
+  margin-bottom: 2px;
+}
+
+.dump-card-insta {
+  font-size: 0.4rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.5px;
+}
+
+.dump-card-details {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.2s ease;
+}
+
+.dump-card-name {
+  font-size: 0.35rem;
+  color: var(--arcade-orange);
+  margin-bottom: 4px;
+}
+
+.dump-card-link {
+  font-size: 0.32rem;
+  color: var(--neon-blue);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
+}
+
+.dump-card-link:hover {
+  opacity: 0.75;
+}
+
+/* New card drop animation */
+.dump-card-new {
+  animation: cardDrop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cardDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-200px) rotate(20deg) scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10px) rotate(-3deg) scale(1.05);
+  }
+  80% {
+    transform: translateY(-5px) rotate(1deg) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+/* Overflow cluster */
+.dump-overflow {
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 0.4rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 1px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Empty state */
+.dump-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.dump-empty-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.dump-empty p {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 5px 0;
+}
+
+.dump-empty-sub {
+  font-size: 0.38rem !important;
+  color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Stats bar */
+.dump-stats {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: rgba(5, 5, 18, 0.95);
+  border-top: 1px solid rgba(0, 242, 255, 0.1);
+  font-size: 0.32rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 1px;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .dump-title {
+    font-size: 1.2rem;
+  }
+
+  .dump-pit {
+    min-height: 50vh;
+    padding: 10px;
+  }
+
+  .dump-card {
+    min-width: 80px;
+    padding: 8px 10px;
+  }
+
+  .dump-card-insta {
+    font-size: 0.35rem;
+  }
+
+  .dump-form-inner {
+    flex-direction: column;
+    width: 90vw;
+  }
+
+  .dump-input {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

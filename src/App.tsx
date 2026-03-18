@@ -1,68 +1,78 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getStoredUser } from './lib/arcadeDB'
 import './App.css'
-const logoUrl = '/crescendo/logo.png'
-const bikeUrl = '/crescendo/bike.png'
+const logoUrl = '/logo.png'
+const bikeUrl = '/bike.png'
+const cityBgUrl = '/city-bg.jpg'
 
-const RANKS = ["ROOKIE", "ACE", "VETERAN", "ELITE", "LEGEND"];
+const ArcadeWindow = ({ title, children, style, isClosed, onClose }: { title: string, children: React.ReactNode, style?: any, isClosed?: boolean, onClose?: () => void }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, y: 0 });
 
-const ArcadeWindow = ({ title, children, style }: { title: string, children: React.ReactNode, style?: any }) => (
-  <div className="arcade-window" style={style}>
-    <div className="window-title-bar">
-      <span>{title}</span>
-      <span>[X]</span>
+  if (isClosed) return null;
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+    dragStart.current = {
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    };
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    setPosition({
+      x: e.clientX - dragStart.current.x,
+      y: e.clientY - dragStart.current.y
+    });
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsDragging(false);
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
+
+  return (
+    <div className="arcade-window" style={{ ...style, transform: `translate(${position.x}px, ${position.y}px)`, zIndex: isDragging ? 2000 : (style?.zIndex || undefined) }}>
+      <div 
+        className="window-title-bar"
+        style={{ cursor: isDragging ? 'grabbing' : 'grab', touchAction: 'none' }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
+        <span>{title}</span>
+        <span 
+          style={{ cursor: 'pointer' }}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => { e.stopPropagation(); onClose?.(); }}
+        >
+          [X]
+        </span>
+      </div>
+      <div className="window-content">
+        {children}
+      </div>
     </div>
-    <div className="window-content">
-      {children}
-    </div>
-  </div>
-);
+  );
+};
 
 function App() {
-  const [gameStarted, setGameStarted] = useState(false);
-  const [xp, setXp] = useState(0);
-  const [clicks, setClicks] = useState(0);
-  const [rankIndex, setRankIndex] = useState(0);
-  const [combo, setCombo] = useState(1);
-  const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
+  const [gameStarted, setGameStarted] = useState(() => sessionStorage.getItem('arcade_started') === 'true');
+  const [winStates, setWinStates] = useState({ schedule: false, telemetry: false, sysinfo: false });
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!gameStarted) return;
+  const handleStartGame = () => {
+    setGameStarted(true);
+    sessionStorage.setItem('arcade_started', 'true');
+  };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const dist = Math.sqrt(
-        Math.pow(e.clientX - lastPos.x, 2) + Math.pow(e.clientY - lastPos.y, 2)
-      );
-      
-      if (dist > 0 && dist < 500) {
-        setXp(prev => prev + Math.floor(dist / 10));
-      }
-      setLastPos({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleClick = () => {
-      setClicks(prev => prev + 1);
-      setCombo(prev => Math.min(prev + 0.1, 5));
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mousedown', handleClick);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousedown', handleClick);
-    };
-  }, [lastPos, gameStarted]);
-
-  useEffect(() => {
-    const newRank = Math.min(Math.floor(xp / 1000), RANKS.length - 1);
-    setRankIndex(newRank);
-
-    const decayTimer = setInterval(() => {
-      setCombo(prev => Math.max(1, prev - 0.05));
-    }, 100);
-
-    return () => clearInterval(decayTimer);
-  }, [xp]);
+  const anyClosed = Object.values(winStates).some(v => v);
+  const restoreWindows = () => setWinStates({ schedule: false, telemetry: false, sysinfo: false });
 
   return (
     <div className="container">
@@ -75,14 +85,45 @@ function App() {
 
       {!gameStarted && (
         <div className="start-screen">
-          <div className="hi-score-display">HI-SCORE: 999,999</div>
-          <h2 className="ready-prompt">ARE YOU READY?</h2>
-          <button className="start-btn" onClick={() => setGameStarted(true)}>
-            START GAME
-          </button>
-          <div style={{ marginTop: '40px', fontSize: '0.45rem', opacity: 0.6, letterSpacing: '2px' }}>
-            [ SYSTEM CHECK: STABLE ]<br/>
-            [ NETWORK STATUS: ONLINE ]
+          {/* Background image */}
+          <div className="start-bg" style={{ backgroundImage: `url(${cityBgUrl})` }} />
+          <div className="start-bg-overlay" />
+          <div className="start-grid-bg" />
+          <div className="start-scanlines" />
+
+          {/* Corner brackets */}
+          <div className="start-corner start-tl" />
+          <div className="start-corner start-tr" />
+          <div className="start-corner start-bl" />
+          <div className="start-corner start-br" />
+
+          {/* Content */}
+          <div className="start-content">
+            <img src={logoUrl} alt="Crescendo" className="start-logo" />
+            <p className="start-tagline">THE ANNUAL CULTURAL FEST OF SSCBS</p>
+
+            <div className="start-divider">
+              <span className="start-divider-line" />
+              <span className="start-divider-text">SEASON 2.0</span>
+              <span className="start-divider-line" />
+            </div>
+
+            <div className="hi-score-display">HI-SCORE: 999,999</div>
+
+            <button className="start-btn" onClick={handleStartGame}>
+              <span className="start-btn-icon">▶</span> ENTER ARCADE
+            </button>
+
+            <div className="start-status">
+              <div className="start-status-row">
+                <span className="start-status-dot online" />
+                SYSTEM: STABLE
+              </div>
+              <div className="start-status-row">
+                <span className="start-status-dot online" />
+                NETWORK: ONLINE
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -102,6 +143,15 @@ function App() {
       <header className="header">
         <img src={logoUrl} alt="Logo" className="logo-img" />
         <p className="tagline">The annual cultural fest of SSCBS</p>
+        {(() => {
+          const u = getStoredUser();
+          return u ? (
+            <div className="player-badge">
+              <span className="player-badge-icon">◆</span>
+              <span className="player-badge-name">{u.name.toUpperCase()}</span>
+            </div>
+          ) : null;
+        })()}
         
         <nav className="arcade-nav">
           <button className="arcade-btn">HOME</button>
@@ -109,13 +159,29 @@ function App() {
           <button className="arcade-btn">EVENTS</button>
           <button className="arcade-btn">CONTACT</button>
           <button className="arcade-btn primary">REGISTER</button>
+          <button className="arcade-btn" onClick={() => navigate('/dump')} style={{ borderColor: 'var(--neon-purple)', color: 'var(--neon-purple)', textShadow: '0 0 5px var(--neon-purple)' }}>DUMP</button>
         </nav>
       </header>
 
       {gameStarted && (
         <>
+          {anyClosed && (
+            <button 
+              className="arcade-btn" 
+              style={{ position: 'fixed', bottom: '20px', left: '20px', zIndex: 1000, padding: '10px 20px', fontSize: '0.45rem', borderColor: 'var(--neon-pink)', color: 'var(--neon-pink)' }} 
+              onClick={restoreWindows}
+            >
+              RESTORE WINDOWS
+            </button>
+          )}
+
           <div className="schedule-win">
-            <ArcadeWindow title="MISSION SCHEDULE" style={{ top: '22%', left: '4%' }}>
+            <ArcadeWindow 
+              title="MISSION SCHEDULE" 
+              style={{ top: '22%', left: '4%' }}
+              isClosed={winStates.schedule}
+              onClose={() => setWinStates({ ...winStates, schedule: true })}
+            >
               <p>&gt; 10:00 - OPENING CEREMONY</p>
               <p>&gt; 12:00 - PIXEL BATTLE v1.2</p>
               <p>&gt; 15:00 - NEON CONCERT [LIVE]</p>
@@ -124,7 +190,12 @@ function App() {
           </div>
 
           <div className="telemetry-win">
-            <ArcadeWindow title="SYSTEM TELEMETRY" style={{ top: '22%', right: '4%' }}>
+            <ArcadeWindow 
+              title="SYSTEM TELEMETRY" 
+              style={{ top: '22%', right: '4%' }}
+              isClosed={winStates.telemetry}
+              onClose={() => setWinStates({ ...winStates, telemetry: true })}
+            >
               <p>&gt; ACTIVE PLAYERS: 1,244</p>
               <p>&gt; PKT LOSS: 0.02%</p>
               <p>&gt; STAGE: FINAL LEVEL</p>
@@ -134,47 +205,23 @@ function App() {
 
           {/* System Information Box (Ref 1 inspired) */}
           <div className="system_info_win">
-            <div className="arcade-window" style={{ bottom: '15%', right: '4%', minWidth: '200px' }}>
-               <div className="window-title-bar"><span>SYSTEM INFO</span></div>
-               <div className="window-content" style={{ fontSize: '0.45rem' }}>
-                  <p>// LOC: SECTOR 7G</p>
-                  <p>// ID: CRESCENDO_MAIN</p>
-                  <p>// POP: 15,200</p>
-                  <div style={{ marginTop: '10px', height: '2px', background: 'rgba(255,255,255,0.2)' }}></div>
-                  <p style={{ marginTop: '5px', color: 'var(--neon-pink)' }}>STATUS: OPERATIONAL</p>
-               </div>
-            </div>
+            <ArcadeWindow 
+              title="SYSTEM INFO" 
+              style={{ bottom: '15%', right: '4%', minWidth: '200px' }}
+              isClosed={winStates.sysinfo}
+              onClose={() => setWinStates({ ...winStates, sysinfo: true })}
+            >
+              <div style={{ fontSize: '0.45rem' }}>
+                <p>// LOC: SECTOR 7G</p>
+                <p>// ID: CRESCENDO_MAIN</p>
+                <p>// POP: 15,200</p>
+                <div style={{ marginTop: '10px', height: '2px', background: 'rgba(255,255,255,0.2)' }}></div>
+                <p style={{ marginTop: '5px', color: 'var(--neon-pink)' }}>STATUS: OPERATIONAL</p>
+              </div>
+            </ArcadeWindow>
           </div>
         </>
       )}
-
-      <div className="stats-hud">
-        <div className="stat-item">
-          <span className="stat-label">EXPL EXP</span>
-          <span className="stat-value">{xp.toLocaleString()}</span>
-          <div className="stat-bar"><div className="stat-bar-fill" style={{ width: `${Math.min((xp/10000)*100, 100)}%` }}></div></div>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">CLICK PWR</span>
-          <span className="stat-value">{clicks}</span>
-          <div className="stat-bar"><div className="stat-bar-fill" style={{ width: `${Math.min((clicks/100)*100, 100)}%`, background: 'var(--neon-blue)' }}></div></div>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">COMBO</span>
-          <span className="stat-value">X{combo.toFixed(1)}</span>
-          <div className="stat-bar"><div className="stat-bar-fill" style={{ width: `${(combo/5)*100}%`, background: 'var(--arcade-orange)' }}></div></div>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">CLASS</span>
-          <span className="stat-value" style={{ color: '#00f2ff' }}>{RANKS[rankIndex]}</span>
-          <div className="stat-bar"><div className="stat-bar-fill" style={{ width: `${((rankIndex+1)/RANKS.length)*100}%` }}></div></div>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">CREDITS</span>
-          <span className="stat-value" style={{ color: '#ff9d00' }}>02</span>
-          <div className="stat-bar"><div className="stat-bar-fill" style={{ width: '40%' }}></div></div>
-        </div>
-      </div>
     </div>
   )
 }
