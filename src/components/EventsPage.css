@@ -508,7 +508,7 @@
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
   .events-game-screen {
-    padding-bottom: 400px; /* Extra space for the register button and nav on mobile */
+    padding-bottom: 500px; /* Extra space for the register button and nav on mobile */
   }
   .events-timeline-header { padding: 80px 20px 20px; }
   .timeline-title { font-size: 1.2rem; letter-spacing: 4px; }
