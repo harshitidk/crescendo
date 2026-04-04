@@ -1,165 +1,287 @@
-import { useState } from 'react';
-import { Gamepad2, Coins, Heart, Shield, Zap, Target, Users, Map, Star } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Gamepad2, Zap, Target, Users, Star, Shield, Trophy, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './AboutPage.css';
 
-const MOCK_MAP_NODES = [
-  { id: 1, title: '70+ EVENTS', x: 20, y: 30, icon: <Target size={24} /> },
-  { id: 2, title: '150+ COLLEGES', x: 70, y: 50, icon: <Map size={24} /> },
-  { id: 3, title: '8000+ PLAYERS', x: 40, y: 70, icon: <Users size={24} /> },
-];
+/* ── Animated Counter Hook ── */
+function useCounter(end: number, duration: number = 2000, trigger: boolean = false) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!trigger) return;
+    let start = 0;
+    const step = Math.ceil(end / (duration / 16));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) { setCount(end); clearInterval(timer); }
+      else setCount(start);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [trigger, end, duration]);
+  return count;
+}
+
+/* ── Intersection Observer Hook ── */
+function useInView(threshold = 0.3) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { setInView(true); obs.disconnect(); }
+    }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
 
 export default function AboutPage() {
-  const [scrollY, setScrollY] = useState(0);
+  const navigate = useNavigate();
+  const statsObserver = useInView(0.4);
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    setScrollY(e.currentTarget.scrollTop);
-  };
+  const footfall = useCounter(20000, 2000, statsObserver.inView);
+  const reach = useCounter(200, 1800, statsObserver.inView);
+  const colleges = useCounter(150, 1600, statsObserver.inView);
+  const events = useCounter(70, 1400, statsObserver.inView);
 
-  const scrollToNext = () => {
-    const el = document.querySelector('.about-game-world');
-    if (el) {
-      el.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-    }
+  const scrollToLevel = () => {
+    const el = document.querySelector('.about-page-root');
+    if (el) el.scrollTo({ top: window.innerHeight * 0.85, behavior: 'smooth' });
   };
 
   return (
-    <div className="about-game-world" onScroll={handleScroll}>
-      {/* 1. Hero Section */}
-      <section className="about-level hero-level">
-        <div className="clouds-bg" style={{ transform: `translateX(${scrollY * 0.2}px)` }}></div>
-        <div className="hero-content" style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
-          <h2 className="blinking-text">INSERT COIN TO ENTER</h2>
-          <h1 className="retro-title">WELCOME TO CRESCENDO</h1>
-          <div className="floating-coins">
-            <Coins className="pixel-coin anim-bounce1" size={48} />
-            <Coins className="pixel-coin anim-bounce2" size={48} />
-            <Coins className="pixel-coin anim-bounce3" size={48} />
-          </div>
-          <button className="start-game-btn" onClick={scrollToNext}>
-            START GAME
+    <div className="about-page-root">
+      <div className="about-bg-ambient" />
+
+      {/* ═══════════ 1. HERO — ENTRY SCREEN ═══════════ */}
+      <section className="about-hero">
+        <div className="hero-hud-bar">
+          <span className="hud-chip">SYS://ABOUT_MODULE</span>
+          <span className="hud-chip">STATUS: <span className="text-green">ONLINE</span></span>
+        </div>
+
+        <div className="hero-center">
+          <div className="hero-badge">THE ANNUAL CULTURAL FEST OF SSCBS, UNIVERSITY OF DELHI</div>
+          <h1 className="hero-headline">WELCOME TO<br/><span className="hero-accent">CRESCENDO</span></h1>
+          <p className="hero-tagline">
+            Delhi's premier multi-domain college festival — where business, culture, creativity, and technology 
+            converge into one electrifying experience.
+          </p>
+          <button className="hero-cta" onClick={scrollToLevel}>
+            <span className="cta-blink">▶</span> START EXPLORATION
           </button>
         </div>
-      </section>
 
-      {/* 2. Level 01 - The Arena */}
-      <section className="about-level arena-level">
-        <div className="level-header">
-          <span className="level-badge">LVL 01</span>
-          <h2>THE ARENA</h2>
-          <p className="subtitle">Enter the ultimate festival map</p>
-        </div>
-        
-        <div className="map-container">
-          {MOCK_MAP_NODES.map((node, i) => (
-            <div key={node.id} className="map-node" style={{ left: `${node.x}%`, top: `${node.y}%`, animationDelay: `${i * 0.3}s` }}>
-              <div className="node-icon">{node.icon}</div>
-              <div className="node-label">{node.title}</div>
-            </div>
-          ))}
-          <div className="pathing-line"></div>
+        <div className="hero-scroll-hint">
+          <div className="scroll-line" />
+          <span>SCROLL TO EXPLORE</span>
         </div>
       </section>
 
-      {/* 3. Level 02 - The System (SSCBS) */}
-      <section className="about-level system-level">
-        <div className="level-header">
-          <span className="level-badge">LVL 02</span>
-          <h2>THE SYSTEM: SSCBS</h2>
-          <p className="subtitle">Powered by the ultimate engine</p>
+      {/* ═══════════ 2. LEVEL 01 — WHAT IS CRESCENDO ═══════════ */}
+      <section className="about-section">
+        <div className="level-tag">
+          <span className="level-num">01</span>
+          <span className="level-title">WHAT IS CRESCENDO</span>
         </div>
 
-        <div className="system-grid">
-          <div className="stat-card">
-            <div className="stat-card-header">
-              <Zap size={20} /> CORE PROCESSOR
-            </div>
-            <div className="stat-card-body">
-              <h3>TOP 1%</h3>
-              <p>Selection Ratio 1:140</p>
-            </div>
-            <div className="stat-card-footer">
-              <span className="xp-label">INTELLIGENCE</span>
-              <div className="xp-bar"><div className="xp-fill w-100"></div></div>
-              <span className="xp-value">+100</span>
-            </div>
+        <div className="content-split">
+          <div className="content-text">
+            <h2 className="section-headline">The Arena Where<br/>Talent Meets Opportunity</h2>
+            <p className="section-body">
+              Crescendo is the flagship annual fest of Shaheed Sukhdev College of Business Studies (SSCBS), 
+              University of Delhi. Spanning multiple days, it brings together students from 150+ colleges 
+              across India to compete, collaborate, and celebrate across domains — from business strategy 
+              and entrepreneurship to performing arts, design, and technology.
+            </p>
+            <p className="section-body">
+              With 70+ curated events, high-profile artist performances, industry panels, and competitive 
+              arenas, Crescendo is not just a college fest — it's a launchpad for the next generation of 
+              leaders, creators, and innovators.
+            </p>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-card-header">
-              <Target size={20} /> DIFFICULTY
-            </div>
-            <div className="stat-card-body">
-              <h3>HARDCORE</h3>
-              <p>Rank 1 B-School</p>
-            </div>
-            <div className="stat-card-footer">
-              <span className="xp-label">COMPETITION</span>
-              <div className="xp-bar"><div className="xp-fill w-MAX"></div></div>
-              <span className="xp-value">+200</span>
+          <div className="content-visual">
+            <div className="arena-map">
+              <div className="map-zone" style={{ '--zone-clr': '#ff5e95' } as any}>
+                <div className="zone-icon"><Target size={20} /></div>
+                <div className="zone-info">
+                  <span className="zone-count">70+</span>
+                  <span className="zone-label">EVENTS</span>
+                </div>
+              </div>
+              <div className="map-zone" style={{ '--zone-clr': '#00f2ff' } as any}>
+                <div className="zone-icon"><Users size={20} /></div>
+                <div className="zone-info">
+                  <span className="zone-count">150+</span>
+                  <span className="zone-label">COLLEGES</span>
+                </div>
+              </div>
+              <div className="map-zone" style={{ '--zone-clr': '#bc00ff' } as any}>
+                <div className="zone-icon"><Zap size={20} /></div>
+                <div className="zone-info">
+                  <span className="zone-count">8000+</span>
+                  <span className="zone-label">PARTICIPANTS</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Player Stats */}
-      <section className="about-level stats-level">
-        <h2 className="section-title">GLOBAL LEADERBOARD</h2>
-        <div className="stats-hud-wrapper">
-          <div className="hud-metric">
-            <Heart size={32} className="hud-icon pulse" />
-            <div className="hud-data">
-              <span className="hud-num count-up">20K+</span>
-              <span className="hud-lbl">FOOTFALL</span>
+      {/* ═══════════ 3. LEVEL 02 — ABOUT SSCBS ═══════════ */}
+      <section className="about-section dark-section">
+        <div className="level-tag">
+          <span className="level-num">02</span>
+          <span className="level-title">THE SYSTEM CORE: SSCBS</span>
+        </div>
+
+        <div className="content-split reverse">
+          <div className="content-text">
+            <h2 className="section-headline">Powered By One of<br/>India's Top B-Schools</h2>
+            <p className="section-body">
+              Shaheed Sukhdev College of Business Studies (SSCBS) is a premier institution under the 
+              University of Delhi, consistently ranked among the top business schools in India. With a 
+              selection ratio of 1:140, it attracts some of the sharpest minds in the country.
+            </p>
+            <p className="section-body">
+              The college's culture of excellence in academics, leadership, and extracurricular endeavors 
+              is what fuels Crescendo — a fest built by students who set the bar, not follow it.
+            </p>
+
+            <div className="sscbs-stats-row">
+              <div className="sscbs-stat">
+                <Shield size={18} />
+                <div>
+                  <span className="stat-num">1:140</span>
+                  <span className="stat-lbl">SELECTION RATIO</span>
+                </div>
+              </div>
+              <div className="sscbs-stat">
+                <Star size={18} />
+                <div>
+                  <span className="stat-num">TOP 1%</span>
+                  <span className="stat-lbl">NATIONALLY</span>
+                </div>
+              </div>
+              <div className="sscbs-stat">
+                <Trophy size={18} />
+                <div>
+                  <span className="stat-num">#1</span>
+                  <span className="stat-lbl">DU B-SCHOOL</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="hud-metric">
-            <Star size={32} className="hud-icon spin" />
-            <div className="hud-data">
-              <span className="hud-num count-up">2CR+</span>
-              <span className="hud-lbl">REACH</span>
-            </div>
-          </div>
-          <div className="hud-metric">
-            <Shield size={32} className="hud-icon float" />
-            <div className="hud-data">
-              <span className="hud-num count-up">150+</span>
-              <span className="hud-lbl">COLLEGES</span>
+
+          <div className="content-visual">
+            <div className="system-core-visual">
+              <div className="core-ring ring-1" />
+              <div className="core-ring ring-2" />
+              <div className="core-ring ring-3" />
+              <div className="core-center">SSCBS</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. Level 03 - Why Play */}
-      <section className="about-level play-level">
-        <div className="level-header">
-          <span className="level-badge">LVL 03</span>
-          <h2>WHY PLAY?</h2>
-          <p className="subtitle">The ultimate quest rewards</p>
+      {/* ═══════════ 4. STATS SECTION — ARCADE COUNTERS ═══════════ */}
+      <section className="about-section stats-section" ref={statsObserver.ref}>
+        <div className="level-tag">
+          <span className="level-num">▸▸</span>
+          <span className="level-title">GLOBAL LEADERBOARD</span>
         </div>
 
-        <div className="memory-cards-container">
-          <div className="memory-card">
-            <div className="card-face front-face">NETWORKING</div>
-            <div className="card-face back-face">Connect with the elite bosses of tomorrow.</div>
+        <div className="stats-grid">
+          <div className="stat-counter">
+            <span className="counter-value">{footfall.toLocaleString()}+</span>
+            <div className="counter-bar">
+              <div className="counter-fill" style={{ width: statsObserver.inView ? '92%' : '0%' }} />
+            </div>
+            <span className="counter-label">FOOTFALL</span>
           </div>
-          <div className="memory-card">
-            <div className="card-face front-face">EXPOSURE</div>
-            <div className="card-face back-face">Unlock achievements recognized globally.</div>
+          <div className="stat-counter">
+            <span className="counter-value">{reach}L+</span>
+            <div className="counter-bar">
+              <div className="counter-fill purple" style={{ width: statsObserver.inView ? '88%' : '0%' }} />
+            </div>
+            <span className="counter-label">SOCIAL REACH</span>
           </div>
-          <div className="memory-card">
-            <div className="card-face front-face">COMPETITION</div>
-            <div className="card-face back-face">Test your builds in true PvP domains.</div>
+          <div className="stat-counter">
+            <span className="counter-value">{colleges}+</span>
+            <div className="counter-bar">
+              <div className="counter-fill pink" style={{ width: statsObserver.inView ? '80%' : '0%' }} />
+            </div>
+            <span className="counter-label">COLLEGES</span>
+          </div>
+          <div className="stat-counter">
+            <span className="counter-value">{events}+</span>
+            <div className="counter-bar">
+              <div className="counter-fill orange" style={{ width: statsObserver.inView ? '75%' : '0%' }} />
+            </div>
+            <span className="counter-label">EVENTS</span>
           </div>
         </div>
       </section>
 
-      {/* 6. Final CTA */}
-      <section className="about-level cta-level">
-        <h2 className="glitch-text" data-text="READY PLAYER?">READY PLAYER?</h2>
-        <button className="final-action-btn">
-          <span>JOIN THE ARENA</span>
-          <Gamepad2 size={24} className="btn-icon" />
-        </button>
+      {/* ═══════════ 5. LEVEL 03 — WHY CRESCENDO ═══════════ */}
+      <section className="about-section">
+        <div className="level-tag">
+          <span className="level-num">03</span>
+          <span className="level-title">WHY PLAY</span>
+        </div>
+
+        <h2 className="section-headline center">Every Player Leaves<br/>With Something Gained</h2>
+
+        <div className="purpose-grid">
+          <div className="purpose-card">
+            <div className="purpose-icon" style={{ '--p-clr': '#00f2ff' } as any}>
+              <Target size={28} />
+            </div>
+            <h3>COMPETITION</h3>
+            <p>Battle-tested events designed to push your limits. Win prizes, recognition, and bragging rights.</p>
+          </div>
+          <div className="purpose-card">
+            <div className="purpose-icon" style={{ '--p-clr': '#ff5e95' } as any}>
+              <Users size={28} />
+            </div>
+            <h3>NETWORKING</h3>
+            <p>Connect with students, entrepreneurs, and industry leaders from across the country.</p>
+          </div>
+          <div className="purpose-card">
+            <div className="purpose-icon" style={{ '--p-clr': '#bc00ff' } as any}>
+              <Zap size={28} />
+            </div>
+            <h3>EXPOSURE</h3>
+            <p>Showcase your talent on a platform with 2 crore+ social reach and national visibility.</p>
+          </div>
+          <div className="purpose-card">
+            <div className="purpose-icon" style={{ '--p-clr': '#ff9d00' } as any}>
+              <Star size={28} />
+            </div>
+            <h3>EXPERIENCE</h3>
+            <p>Live performances, immersive installations, and memories that define your college years.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ 6. CTA — JOIN THE GAME ═══════════ */}
+      <section className="about-section cta-section">
+        <div className="cta-inner">
+          <h2 className="cta-headline">READY<br/>PLAYER?</h2>
+          <p className="cta-sub">The arena is set. The clock is ticking. Your move.</p>
+          <div className="cta-buttons">
+            <button className="cta-primary" onClick={() => navigate('/events')}>
+              <span>EXPLORE EVENTS</span>
+              <ChevronRight size={20} />
+            </button>
+            <button className="cta-secondary" onClick={() => navigate('/contact')}>
+              <Gamepad2 size={20} />
+              <span>MEET THE TEAM</span>
+            </button>
+          </div>
+        </div>
       </section>
     </div>
   );
