@@ -85,7 +85,7 @@
     box-sizing: border-box;
   }
   
-  .arcade-nav-global .arcade-btn.register-btn {
+  .arcade-nav-global .register-btn.mobile-only {
     width: 90% !important;
     margin: 0 auto !important;
     display: flex !important;
