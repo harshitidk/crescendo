@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { getDumps, dropInstagram, subscribeToDumps, type ArcadeDump } from '../lib/arcadeDB'
+import { useState, useEffect, useRef } from 'react'
+import { getDumps, dropInstagram, subscribeToDumps, getStoredUser, type ArcadeDump } from '../lib/arcadeDB'
 import './DumpPage.css'
 
 function randomInRange(min: number, max: number) {
@@ -52,59 +52,90 @@ export default function DumpPage() {
   const [dropName, setDropName] = useState('')
   const [dropInsta, setDropInsta] = useState('')
   const [dropping, setDropping] = useState(false)
+  const MAX_VISIBLE = 150
   const [newCardIds, setNewCardIds] = useState<Set<string>>(new Set())
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const MAX_VISIBLE = 150
-
-  const buildStyles = useCallback((items: ArcadeDump[]) => {
-    const map = new Map<string, CardStyle>()
-    items.forEach((d, i) => {
-      const key = d.id || `${d.instagram}-${i}`
-      map.set(key, generateCardStyle(i, items.length))
-    })
-    setCardStyles(map)
-  }, [])
+  const visibleDumps = dumps.slice(0, MAX_VISIBLE)
+  const hiddenCount = Math.max(0, dumps.length - MAX_VISIBLE)
 
   // Load initial dumps — try Supabase first, fall back to localStorage
   useEffect(() => {
+    // Pre-fill user info if available
+    const user = getStoredUser()
+    if (user) {
+      if (user.name) setDropName(user.name)
+      if (user.instagram) setDropInsta(user.instagram)
+    }
+
     getDumps()
       .then((data) => {
         if (data.length > 0) {
           setDumps(data)
-          buildStyles(data)
-          // Sync to local storage
+          // Build styles for initial set
+          const initialMap = new Map<string, CardStyle>()
+          data.forEach((d, i) => {
+            const id = d.id || `${d.instagram}-${i}`
+            initialMap.set(id, generateCardStyle(i, data.length))
+          })
+          setCardStyles(initialMap)
           saveLocalDumps(data)
         } else {
-          // Supabase returned empty — use local storage
           const local = getLocalDumps()
           setDumps(local)
-          buildStyles(local)
+          // Build styles for local fallback
+          const localMap = new Map<string, CardStyle>()
+          local.forEach((d, i) => {
+            const id = d.id || `${d.instagram}-${i}`
+            localMap.set(id, generateCardStyle(i, local.length))
+          })
+          setCardStyles(localMap)
         }
       })
       .catch(() => {
-        // Supabase failed — use local storage
         const local = getLocalDumps()
         setDumps(local)
-        buildStyles(local)
+        const localMap = new Map<string, CardStyle>()
+        local.forEach((d, i) => {
+          const id = d.id || `${d.instagram}-${i}`
+          localMap.set(id, generateCardStyle(i, local.length))
+        })
+        setCardStyles(localMap)
       })
-  }, [buildStyles])
+  }, []) // Remove buildStyles from deps to only run once on mount
 
   // Realtime subscription for new dumps
   useEffect(() => {
     const sub = subscribeToDumps((newDump: ArcadeDump) => {
       setDumps((prev) => {
+        // Prevent duplicate if we already have this dump (from local optimistic update)
+        if (prev.some(d => d.id === newDump.id || (d.instagram === newDump.instagram && (d as any).status === 'optimistic'))) {
+          // If it was optimistic, replace it with the real one
+          return prev.map(d => (d.instagram === newDump.instagram && (d as any).status === 'optimistic') ? newDump : d)
+        }
+        
         const updated = [newDump, ...prev].slice(0, 200)
-        buildStyles(updated)
+        
+        // Only generate style for the NEW card
+        setCardStyles(prevStyles => {
+          const next = new Map(prevStyles)
+          const key = newDump.id || `${newDump.instagram}-new`
+          if (!next.has(key)) {
+            next.set(key, generateCardStyle(updated.length, updated.length))
+          }
+          return next
+        })
+        
         saveLocalDumps(updated)
         return updated
       })
+      
       const id = newDump.id || `${newDump.instagram}-new`
       markNew(id)
     })
 
     return () => { sub.unsubscribe() }
-  }, [buildStyles])
+  }, [])
 
   function markNew(id: string) {
     setNewCardIds((prev) => new Set(prev).add(id))
@@ -122,41 +153,48 @@ export default function DumpPage() {
     setDropping(true)
 
     const name = dropName.trim() || 'Anon'
-    const instagram = dropInsta.trim()
-    const localId = `local-${Date.now()}-${Math.random().toString(36).slice(2)}`
+    const instagram = dropInsta.trim().startsWith('@') ? dropInsta.trim() : `@${dropInsta.trim()}`
+    const localId = `local-${Date.now()}`
 
-    // Immediately add to local state so it shows up right away
-    const newDump: ArcadeDump = {
+    // Optimistic Update
+    const newDump: ArcadeDump & { status?: string } = {
       id: localId,
       name,
       instagram,
       session_id: '',
       dropped_at: new Date().toISOString(),
+      status: 'optimistic'
     }
 
     setDumps((prev) => {
+      if (prev.some(d => d.instagram === instagram)) {
+         setDropping(false)
+         return prev // Don't allow duplicates of same handle in one session
+      }
       const updated = [newDump, ...prev].slice(0, 200)
-      buildStyles(updated)
+      
+      setCardStyles(prevStyles => {
+        const next = new Map(prevStyles)
+        next.set(localId, generateCardStyle(updated.length, updated.length))
+        return next
+      })
+
       saveLocalDumps(updated)
       return updated
     })
     markNew(localId)
 
-    // Also try to persist to Supabase
+    // Persist to Supabase
     try {
       await dropInstagram(name, instagram)
+      // The Realtime subscription will replace our optimistic one
     } catch {
       // offline — local state is already updated
     }
 
     setDropping(false)
-    setDropName('')
-    setDropInsta('')
     setShowDropForm(false)
   }
-
-  const visibleDumps = dumps.slice(0, MAX_VISIBLE)
-  const hiddenCount = Math.max(0, dumps.length - MAX_VISIBLE)
 
   return (
     <div className="dump-page">
