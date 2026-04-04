@@ -108,12 +108,17 @@
   }
 
   .arcade-btn.nav-item {
-    flex-direction: column;
-    gap: 5px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important; /* Slightly more space for clarity */
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     padding: 5px !important;
+    text-align: center !important;
+    flex: 1 1 0; /* Allow even distribution */
   }
 
   .arcade-btn.nav-item::before,
@@ -124,5 +129,7 @@
   .nav-text {
     font-size: 0.35rem;
     letter-spacing: 0.5px;
+    width: 100%;
+    text-align: center;
   }
 }
