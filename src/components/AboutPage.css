@@ -521,7 +521,13 @@
 
 @media (max-width: 768px) {
   .about-page-root {
-    padding-bottom: 700px;
+    padding-bottom: 0;
+  }
+  .about-page-root::after {
+    content: '';
+    display: block;
+    height: 35vh; /* Massive spacing to push content above any nav bars */
+    width: 100%;
   }
   .about-hero { 
     padding: 0 5vw; 
