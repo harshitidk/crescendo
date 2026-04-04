@@ -255,6 +255,26 @@
   opacity: 0.75;
 }
 
+.dump-card-delete-btn {
+  display: block;
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid var(--neon-pink);
+  color: var(--neon-pink);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  padding: 4px 6px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.dump-card-delete-btn:hover {
+  background: rgba(255, 94, 149, 0.15);
+  box-shadow: 0 0 10px rgba(255, 94, 149, 0.3);
+}
+
 /* New card drop animation */
 .dump-card-new {
   animation: cardDrop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);

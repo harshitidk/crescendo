@@ -29,7 +29,7 @@ const LOCAL_TOTAL_TIME_KEY = 'arcade_global_total_time'
 const LOCAL_TOTAL_TIME_TIMESTAMP_KEY = 'arcade_total_time_last_sync'
 
 // ─── Session helpers ─────────────────────────────────────────────
-function getSessionId(): string {
+export function getSessionId(): string {
   let sid = localStorage.getItem('arcade_session_id')
   if (!sid) {
     sid = crypto.randomUUID()
@@ -249,6 +249,44 @@ export async function getDumps() {
   return (data || []) as ArcadeDump[]
 }
 
+export async function syncLocalDumpsToServer() {
+  try {
+    const localStr = localStorage.getItem('arcade_local_dumps')
+    if (!localStr) return
+    const localDumps: ArcadeDump[] = JSON.parse(localStr)
+    
+    const { data: serverDumps } = await supabase.from('arcade_dumps').select('instagram')
+    const existingTags = new Set((serverDumps || []).map(d => d.instagram))
+    
+    const missing = localDumps.filter(d => !existingTags.has(d.instagram))
+    if (missing.length === 0) return
+    
+    const payloads = missing.map(d => ({
+      name: d.name || 'Anon',
+      instagram: d.instagram,
+      session_id: d.session_id || getSessionId(),
+      dropped_at: d.dropped_at || new Date().toISOString()
+    }))
+    
+    await supabase.from('arcade_dumps').insert(payloads)
+  } catch (e) {
+    console.warn('Silent sync failed:', e)
+  }
+}
+
+export async function deleteDump(id: string) {
+  const session_id = getSessionId()
+  const { error } = await supabase
+    .from('arcade_dumps')
+    .delete()
+    .eq('id', id)
+    .eq('session_id', session_id)
+    
+  if (error) {
+    console.warn('deleteDump failed:', error.message)
+  }
+}
+
 // ─── Activity feed ───────────────────────────────────────────────
 export async function logActivity(message: string) {
   const { error } = await supabase.from('arcade_activity').insert({
@@ -297,13 +335,13 @@ export function subscribeToActivity(callback: (payload: any) => void) {
     .subscribe()
 }
 
-export function subscribeToDumps(callback: (payload: any) => void) {
+export function subscribeToDumps(callback: (type: 'INSERT' | 'DELETE', payload: any) => void) {
   return supabase
     .channel('arcade_dumps_changes')
     .on(
       'postgres_changes',
-      { event: 'INSERT', schema: 'public', table: 'arcade_dumps' },
-      (payload) => callback(payload.new)
+      { event: '*', schema: 'public', table: 'arcade_dumps' },
+      (payload) => callback(payload.eventType as any, payload.eventType === 'DELETE' ? payload.old : payload.new)
     )
     .subscribe()
 }

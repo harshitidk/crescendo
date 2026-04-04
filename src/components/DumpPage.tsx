@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { getDumps, dropInstagram, subscribeToDumps, getStoredUser, type ArcadeDump } from '../lib/arcadeDB'
+import { getDumps, dropInstagram, subscribeToDumps, getStoredUser, deleteDump, getSessionId, syncLocalDumpsToServer, type ArcadeDump } from '../lib/arcadeDB'
 import './DumpPage.css'
 
 function randomInRange(min: number, max: number) {
@@ -55,6 +55,8 @@ export default function DumpPage() {
   const MAX_VISIBLE = 150
   const [newCardIds, setNewCardIds] = useState<Set<string>>(new Set())
   const containerRef = useRef<HTMLDivElement>(null)
+  // Get session ID once to check ownership
+  const sessionId = useRef(getSessionId()).current
 
   const visibleDumps = dumps.slice(0, MAX_VISIBLE)
   const hiddenCount = Math.max(0, dumps.length - MAX_VISIBLE)
@@ -70,6 +72,9 @@ export default function DumpPage() {
 
     getDumps()
       .then((data) => {
+        // Automatically push backward-compatible offline drops to the live backend
+        syncLocalDumpsToServer()
+
         if (data.length > 0) {
           setDumps(data)
           // Build styles for initial set
@@ -93,6 +98,7 @@ export default function DumpPage() {
         }
       })
       .catch(() => {
+        syncLocalDumpsToServer()
         const local = getLocalDumps()
         setDumps(local)
         const localMap = new Map<string, CardStyle>()
@@ -106,7 +112,17 @@ export default function DumpPage() {
 
   // Realtime subscription for new dumps
   useEffect(() => {
-    const sub = subscribeToDumps((newDump: ArcadeDump) => {
+    const sub = subscribeToDumps((type: 'INSERT' | 'DELETE', payload: any) => {
+      if (type === 'DELETE') {
+        setDumps((prev) => {
+          const updated = prev.filter(d => d.id !== payload.id)
+          saveLocalDumps(updated)
+          return updated
+        })
+        return
+      }
+
+      const newDump = payload as ArcadeDump
       setDumps((prev) => {
         // Prevent duplicate if we already have this dump (from local optimistic update)
         if (prev.some(d => d.id === newDump.id || (d.instagram === newDump.instagram && (d as any).status === 'optimistic'))) {
@@ -194,6 +210,24 @@ export default function DumpPage() {
 
     setDropping(false)
     setShowDropForm(false)
+  }
+
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    // Optimistic remove
+    setDumps((prev) => {
+      const updated = prev.filter(d => d.id !== id)
+      saveLocalDumps(updated)
+      return updated
+    })
+    setSelectedCard(null)
+    
+    // Server delete
+    try {
+      await deleteDump(id)
+    } catch {
+      // offline fallback
+    }
   }
 
   return (
@@ -288,6 +322,14 @@ export default function DumpPage() {
                   >
                     VIEW PROFILE →
                   </a>
+                  {d.session_id === sessionId && d.id && !d.id.startsWith('local-') && (
+                    <button
+                      className="dump-card-delete-btn"
+                      onClick={(e) => handleDelete(d.id!, e)}
+                    >
+                      [ DELETE ]
+                    </button>
+                  )}
                 </div>
               )}
             </div>
