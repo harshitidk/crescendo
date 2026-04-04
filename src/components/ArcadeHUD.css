@@ -304,15 +304,6 @@
   }
 
   .hud-expand-btn {
-    display: flex !important;
-    bottom: 130px; /* Above mobile nav bar */
-    left: 20px;
-    transform: none;
-    z-index: 1400;
-    width: 55px;
-    height: 55px;
-    background: rgba(10, 10, 30, 0.95);
-    border: 2px solid var(--neon-blue);
-    box-shadow: 0 0 25px rgba(0, 242, 255, 0.4), inset 0 0 10px rgba(0, 242, 255, 0.1);
+    display: none !important; /* Removed from mobile view to reduce clutter */
   }
 }
