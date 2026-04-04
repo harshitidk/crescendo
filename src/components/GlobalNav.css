@@ -60,25 +60,42 @@
     top: auto;
     bottom: 0;
     left: 0;
-    width: 100vw;
+    width: 100%; /* Changed from 100vw for better mobile compatibility */
     transform: none;
-    padding: 15px 10px 25px;
+    padding: 15px 0 25px; /* Removed horizontal padding to avoid shift */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
     gap: 15px;
     background: linear-gradient(to top, rgba(5, 5, 15, 0.98) 80%, transparent);
     backdrop-filter: blur(10px);
     border: none;
     border-top: 1px solid rgba(0, 242, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     border-radius: 0;
     z-index: 2500;
+  }
+
+  .nav-main-options {
+    display: flex;
+    width: 100%;
+    justify-content: space-around; /* Distribute icons evenly */
+    align-items: center;
+    gap: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  
+  .arcade-nav-global .arcade-btn.register-btn {
+    width: 90% !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
   }
   
   .nav-icon {
     display: block;
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     color: white;
   }
 
@@ -88,5 +105,24 @@
 
   .desktop-only {
     display: none !important;
+  }
+
+  .arcade-btn.nav-item {
+    flex-direction: column;
+    gap: 5px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 5px !important;
+  }
+
+  .arcade-btn.nav-item::before,
+  .arcade-btn.nav-item::after {
+    display: none !important;
+  }
+
+  .nav-text {
+    font-size: 0.35rem;
+    letter-spacing: 0.5px;
   }
 }
