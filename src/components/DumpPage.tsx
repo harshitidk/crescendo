@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { getDumps, dropInstagram, subscribeToDumps, getStoredUser, type ArcadeDump } from '../lib/arcadeDB'
-import { useNavigate } from 'react-router-dom'
+import { getDumps, dropInstagram, subscribeToDumps, type ArcadeDump } from '../lib/arcadeDB'
 import './DumpPage.css'
 
 function randomInRange(min: number, max: number) {
@@ -55,10 +54,8 @@ export default function DumpPage() {
   const [dropping, setDropping] = useState(false)
   const [newCardIds, setNewCardIds] = useState<Set<string>>(new Set())
   const containerRef = useRef<HTMLDivElement>(null)
-  const navigate = useNavigate()
 
   const MAX_VISIBLE = 150
-  const user = getStoredUser()
 
   const buildStyles = useCallback((items: ArcadeDump[]) => {
     const map = new Map<string, CardStyle>()
@@ -169,14 +166,13 @@ export default function DumpPage() {
 
       {/* Header */}
       <div className="dump-header">
-        <button onClick={() => navigate('/')} className="dump-back">← BACK TO BASE</button>
         <h1 className="dump-title">ARCADE PIT</h1>
         <p className="dump-subtitle">DROP YOUR TAG — LEAVE YOUR MARK</p>
         <button
           className="dump-drop-btn"
           onClick={() => setShowDropForm(!showDropForm)}
         >
-          {showDropForm ? '[ CANCEL ]' : '[ DROP YOUR TAG ]'}
+          {showDropForm ? '[ ✕ CANCEL ]' : '[ 🕹️ DROP YOUR TAG ]'}
         </button>
       </div>
 
@@ -273,12 +269,6 @@ export default function DumpPage() {
             <p className="dump-empty-sub">Be the first to drop your tag</p>
           </div>
         )}
-      </div>
-
-      {/* Stats bar */}
-      <div className="dump-stats">
-        <span>TOTAL TAGS: {dumps.length}</span>
-        {user && <span>PLAYER: {user.name.toUpperCase()}</span>}
       </div>
     </div>
   )

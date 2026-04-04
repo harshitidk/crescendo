@@ -159,7 +159,7 @@ export default function MissionSchedule() {
       </div>
 
       <div className="progress-container">
-        <div className="progress-label">DAY PROGRESS // LIVE</div>
+        <div className="progress-label">⚡ DAY PROGRESS // LIVE</div>
         <div className="stat-bar">
           <div className="stat-bar-fill" style={{ width: `${dayProgress}%` }}></div>
         </div>
@@ -173,22 +173,22 @@ export default function MissionSchedule() {
           </div>
           
           <div className="panel-detail">
-            <span className="panel-detail-label">DATE:</span>
+            <span className="panel-detail-label">📅 DATE:</span>
             <span>{activeMission.date}</span>
           </div>
 
           <div className="panel-detail">
-            <span className="panel-detail-label">TIME:</span>
+            <span className="panel-detail-label">⏲ TIME:</span>
             <span>{activeMission.time}</span>
           </div>
           
           <div className="panel-detail">
-            <span className="panel-detail-label">LOC:</span>
+            <span className="panel-detail-label">📍 LOC:</span>
             <span>{activeMission.venue || 'TBA'}</span>
           </div>
 
           <div className="panel-detail">
-            <span className="panel-detail-label">FOR:</span>
+            <span className="panel-detail-label">👥 FOR:</span>
             <span>{activeMission.audience || 'TBA'}</span>
           </div>
 

@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { getStoredUser } from './lib/arcadeDB'
 import MissionSchedule from './components/MissionSchedule'
 import SystemTelemetry from './components/SystemTelemetry'
@@ -66,7 +65,6 @@ const ArcadeWindow = ({ title, children, style, isClosed, onClose }: { title: st
 function App() {
   const [gameStarted, setGameStarted] = useState(() => sessionStorage.getItem('arcade_started') === 'true');
   const [winStates, setWinStates] = useState({ schedule: false, telemetry: false, sysinfo: false });
-  const navigate = useNavigate();
 
   const handleStartGame = () => {
     setGameStarted(true);
@@ -154,15 +152,6 @@ function App() {
             </div>
           ) : null;
         })()}
-        
-        <nav className="arcade-nav">
-          <button className="arcade-btn">HOME</button>
-          <button className="arcade-btn">ABOUT</button>
-          <button className="arcade-btn">EVENTS</button>
-          <button className="arcade-btn">CONTACT</button>
-          <button className="arcade-btn primary">REGISTER</button>
-          <button className="arcade-btn" onClick={() => navigate('/dump')} style={{ borderColor: 'var(--neon-purple)', color: 'var(--neon-purple)', textShadow: '0 0 5px var(--neon-purple)' }}>DUMP</button>
-        </nav>
       </header>
 
       {gameStarted && (
@@ -177,45 +166,50 @@ function App() {
             </button>
           )}
 
-          <div className="schedule-win">
-            <ArcadeWindow 
-              title="MISSION SCHEDULE" 
-              style={{ top: '22%', left: '4%', overflow: 'visible' }}
-              isClosed={winStates.schedule}
-              onClose={() => setWinStates({ ...winStates, schedule: true })}
-            >
-              <MissionSchedule />
-            </ArcadeWindow>
-          </div>
+          {!winStates.schedule && (
+            <div className="schedule-win">
+              <ArcadeWindow 
+                title="MISSION SCHEDULE" 
+                style={{ top: '22%', left: '4%', overflow: 'visible' }}
+                isClosed={winStates.schedule}
+                onClose={() => setWinStates({ ...winStates, schedule: true })}
+              >
+                <MissionSchedule />
+              </ArcadeWindow>
+            </div>
+          )}
 
-          <div className="telemetry-win">
-            <ArcadeWindow 
-              title="SYSTEM TELEMETRY" 
-              style={{ top: '22%', right: '4%' }}
-              isClosed={winStates.telemetry}
-              onClose={() => setWinStates({ ...winStates, telemetry: true })}
-            >
-              <SystemTelemetry />
-            </ArcadeWindow>
-          </div>
+          {!winStates.telemetry && (
+            <div className="telemetry-win">
+              <ArcadeWindow 
+                title="SYSTEM TELEMETRY" 
+                style={{ top: '22%', right: '4%' }}
+                isClosed={winStates.telemetry}
+                onClose={() => setWinStates({ ...winStates, telemetry: true })}
+              >
+                <SystemTelemetry />
+              </ArcadeWindow>
+            </div>
+          )}
 
-          {/* System Information Box (Ref 1 inspired) */}
-          <div className="system_info_win">
-            <ArcadeWindow 
-              title="SYSTEM INFO" 
-              style={{ bottom: '15%', right: '4%', minWidth: '200px' }}
-              isClosed={winStates.sysinfo}
-              onClose={() => setWinStates({ ...winStates, sysinfo: true })}
-            >
-              <div style={{ fontSize: '0.45rem' }}>
-                <p>// LOC: SECTOR 7G</p>
-                <p>// ID: CRESCENDO_MAIN</p>
-                <p>// POP: 15,200</p>
-                <div style={{ marginTop: '10px', height: '2px', background: 'rgba(255,255,255,0.2)' }}></div>
-                <p style={{ marginTop: '5px', color: 'var(--neon-pink)' }}>STATUS: OPERATIONAL</p>
-              </div>
-            </ArcadeWindow>
-          </div>
+          {!winStates.sysinfo && (
+            <div className="system_info_win">
+              <ArcadeWindow 
+                title="SYSTEM INFO" 
+                style={{ bottom: '15%', right: '4%', minWidth: '200px' }}
+                isClosed={winStates.sysinfo}
+                onClose={() => setWinStates({ ...winStates, sysinfo: true })}
+              >
+                <div style={{ fontSize: '0.45rem' }}>
+                  <p>// LOC: SECTOR 7G</p>
+                  <p>// ID: CRESCENDO_MAIN</p>
+                  <p>// POP: 15,200</p>
+                  <div style={{ marginTop: '10px', height: '2px', background: 'rgba(255,255,255,0.2)' }}></div>
+                  <p style={{ marginTop: '5px', color: 'var(--neon-pink)' }}>STATUS: OPERATIONAL</p>
+                </div>
+              </ArcadeWindow>
+            </div>
+          )}
         </>
       )}
     </div>

@@ -43,25 +43,46 @@
   position: relative;
   z-index: 10;
   text-align: center;
-  padding: 40px 20px 20px;
+  padding: 30px 20px 10px;
 }
 
 .dump-back {
-  display: inline-block;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.4rem;
-  color: rgba(255, 255, 255, 0.3);
-  background: none;
-  border: none;
+  font-size: 0.55rem;
+  color: var(--neon-blue);
+  background: rgba(0, 0, 20, 0.6);
+  border: 1px solid var(--neon-blue);
   cursor: pointer;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-  transition: color 0.2s;
-  padding: 0;
+  letter-spacing: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 12px 20px;
+  z-index: 100;
+  text-shadow: 0 0 8px var(--neon-blue);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+  backdrop-filter: blur(8px);
 }
 
 .dump-back:hover {
-  color: var(--neon-blue);
+  color: #fff;
+  background: var(--neon-blue);
+  box-shadow: 0 0 25px var(--neon-blue);
+  transform: translateX(-5px);
+}
+
+.dump-back::before {
+  content: '[';
+  opacity: 0.5;
+}
+
+.dump-back::after {
+  content: ']';
+  opacity: 0.5;
 }
 
 .dump-title {
@@ -310,34 +331,63 @@
   box-sizing: border-box;
 }
 
-/* Mobile adjustments */
+/* MOBILE RESPONSIVE REDESIGN */
 @media (max-width: 768px) {
+  .dump-page {
+    padding-bottom: 20vh; /* Space for global nav */
+  }
+
+  .dump-header {
+    padding: 12vh 20px 20px;
+  }
+
   .dump-title {
     font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  .dump-subtitle {
+    font-size: 0.35rem;
+    line-height: 1.5;
+    padding: 0 10%;
+  }
+
+  .dump-back {
+    top: 15px;
+    left: 15px;
+    font-size: 0.35rem;
+    padding: 8px 10px;
+    letter-spacing: 1px;
   }
 
   .dump-pit {
-    min-height: 50vh;
-    padding: 10px;
+    min-height: 60vh;
+    padding: 0; /* Remove container padding to allow more card space */
+    width: 95vw;
   }
 
   .dump-card {
-    min-width: 80px;
-    padding: 8px 10px;
+    min-width: 70px;
+    padding: 6px 8px;
+    font-size: 0.3rem;
   }
 
   .dump-card-insta {
-    font-size: 0.35rem;
+    font-size: 0.28rem;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .dump-form-inner {
-    flex-direction: column;
     width: 90vw;
+    gap: 8px;
   }
 
   .dump-input {
-    min-width: 0;
     width: 100%;
+    font-size: 0.38rem;
+    padding: 12px;
   }
 }
 

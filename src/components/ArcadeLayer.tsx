@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import ArcadeEntryOverlay from './ArcadeEntryOverlay'
 import ArcadeHUD from './ArcadeHUD'
 import ArcadeToast from './ArcadeToast'
@@ -12,6 +13,7 @@ import { getStoredUser, leaveArcade } from '../lib/arcadeDB'
 export default function ArcadeLayer() {
   const [joined, setJoined] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     // If user already has a session, skip overlay
@@ -49,7 +51,7 @@ export default function ArcadeLayer() {
       {/* HUD + Toast (only after joining) */}
       {joined && (
         <>
-          <ArcadeHUD />
+          {location.pathname === '/' && <ArcadeHUD />}
           <ArcadeToast />
         </>
       )}

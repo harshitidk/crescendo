@@ -65,27 +65,27 @@ export default function SystemTelemetry() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.45rem', lineHeight: 1.5, minWidth: '220px' }}>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ color: 'rgba(255,255,255,0.7)' }}>&gt; ACTIVE PLAYERS:</span>
+        <span style={{ color: 'rgba(255,255,255,0.7)' }}>&gt; 👥 ACTIVE PLAYERS:</span>
         <span style={{ color: 'var(--neon-blue)', textShadow: '0 0 5px var(--neon-blue)', transition: 'all 0.2s', fontVariantNumeric: 'tabular-nums' }}>
           {players.toLocaleString()}
         </span>
       </div>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ color: 'rgba(255,255,255,0.7)' }}>&gt; REGISTRATIONS:</span>
+        <span style={{ color: 'rgba(255,255,255,0.7)' }}>&gt; 🎟 REGISTRATIONS:</span>
         <span style={{ color: '#00ff88', textShadow: '0 0 5px #00ff88', transition: 'all 0.2s', fontVariantNumeric: 'tabular-nums' }}>
           {registrations.toLocaleString()}
         </span>
       </div>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ color: 'rgba(255,255,255,0.7)' }}>&gt; SYS UPTIME:</span>
+        <span style={{ color: 'rgba(255,255,255,0.7)' }}>&gt; 🕒 SYS UPTIME:</span>
         <span style={{ fontVariantNumeric: 'tabular-nums' }}>{formatUptime(uptime)}</span>
       </div>
 
       <div style={{ marginTop: '8px' }}>
         <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '6px', display: 'flex', justifyContent: 'space-between' }}>
-          <span>&gt; SERVER LOAD:</span>
+          <span>&gt; ⚙️ SERVER LOAD:</span>
           <span style={{ 
             color: load > 80 ? 'var(--neon-pink)' : 'var(--neon-blue)',
             fontVariantNumeric: 'tabular-nums'

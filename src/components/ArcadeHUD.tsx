@@ -41,7 +41,20 @@ export default function ArcadeHUD() {
   const [interactionHeat, setInteractionHeat] = useState(0) // 0 to 100
   const [combo, setCombo] = useState(1.0)
   
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(() => window.innerWidth <= 768)
+
+  // Auto-collapse on resize if moving between mobile/desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setCollapsed(true)
+      } else {
+        setCollapsed(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // Save persisted stats automatically when they change
   useEffect(() => {
