@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, Info, Calendar, Database, Mail } from 'lucide-react';
 import './GlobalNav.css';
@@ -5,7 +6,18 @@ import './GlobalNav.css';
 export default function GlobalNav() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [, forceUpdate] = useState({});
+
+  useEffect(() => {
+    const handleStart = () => forceUpdate({});
+    window.addEventListener('arcade_started', handleStart);
+    return () => window.removeEventListener('arcade_started', handleStart);
+  }, []);
+
   const isHome = location.pathname === '/';
+  const arcadeStarted = sessionStorage.getItem('arcade_started') === 'true';
+
+  if (isHome && !arcadeStarted) return null;
 
   return (
     <nav className={`arcade-nav-global ${!isHome ? 'bottom-center' : 'at-home'}`}>

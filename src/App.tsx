@@ -69,6 +69,7 @@ function App() {
   const handleStartGame = () => {
     setGameStarted(true);
     sessionStorage.setItem('arcade_started', 'true');
+    window.dispatchEvent(new Event('arcade_started'));
   };
 
   const anyClosed = Object.values(winStates).some(v => v);
