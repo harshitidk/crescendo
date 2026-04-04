@@ -2,18 +2,12 @@ import { useState, useMemo } from 'react';
 import { 
   Gamepad2, 
   Trophy, 
-  Users, 
-  Zap, 
-  ChevronRight,
-  Info,
   X,
   Calendar,
   Clock,
   MapPin,
   Star,
-  Sparkles,
-  Music,
-  Camera
+  Sparkles
 } from 'lucide-react';
 import './EventsPage.css';
 
