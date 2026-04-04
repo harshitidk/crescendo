@@ -152,21 +152,21 @@ export default function AboutPage() {
 
             <div className="sscbs-stats-row">
               <div className="sscbs-stat">
-                <Shield size={18} />
+                <Shield size={26} />
                 <div>
                   <span className="stat-num">1:140</span>
                   <span className="stat-lbl">SELECTION RATIO</span>
                 </div>
               </div>
               <div className="sscbs-stat">
-                <Star size={18} />
+                <Star size={26} />
                 <div>
                   <span className="stat-num">TOP 1%</span>
                   <span className="stat-lbl">NATIONALLY</span>
                 </div>
               </div>
               <div className="sscbs-stat">
-                <Trophy size={18} />
+                <Trophy size={26} />
                 <div>
                   <span className="stat-num">#1</span>
                   <span className="stat-lbl">DU B-SCHOOL</span>

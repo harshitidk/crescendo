@@ -287,17 +287,17 @@
 }
 
 .stat-num {
-  font-size: 0.55rem;
+  font-size: 0.8rem; /* Increased from 0.55rem */
   color: #fff;
   display: block;
 }
 
 .stat-lbl {
-  font-size: 0.3rem;
+  font-size: 0.38rem; /* Increased from 0.3rem */
   color: #555;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   display: block;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 /* System Core Visual */
