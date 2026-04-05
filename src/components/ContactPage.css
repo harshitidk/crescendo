@@ -400,6 +400,7 @@
 
 /* ─── MOBILE ─── */
 @media (max-width: 768px) {
+  .contact-roster { padding-bottom: 200px; }
   .roster-hero { padding: 40px 20px; }
   .roster-title { font-size: 1.5rem; letter-spacing: 3px; }
   .roster-sub { font-size: 0.48rem; }

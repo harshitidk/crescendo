@@ -22,11 +22,10 @@ const CORE_TEAM: TeamMember[] = [
 ];
 
 const DEPARTMENT_HEADS: TeamMember[] = [
-  { id: 'd1', name: 'HARSHIT', role: 'HEAD OF WEBSITE', photo: '' },
+  { id: 'd1', name: 'HARSHIT', role: 'TECH HEAD', photo: '' },
   { id: 'd2', name: 'UTKARSH', role: 'HEAD OF MARKETING', photo: '' },
   { id: 'd3', name: 'ASHISH', role: 'HEAD OF SPONSORSHIP', photo: '' },
   { id: 'd4', name: 'SAMYAK', role: 'HEAD OF HOSPITALITY', photo: '' },
-  { id: 'd5', name: 'PREETI', role: 'HEAD OF ARTIST', photo: '' },
 ];
 
 export default function ContactPage() {
