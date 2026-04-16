@@ -544,6 +544,78 @@
   z-index: -1;
 }
 
+/* NEW DECORATIONS */
+.cyber-grid-floor {
+  position: fixed;
+  bottom: -20vh;
+  left: -50vw;
+  width: 200vw;
+  height: 50vh;
+  background: 
+    linear-gradient(transparent 95%, rgba(0, 242, 255, 0.4) 100%),
+    linear-gradient(90deg, transparent 95%, rgba(0, 242, 255, 0.4) 100%);
+  background-size: 60px 60px;
+  transform: perspective(600px) rotateX(75deg);
+  transform-origin: top center;
+  pointer-events: none;
+  z-index: -1;
+  animation: gridMove 5s linear infinite;
+  opacity: 0.2;
+}
+
+@keyframes gridMove {
+  0% { transform: perspective(600px) rotateX(75deg) translateY(0); }
+  100% { transform: perspective(600px) rotateX(75deg) translateY(60px); }
+}
+
+.floating-pixels {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.pixel {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(0, 242, 255, 0.6);
+  box-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+  animation-name: floatUp;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+.hud-element {
+  position: fixed;
+  font-size: 0.4rem;
+  color: #00f2ff;
+  opacity: 0.5;
+  letter-spacing: 2px;
+  font-family: 'Press Start 2P', monospace;
+  pointer-events: none;
+  z-index: 10;
+  text-shadow: 0 0 10px #00f2ff88;
+}
+
+.top-left-hud {
+  top: 20px;
+  left: 20px;
+}
+
+.bottom-right-hud {
+  bottom: 20px;
+  right: 20px;
+}
+
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
   .events-game-screen {
@@ -631,6 +703,22 @@
 
 .theme-prom .illustration-overlay {
   background: linear-gradient(135deg, rgba(255, 42, 109, 0.5), transparent) !important;
+}
+
+.theme-prom .hud-element {
+  color: #ff2a6d;
+  text-shadow: 0 0 10px #ff2a6d88;
+}
+
+.theme-prom .pixel {
+  background: rgba(255, 42, 109, 0.6);
+  box-shadow: 0 0 10px #ff2a6d, 0 0 20px #ff2a6d;
+}
+
+.theme-prom .cyber-grid-floor {
+  background: 
+    linear-gradient(transparent 95%, rgba(255, 42, 109, 0.4) 100%),
+    linear-gradient(90deg, transparent 95%, rgba(255, 42, 109, 0.4) 100%);
 }
 
 .theme-prom .timeline-title {

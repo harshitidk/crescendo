@@ -148,6 +148,25 @@ export default function EventsPage() {
     <div className={`events-game-screen ${activeDay === 'day0' ? 'theme-prom' : ''}`}>
       {/* Background Decor */}
       <div className="events-bg-grid" />
+      <div className="cyber-grid-floor" />
+      <div className="floating-pixels">
+         {[...Array(15)].map((_, i) => (
+           <div 
+             className="pixel" 
+             key={i} 
+             style={{ 
+               left: `${Math.random() * 100}%`, 
+               top: `${Math.random() * 100}%`,
+               animationDelay: `${Math.random() * 5}s`,
+               animationDuration: `${10 + Math.random() * 20}s`
+             }} 
+           />
+         ))}
+      </div>
+      
+      {/* HUD Elements */}
+      <div className="hud-element top-left-hud">SYS.OP.99</div>
+      <div className="hud-element bottom-right-hud">ENG: OK</div>
       
       {/* 1. Timeline Header */}
       <section className="events-timeline-header">
