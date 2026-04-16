@@ -11,6 +11,24 @@ import {
 } from 'lucide-react';
 import './EventsPage.css';
 
+function getIllustrationUrl(category: string, name: string) {
+  const lowerName = name.toLowerCase();
+  if (lowerName.includes('dance') || lowerName.includes('prom') || lowerName.includes('disco')) return '/event_dance_thumbnail_1774854297630.png';
+  if (lowerName.includes('music') || lowerName.includes('dj') || lowerName.includes('band') || lowerName.includes('act')) return '/event_music_thumbnail_1774854278546.png';
+  if (lowerName.includes('photo') || lowerName.includes('art') || lowerName.includes('viz')) return '/event_photography_thumbnail_1774854359146.png';
+  if (lowerName.includes('code') || lowerName.includes('tech') || lowerName.includes('pixel') || lowerName.includes('simul')) return '/event_tech_thumbnail_1774854315849.png';
+  if (lowerName.includes('drama') || lowerName.includes('comedy') || lowerName.includes('mono')) return '/event_drama_thumbnail_1774854339937.png';
+  
+  // fallback based on category
+  switch(category) {
+    case 'ACADEMIC': return '/event_tech_thumbnail_1774854315849.png';
+    case 'CULTURAL': return '/event_drama_thumbnail_1774854339937.png';
+    case 'SOCIAL': return '/event_photography_thumbnail_1774854359146.png';
+    case 'EVENING': return '/event_music_thumbnail_1774854278546.png';
+    default: return '/city-bg.jpg';
+  }
+}
+
 interface EventItem {
   id: string;
   name: string;
@@ -202,25 +220,34 @@ export default function EventsPage() {
                 </div>
 
                 <div className="event-content-box">
-                  <div className="event-header">
-                    <span className="event-type-badge">{event.type}</span>
-                    <span className="event-rarity-label">{event.rarity}</span>
+                  <div 
+                    className="event-illustration" 
+                    style={{ backgroundImage: `url(${getIllustrationUrl(event.category, event.name)})` }}
+                  >
+                    <div className="illustration-overlay" />
                   </div>
                   
-                  <h3 className="event-name">{event.name}</h3>
-                  <p className="event-excerpt">{event.description.substring(0, 80)}...</p>
-                  
-                  <div className="event-footer">
-                    <div className="event-meta">
-                      <MapPin size={12} />
-                      <span>{event.venue}</span>
+                  <div className="event-text-wrap">
+                    <div className="event-header">
+                      <span className="event-type-badge">{event.type}</span>
+                      <span className="event-rarity-label">{event.rarity}</span>
                     </div>
-                    {event.reward && (
-                      <div className="event-reward-tag">
-                        <Trophy size={12} />
-                        <span>{event.reward}</span>
+                    
+                    <h3 className="event-name">{event.name}</h3>
+                    <p className="event-excerpt">{event.description.substring(0, 80)}...</p>
+                    
+                    <div className="event-footer">
+                      <div className="event-meta">
+                        <MapPin size={12} />
+                        <span>{event.venue}</span>
                       </div>
-                    )}
+                      {event.reward && (
+                        <div className="event-reward-tag">
+                          <Trophy size={12} />
+                          <span>{event.reward}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   
                   <div className="card-glitch-border" />

@@ -252,10 +252,48 @@
 .event-content-box {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 25px 35px;
+  padding: 20px;
   position: relative;
   transition: all 0.4s;
   overflow: hidden;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.event-illustration {
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s;
+  filter: grayscale(60%) sepia(20%) hue-rotate(180deg);
+}
+
+.event-timeline-item:hover .event-illustration {
+  filter: grayscale(0%) sepia(0%) hue-rotate(0deg);
+  transform: scale(1.05);
+  border-color: rgba(0, 242, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+}
+
+.illustration-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 242, 255, 0.2), transparent);
+  mix-blend-mode: overlay;
+}
+
+.event-text-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .event-timeline-item:hover .event-content-box {
@@ -526,8 +564,17 @@
   .event-timeline-item { grid-template-columns: 80px 40px 1fr; }
   .event-time-stamp { font-size: 0.35rem; }
   .event-marker { width: 30px; }
-  .event-content-box { padding: 15px 20px; }
-  .event-name { font-size: 0.7rem; }
+  .event-content-box { 
+    padding: 15px; 
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .event-illustration {
+    width: 100%;
+    height: 120px;
+  }
+  .event-name { font-size: 0.7rem; margin-top: 5px; }
   .event-excerpt { font-size: 0.35rem; }
   .event-footer { flex-direction: column; gap: 10px; }
   
