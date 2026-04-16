@@ -12,6 +12,14 @@ import {
 import './EventsPage.css';
 
 function getIllustrationUrl(id: string, name: string) {
+  // Use beautiful, elegant real-world photography specifically for Prom-related events
+  if (id === 'p1') {
+    return 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=400&auto=format&fit=crop'; // Elegant neon dance floor
+  }
+  if (id === 'p2') {
+    return 'https://images.unsplash.com/photo-1519671482749-fd09871171dd?q=80&w=400&auto=format&fit=crop'; // Beautiful golden sparklers
+  }
+
   // Utilizing DiceBear's pixel-art style perfectly complements the 8-bit arcade aesthetic
   return `https://api.dicebear.com/9.x/pixel-art/svg?seed=crescendo-${id}`;
 }
