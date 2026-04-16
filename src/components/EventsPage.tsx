@@ -11,22 +11,10 @@ import {
 } from 'lucide-react';
 import './EventsPage.css';
 
-function getIllustrationUrl(category: string, name: string) {
-  const lowerName = name.toLowerCase();
-  if (lowerName.includes('dance') || lowerName.includes('prom') || lowerName.includes('disco')) return '/event_dance_thumbnail_1774854297630.png';
-  if (lowerName.includes('music') || lowerName.includes('dj') || lowerName.includes('band') || lowerName.includes('act')) return '/event_music_thumbnail_1774854278546.png';
-  if (lowerName.includes('photo') || lowerName.includes('art') || lowerName.includes('viz')) return '/event_photography_thumbnail_1774854359146.png';
-  if (lowerName.includes('code') || lowerName.includes('tech') || lowerName.includes('pixel') || lowerName.includes('simul')) return '/event_tech_thumbnail_1774854315849.png';
-  if (lowerName.includes('drama') || lowerName.includes('comedy') || lowerName.includes('mono')) return '/event_drama_thumbnail_1774854339937.png';
-  
-  // fallback based on category
-  switch(category) {
-    case 'ACADEMIC': return '/event_tech_thumbnail_1774854315849.png';
-    case 'CULTURAL': return '/event_drama_thumbnail_1774854339937.png';
-    case 'SOCIAL': return '/event_photography_thumbnail_1774854359146.png';
-    case 'EVENING': return '/event_music_thumbnail_1774854278546.png';
-    default: return '/city-bg.jpg';
-  }
+function getIllustrationUrl(id: string, name: string) {
+  // Use a reliable placeholder service with a semantic seed (the event id)
+  // This guarantees that every single event gets a distinct but consistent image
+  return `https://picsum.photos/seed/crescendo-${id}/400/400`;
 }
 
 interface EventItem {
@@ -222,7 +210,7 @@ export default function EventsPage() {
                 <div className="event-content-box">
                   <div 
                     className="event-illustration" 
-                    style={{ backgroundImage: `url(${getIllustrationUrl(event.category, event.name)})` }}
+                    style={{ backgroundImage: `url(${getIllustrationUrl(event.id, event.name)})` }}
                   >
                     <div className="illustration-overlay" />
                   </div>
