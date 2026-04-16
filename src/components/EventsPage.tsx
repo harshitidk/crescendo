@@ -145,7 +145,7 @@ export default function EventsPage() {
   }, [activeDay]);
 
   return (
-    <div className="events-game-screen">
+    <div className={`events-game-screen ${activeDay === 'day0' ? 'theme-prom' : ''}`}>
       {/* Background Decor */}
       <div className="events-bg-grid" />
       
