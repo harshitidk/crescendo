@@ -18,30 +18,20 @@ interface Mission {
 const MISSIONS: Mission[] = [
   {
     id: 'm1',
-    name: 'BOLLYWOOD DAY',
+    name: 'PRE PROM',
     time: 'TBA',
-    date: 'TENTATIVE',
+    date: 'APRIL 21',
     status: 'UPCOMING',
-    description: 'Dress up as your favorite Bollywood character and enjoy a day filled with music, drama, and desi vibes!',
+    description: 'A pre-prom celebration to get everyone in the mood for the big night!',
     venue: 'Main Campus',
-    audience: 'SSCBS Students Only'
-  },
-  {
-    id: 'm2',
-    name: 'PRE EVENT',
-    time: 'TBA',
-    date: 'TENTATIVE',
-    status: 'TENTATIVE',
-    description: 'A hype-building pre-event to kick off the Crescendo festivities. More details coming soon.',
-    venue: 'Campus Grounds',
     audience: 'SSCBS Students Only'
   },
   {
     id: 'm3',
     name: 'PROM NIGHT',
     time: '18:00',
-    date: 'APRIL 15',
-    status: 'TENTATIVE',
+    date: 'APRIL 22',
+    status: 'UPCOMING',
     description: 'A magical evening of music, dance, and memories under the neon lights.',
     venue: 'College Auditorium',
     link: '/#register',
@@ -50,8 +40,8 @@ const MISSIONS: Mission[] = [
   {
     id: 'm4',
     name: 'DAY 1',
-    time: '10:00',
-    date: 'APRIL 16',
+    time: '09:00',
+    date: 'APRIL 23',
     status: 'TENTATIVE',
     description: 'The official kickoff! Technical and non-technical events, food stalls, and interactive games.',
     venue: 'Campus Wide',
@@ -60,8 +50,8 @@ const MISSIONS: Mission[] = [
   {
     id: 'm5',
     name: 'DAY 2',
-    time: '10:00',
-    date: 'APRIL 17',
+    time: '09:00',
+    date: 'APRIL 24',
     status: 'TENTATIVE',
     description: 'The grand finale featuring the neon concert, prize distributions, and closing ceremony.',
     venue: 'Main Stage',

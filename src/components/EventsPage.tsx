@@ -26,7 +26,7 @@ interface EventItem {
 }
 
 const DAYS = [
-  { id: 'day0', name: 'DAY 0', label: 'PROM NIGHT', icon: <Sparkles size={20} />, color: '#ff5e95' },
+  { id: 'day0', name: 'DAY 0', label: '22 APRIL', icon: <Sparkles size={20} />, color: '#ff5e95' },
   { id: 'day1', name: 'DAY 1', label: '23 APRIL', icon: <Calendar size={20} />, color: '#00f2ff' },
   { id: 'day2', name: 'DAY 2', label: '24 APRIL', icon: <Star size={20} />, color: '#bc00ff' },
 ];
