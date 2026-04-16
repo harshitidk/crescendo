@@ -14,7 +14,7 @@ import './EventsPage.css';
 function getIllustrationUrl(id: string, name: string) {
   // Use beautiful, elegant real-world photography specifically for Prom-related events
   if (id === 'p1') {
-    return 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=400&auto=format&fit=crop'; // Elegant neon dance floor
+    return 'https://images.unsplash.com/photo-1535295972055-1c762f4483e5?q=80&w=400&auto=format&fit=crop'; // Beautiful couples illustration
   }
   if (id === 'p2') {
     return 'https://images.unsplash.com/photo-1519671482749-fd09871171dd?q=80&w=400&auto=format&fit=crop'; // Beautiful golden sparklers
