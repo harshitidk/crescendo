@@ -20,7 +20,7 @@ const MISSIONS: Mission[] = [
     id: 'm1',
     name: 'PRE PROM',
     time: 'TBA',
-    date: 'APRIL 21',
+    date: 'APRIL 17',
     status: 'UPCOMING',
     description: 'A pre-prom celebration to get everyone in the mood for the big night!',
     venue: 'Main Campus',
