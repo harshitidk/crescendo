@@ -512,6 +512,7 @@
 .confirm-btn {
   width: 100%;
   background: #fff;
+  color: #000;
   border: none;
   padding: 20px;
   display: flex;
