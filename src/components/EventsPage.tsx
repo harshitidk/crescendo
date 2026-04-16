@@ -12,9 +12,8 @@ import {
 import './EventsPage.css';
 
 function getIllustrationUrl(id: string, name: string) {
-  // Use a reliable placeholder service with a semantic seed (the event id)
-  // This guarantees that every single event gets a distinct but consistent image
-  return `https://picsum.photos/seed/crescendo-${id}/400/400`;
+  // Utilizing DiceBear's pixel-art style perfectly complements the 8-bit arcade aesthetic
+  return `https://api.dicebear.com/9.x/pixel-art/svg?seed=crescendo-${id}`;
 }
 
 interface EventItem {
