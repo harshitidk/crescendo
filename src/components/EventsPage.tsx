@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import './EventsPage.css';
 
-function getIllustrationUrl(id: string, name: string) {
+function getIllustrationUrl(id: string) {
   // Use beautiful, elegant real-world photography specifically for Prom-related events
   if (id === 'p1') {
     return '/prom_couple.png'; // Hand-generated arcade prom couple masterpiece
@@ -236,7 +236,7 @@ export default function EventsPage() {
                 <div className="event-content-box">
                   <div 
                     className="event-illustration" 
-                    style={{ backgroundImage: `url(${getIllustrationUrl(event.id, event.name)})` }}
+                    style={{ backgroundImage: `url(${getIllustrationUrl(event.id)})` }}
                   >
                     <div className="illustration-overlay" />
                   </div>
