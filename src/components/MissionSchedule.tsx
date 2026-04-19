@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import RegisterModal from './RegisterModal';
 import './MissionSchedule.css';
 
 type MissionStatus = 'LIVE' | 'UPCOMING' | 'TENTATIVE';
@@ -63,6 +64,7 @@ export default function MissionSchedule() {
   const [activeMissionId, setActiveMissionId] = useState<string | null>(null);
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const [dayProgress, setDayProgress] = useState(0);
+  const [showRegister, setShowRegister] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Focus management for keyboard navigation
@@ -119,6 +121,7 @@ export default function MissionSchedule() {
   const activeMission = MISSIONS.find(m => m.id === activeMissionId);
 
   return (
+    <>
     <div 
       className="mission-terminal" 
       tabIndex={0} 
@@ -186,11 +189,20 @@ export default function MissionSchedule() {
             {activeMission.description}
           </div>
 
-          <button className="panel-register-btn" disabled={activeMission.status === 'TENTATIVE'}>
-            {activeMission.status === 'TENTATIVE' ? 'AWAITING MISSION START' : 'ACCESS TERMINAL'}
+          <button
+            className="panel-register-btn"
+            disabled={activeMission.status === 'TENTATIVE'}
+            onClick={() => { if (activeMission.status !== 'TENTATIVE') setShowRegister(true); }}
+          >
+            {activeMission.status === 'TENTATIVE' ? 'AWAITING MISSION START' : 'REGISTER NOW'}
           </button>
         </div>
       )}
     </div>
-  );
+
+    <RegisterModal
+      isOpen={showRegister}
+      onClose={() => setShowRegister(false)}
+    />
+  </>);
 }
