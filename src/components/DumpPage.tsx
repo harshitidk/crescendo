@@ -14,7 +14,7 @@ interface CardStyle {
   delay: number
 }
 
-function generateCardStyle(index: number, total: number): CardStyle {
+function generateCardStyle(index: number): CardStyle {
   // Use a much wider random spread to fill the screen
   return {
     left: `${randomInRange(5, 85)}%`,
@@ -83,7 +83,7 @@ export default function DumpPage() {
           const initialMap = new Map<string, CardStyle>()
           data.forEach((d, i) => {
             const id = d.id || `${d.instagram}-${i}`
-            initialMap.set(id, generateCardStyle(i, data.length))
+            initialMap.set(id, generateCardStyle(i))
           })
           setCardStyles(initialMap)
           saveLocalDumps(data)
@@ -94,7 +94,7 @@ export default function DumpPage() {
           const localMap = new Map<string, CardStyle>()
           local.forEach((d, i) => {
             const id = d.id || `${d.instagram}-${i}`
-            localMap.set(id, generateCardStyle(i, local.length))
+            localMap.set(id, generateCardStyle(i))
           })
           setCardStyles(localMap)
         }
@@ -106,7 +106,7 @@ export default function DumpPage() {
         const localMap = new Map<string, CardStyle>()
         local.forEach((d, i) => {
           const id = d.id || `${d.instagram}-${i}`
-          localMap.set(id, generateCardStyle(i, local.length))
+          localMap.set(id, generateCardStyle(i))
         })
         setCardStyles(localMap)
       })
@@ -139,7 +139,7 @@ export default function DumpPage() {
           const next = new Map(prevStyles)
           const key = newDump.id || `${newDump.instagram}-new`
           if (!next.has(key)) {
-            next.set(key, generateCardStyle(updated.length, updated.length))
+            next.set(key, generateCardStyle(updated.length))
           }
           return next
         })
@@ -258,7 +258,7 @@ export default function DumpPage() {
       
       setCardStyles(prevStyles => {
         const next = new Map(prevStyles)
-        next.set(localId, generateCardStyle(updated.length, updated.length))
+        next.set(localId, generateCardStyle(updated.length))
         return next
       })
 
