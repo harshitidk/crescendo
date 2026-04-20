@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getStoredUser } from './lib/arcadeDB'
 import MissionSchedule from './components/MissionSchedule'
 import SystemTelemetry from './components/SystemTelemetry'
@@ -63,6 +64,7 @@ const ArcadeWindow = ({ title, children, style, isClosed, onClose }: { title: st
 };
 
 function App() {
+  const navigate = useNavigate();
   const [gameStarted, setGameStarted] = useState(() => sessionStorage.getItem('arcade_started') === 'true');
   const [winStates, setWinStates] = useState({ schedule: false, telemetry: false, sysinfo: false });
 
@@ -114,6 +116,20 @@ function App() {
             <button className="start-btn" onClick={handleStartGame}>
               <span className="start-btn-icon">▶</span> ENTER ARCADE
             </button>
+
+            {/* PROM NIGHT SECTION */}
+            <div className="home-prom-section" onClick={() => navigate('/prom')}>
+              <div className="home-prom-bg" />
+              <div className="home-prom-particles">
+                <div className="home-prom-heart" style={{ left: '10%', animationDelay: '0s' }}>💘</div>
+                <div className="home-prom-heart" style={{ left: '80%', animationDelay: '1.5s' }}>💘</div>
+              </div>
+              <div className="home-prom-content">
+                <h3 className="home-prom-title">Prom Night 💘</h3>
+                <p className="home-prom-subtitle">A night beyond the game.</p>
+                <div className="home-prom-cta">Enter Prom</div>
+              </div>
+            </div>
 
             <div className="start-status">
               <div className="start-status-row">

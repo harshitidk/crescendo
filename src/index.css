@@ -461,6 +461,107 @@ body {
   font-size: 0.5rem;
 }
 
+/* Home Prom Section */
+.home-prom-section {
+  position: relative;
+  margin-top: 30px;
+  padding: 16px 30px;
+  background: rgba(15, 10, 30, 0.7);
+  border: 1px solid rgba(255, 94, 149, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(8px);
+}
+
+.home-prom-section:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 94, 149, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 94, 149, 0.3);
+}
+
+.home-prom-section:hover .home-prom-bg {
+  opacity: 0.3;
+}
+
+.home-prom-section:hover .home-prom-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.home-prom-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, var(--neon-pink) 0%, rgba(188, 0, 255, 0) 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0.1;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.home-prom-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.home-prom-heart {
+  position: absolute;
+  bottom: -20px;
+  font-size: 1rem;
+  opacity: 0;
+  animation: homePromFloatUp 3s linear infinite;
+  filter: drop-shadow(0 0 5px var(--neon-pink));
+}
+
+@keyframes homePromFloatUp {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+}
+
+.home-prom-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-prom-title {
+  margin: 0 0 5px;
+  font-family: 'Press Start 2P', system-ui, cursive;
+  font-size: 0.55rem;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 94, 149, 0.8);
+  letter-spacing: 1px;
+}
+
+.home-prom-subtitle {
+  margin: 0 0 10px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.45rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+}
+
+.home-prom-cta {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.4rem;
+  color: var(--neon-pink);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  opacity: 0.7;
+  transform: translateY(2px);
+  transition: all 0.3s;
+}
+
 /* Status indicators */
 .start-status {
   margin-top: 40px;

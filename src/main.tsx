@@ -10,6 +10,7 @@ import ArcadeLayer from './components/ArcadeLayer.tsx'
 import GlobalNav from './components/GlobalNav.tsx'
 
 import AboutPage from './components/AboutPage.tsx'
+import PromPage from './components/PromPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
       <GlobalNav />
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/prom" element={<PromPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/dump" element={<DumpPage />} />
         <Route path="/events" element={<EventsPage />} />
