@@ -44,7 +44,7 @@ const MISSIONS: Mission[] = [
     name: 'DAY 1',
     time: '09:00',
     date: 'APRIL 23',
-    status: 'TENTATIVE',
+    status: 'UPCOMING',
     description: 'The official kickoff! Technical and non-technical events, food stalls, and interactive games.',
     venue: 'Campus Wide',
     audience: 'Open to All College Students'
