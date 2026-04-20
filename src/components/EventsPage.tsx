@@ -140,9 +140,93 @@ export default function EventsPage() {
   const [activeDay, setActiveDay] = useState('day0');
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
 
-  const currentEvents = useMemo(() => {
-    return EVENT_DATA.filter(e => e.day === activeDay);
+  const groupedEvents = useMemo(() => {
+    const dayEvents = EVENT_DATA.filter(e => e.day === activeDay);
+    
+    const fest = dayEvents.filter(e => 
+      e.description.includes('Crescendo 2026') || 
+      e.category === 'SPECIAL' || 
+      !e.description.toLowerCase().includes('organized by')
+    );
+    
+    const society = dayEvents.filter(e => 
+      e.description.toLowerCase().includes('organized by') && 
+      e.category !== 'SPECIAL' && 
+      !e.description.includes('Crescendo 2026')
+    );
+    
+    return { fest, society };
   }, [activeDay]);
+
+  const renderEventSection = (events: EventItem[], title: string, type: 'fest' | 'society') => (
+    <div className={`timeline-group group-${type}`}>
+      <div className="group-header">
+        <div className="group-label-line" />
+        <h2 className="group-title">
+          <span className="group-prefix">{type === 'fest' ? 'CORE' : 'SUB'}_</span>
+          {title}
+        </h2>
+        <div className="group-label-line" />
+      </div>
+      <div className="events-timeline">
+        {events.map((event, i) => (
+          <div 
+            key={event.id} 
+            className={`event-timeline-item rarity-${event.rarity.toLowerCase()}`}
+            style={{ '--delay': `${i * 0.1}s` } as any}
+            onClick={() => setSelectedEvent(event)}
+          >
+            <div className="event-time-stamp">
+              <Clock size={14} />
+              <span>{event.time.split(' - ')[0]}</span>
+            </div>
+
+            <div className="event-marker">
+              <div className="marker-dot" />
+              <div className="marker-line" />
+            </div>
+
+            <div className="event-content-box">
+              <div 
+                className="event-illustration" 
+                style={{ backgroundImage: `url(${getIllustrationUrl(event.id)})` }}
+              >
+                <div className="illustration-overlay" />
+              </div>
+              
+              <div className="event-text-wrap">
+                <div className="event-header">
+                  <span className="event-type-badge">{event.type}</span>
+                  <span className="event-rarity-label">{event.rarity}</span>
+                </div>
+                
+                <h3 className="event-name">{event.name}</h3>
+                <p className="event-excerpt">{event.description.substring(0, 80)}...</p>
+                
+                <div className="event-footer">
+                  <div className="event-meta">
+                    <MapPin size={12} />
+                    <span>{event.venue}</span>
+                  </div>
+                  {event.reward && (
+                    <div className="event-reward-tag">
+                      <Trophy size={12} />
+                      <span>{event.reward}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="card-glitch-border" />
+            </div>
+          </div>
+        ))}
+        {events.length === 0 && (
+          <div className="empty-group-msg">NO {title} SCHEDULED FOR THIS PHASE</div>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div className={`events-game-screen ${activeDay === 'day0' ? 'theme-prom' : ''}`}>
@@ -215,60 +299,9 @@ export default function EventsPage() {
       {/* 3. Events List */}
       <section className="events-list-container">
         <div className="events-scroll-wrap">
-          <div className="events-timeline">
-            {currentEvents.map((event, i) => (
-              <div 
-                key={event.id} 
-                className={`event-timeline-item rarity-${event.rarity.toLowerCase()}`}
-                style={{ '--delay': `${i * 0.1}s` } as any}
-                onClick={() => setSelectedEvent(event)}
-              >
-                <div className="event-time-stamp">
-                  <Clock size={14} />
-                  <span>{event.time.split(' - ')[0]}</span>
-                </div>
-
-                <div className="event-marker">
-                  <div className="marker-dot" />
-                  <div className="marker-line" />
-                </div>
-
-                <div className="event-content-box">
-                  <div 
-                    className="event-illustration" 
-                    style={{ backgroundImage: `url(${getIllustrationUrl(event.id)})` }}
-                  >
-                    <div className="illustration-overlay" />
-                  </div>
-                  
-                  <div className="event-text-wrap">
-                    <div className="event-header">
-                      <span className="event-type-badge">{event.type}</span>
-                      <span className="event-rarity-label">{event.rarity}</span>
-                    </div>
-                    
-                    <h3 className="event-name">{event.name}</h3>
-                    <p className="event-excerpt">{event.description.substring(0, 80)}...</p>
-                    
-                    <div className="event-footer">
-                      <div className="event-meta">
-                        <MapPin size={12} />
-                        <span>{event.venue}</span>
-                      </div>
-                      {event.reward && (
-                        <div className="event-reward-tag">
-                          <Trophy size={12} />
-                          <span>{event.reward}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className="card-glitch-border" />
-                </div>
-              </div>
-            ))}
-          </div>
+          {renderEventSection(groupedEvents.fest, 'FEST EVENTS', 'fest')}
+          <div className="section-divider" />
+          {renderEventSection(groupedEvents.society, 'SOCIETY EVENTS', 'society')}
         </div>
       </section>
 

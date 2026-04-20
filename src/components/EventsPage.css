@@ -189,6 +189,62 @@
   z-index: 5;
 }
 
+.timeline-group {
+  margin-bottom: 80px;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.group-label-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.group-title {
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  white-space: nowrap;
+  font-weight: 900;
+}
+
+.group-prefix {
+  opacity: 0.3;
+  margin-right: 5px;
+}
+
+.group-fest .group-title {
+  color: #00f2ff;
+  text-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+}
+
+.group-society .group-title {
+  color: #bc00ff;
+  text-shadow: 0 0 15px rgba(188, 0, 255, 0.4);
+}
+
+.section-divider {
+  height: 2px;
+  margin: 40px auto 100px;
+  width: 80%;
+  background: repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(255, 255, 255, 0.05) 15px, rgba(255, 255, 255, 0.05) 30px);
+}
+
+.empty-group-msg {
+  padding: 60px;
+  text-align: center;
+  font-size: 0.5rem;
+  color: #333;
+  border: 2px solid rgba(255, 255, 255, 0.03);
+  letter-spacing: 3px;
+  background: rgba(255, 255, 255, 0.01);
+}
+
 .events-timeline {
   display: flex;
   flex-direction: column;
