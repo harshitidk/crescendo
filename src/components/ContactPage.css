@@ -9,7 +9,7 @@
   color: white;
   overflow-x: hidden;
   overflow-y: auto;
-  padding-bottom: 140px;
+  padding-bottom: 240px;
   position: relative;
 }
 
@@ -99,8 +99,9 @@
 /* ─── TEAM GRID ─── */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
+  justify-content: center;
 }
 
 /* ─── PLAYER CARD ─── */
@@ -406,26 +407,139 @@
   filter: grayscale(1);
 }
 
+.developer-section .team-grid {
+  display: flex;
+  justify-content: center;
+}
+
+.developer-section .player-card {
+  width: 100%;
+  max-width: 320px;
+}
+
 /* Footer */
 .roster-footer {
   position: relative;
-  z-index: 1;
-  padding: 25px 50px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  z-index: 10;
+  padding: 80px 20px 120px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  text-align: center;
+}
+
+.footer-main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.footer-info-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .footer-terminal {
-  font-size: 0.38rem;
+  font-size: 0.4rem;
   color: #00ff88;
+  letter-spacing: 1px;
 }
 
 .footer-loc {
-  font-size: 0.33rem;
-  color: rgba(255, 255, 255, 0.18);
+  font-size: 0.4rem;
+  color: rgba(255, 255, 255, 0.2);
   letter-spacing: 1px;
+}
+
+.footer-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.footer-credit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.dev-avatar {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 5px;
+}
+
+.dev-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.dev-photo-glow {
+  position: absolute;
+  inset: -4px;
+  background: white;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.3;
+  filter: blur(8px);
+  animation: photoPulse 3s ease-in-out infinite;
+}
+
+@keyframes photoPulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.1); }
+}
+
+.dev-credit-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.credit-text {
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.dev-name {
+  color: white;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+
+.credit-links {
+  display: flex;
+  gap: 24px;
+}
+
+.credit-link {
+  color: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.credit-link:hover {
+  color: white;
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
 }
 
 .blink-cursor {
@@ -438,7 +552,7 @@
 
 /* ─── MOBILE ─── */
 @media (max-width: 768px) {
-  .contact-roster { padding-bottom: 200px; }
+  .contact-roster { padding-bottom: 240px; }
   .roster-hero { padding: 40px 20px; }
   .roster-title { font-size: 1.5rem; letter-spacing: 3px; }
   .roster-sub { font-size: 0.48rem; }
@@ -471,9 +585,12 @@
   .contact-value { font-size: 0.45rem; }
 
   .roster-footer {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-    padding: 20px;
+    padding: 60px 20px 160px;
   }
+  
+  .footer-info-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
 }

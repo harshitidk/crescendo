@@ -10,6 +10,9 @@ interface TeamMember {
   phone?: string;
   email?: string;
   whatsapp?: string;
+  linkedin?: string;
+  twitter?: string;
+  instagram?: string;
 }
 
 const CORE_TEAM: TeamMember[] = [
@@ -17,7 +20,7 @@ const CORE_TEAM: TeamMember[] = [
     id: 'c1', 
     name: 'NAYAN DHAR', 
     role: 'PRESIDENT', 
-    photo: '',
+    photo: '/team/Nayan.JPG',
     email: 'Nayan.23075@sscbs.du.ac.in', 
     phone: '9958289765',
     whatsapp: '9958289765'
@@ -60,8 +63,25 @@ const CORE_TEAM: TeamMember[] = [
   },
   { 
     id: 'c6', 
-    name: 'GAGAN', 
-    role: 'FEST SECRETARY'
+    name: 'GAGAN CHOUDHARY', 
+    role: 'FEST SECRETARY',
+    photo: '/team/Gagan.jpeg',
+    phone: '9257476272',
+    email: 'Gaganchoudhary2603@gmail.com',
+    whatsapp: '9257476272'
+  },
+];
+
+const DEV_TEAM: TeamMember[] = [
+  { 
+    id: 'h1', 
+    name: 'HARSHIT', 
+    role: '', // Role removed as requested since it's now the section title
+    photo: '/team/harshit.jpeg',
+    email: 'harshitheya@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/harshitheya/',
+    twitter: 'https://x.com/harshitheya',
+    instagram: 'https://www.instagram.com/harshit.senpai/'
   },
 ];
 
@@ -99,12 +119,27 @@ export default function ContactPage() {
           <div className="card-quick-actions" onClick={e => e.stopPropagation()}>
             {member.phone && (
               <a href={`tel:${member.phone}`} className="action-ic small">
-                <Phone size={12} />
+                <Phone size={11} />
               </a>
             )}
             {member.whatsapp && (
               <a href={`https://wa.me/${member.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="action-ic small">
-                <MessageCircle size={12} />
+                <MessageCircle size={11} />
+              </a>
+            )}
+            {member.linkedin && (
+              <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="action-ic small">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+            )}
+            {member.twitter && (
+              <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="action-ic small">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg>
+              </a>
+            )}
+            {member.instagram && (
+              <a href={member.instagram} target="_blank" rel="noopener noreferrer" className="action-ic small">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
               </a>
             )}
           </div>
@@ -157,71 +192,117 @@ export default function ContactPage() {
               <div className="profile-role">{selectedMember.role}</div>
             </div>
 
-            <div className="profile-contact-section">
-              <h3 className="section-heading">// COMMUNICATIONS_LINK</h3>
-              <div className="profile-contact-list">
-                {selectedMember.phone ? (
-                  <div className="contact-item">
-                    <div className="contact-info">
-                      <span className="contact-label">SIGNAL:</span>
-                      <span className="contact-value">{selectedMember.phone}</span>
+            {(selectedMember.phone || selectedMember.email || selectedMember.whatsapp) && (
+              <div className="profile-contact-section">
+                <h3 className="section-heading">// COMMUNICATIONS_LINK</h3>
+                <div className="profile-contact-list">
+                  {selectedMember.phone && (
+                    <div className="contact-item">
+                      <div className="contact-info">
+                        <span className="contact-label">SIGNAL:</span>
+                        <span className="contact-value">{selectedMember.phone}</span>
+                      </div>
+                      <a href={`tel:${selectedMember.phone}`} className="contact-cta-action">
+                        <Phone size={14} />
+                        <span>INITIALIZE CALL</span>
+                      </a>
                     </div>
-                    <a href={`tel:${selectedMember.phone}`} className="contact-cta-action">
-                      <Phone size={14} />
-                      <span>INITIALIZE CALL</span>
-                    </a>
-                  </div>
-                ) : (
-                  <div className="contact-item disabled">
-                    <div className="contact-info">
-                      <span className="contact-label">SIGNAL:</span>
-                      <span className="contact-value">ENCRYPTED/UNKNOWN</span>
+                  )}
+                  
+                  {selectedMember.email && (
+                    <div className="contact-item">
+                      <div className="contact-info">
+                        <span className="contact-label">INTEL_NODE:</span>
+                        <span className="contact-value">{selectedMember.email}</span>
+                      </div>
+                      <a href={`mailto:${selectedMember.email}`} className="contact-cta-action">
+                        <Mail size={14} />
+                        <span>SEND TRANSMISSION</span>
+                      </a>
                     </div>
-                  </div>
-                )}
-                
-                {selectedMember.email ? (
-                  <div className="contact-item">
-                    <div className="contact-info">
-                      <span className="contact-label">INTEL_NODE:</span>
-                      <span className="contact-value">{selectedMember.email}</span>
-                    </div>
-                    <a href={`mailto:${selectedMember.email}`} className="contact-cta-action">
-                      <Mail size={14} />
-                      <span>SEND TRANSMISSION</span>
-                    </a>
-                  </div>
-                ) : (
-                  <div className="contact-item disabled">
-                    <div className="contact-info">
-                      <span className="contact-label">INTEL_NODE:</span>
-                      <span className="contact-value">REDACTED</span>
-                    </div>
-                  </div>
-                )}
+                  )}
 
-                {selectedMember.whatsapp && (
-                  <div className="contact-item">
-                    <div className="contact-info">
-                      <span className="contact-label">SECURE_CHAT:</span>
-                      <span className="contact-value">WHATSAPP_ID_{selectedMember.whatsapp}</span>
+                  {selectedMember.whatsapp && (
+                    <div className="contact-item">
+                      <div className="contact-info">
+                        <span className="contact-label">SECURE_CHAT:</span>
+                        <span className="contact-value">WHATSAPP_ID_{selectedMember.whatsapp}</span>
+                      </div>
+                      <a href={`https://wa.me/${selectedMember.whatsapp.replace(/[^0-9]/g, '')}`} className="contact-cta-action" target="_blank" rel="noopener noreferrer">
+                        <MessageCircle size={14} />
+                        <span>START_CHAT</span>
+                      </a>
                     </div>
-                    <a href={`https://wa.me/${selectedMember.whatsapp.replace(/[^0-9]/g, '')}`} className="contact-cta-action" target="_blank" rel="noopener noreferrer">
-                      <MessageCircle size={14} />
-                      <span>START_CHAT</span>
-                    </a>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
+            )}
+
+            {(selectedMember.linkedin || selectedMember.twitter || selectedMember.instagram) && (
+              <div className="profile-contact-section">
+                <h3 className="section-heading">// SOCIAL_NODES</h3>
+                <div className="profile-contact-list">
+                  {selectedMember.linkedin && (
+                    <div className="contact-item">
+                      <div className="contact-info">
+                        <span className="contact-label">PROFESSIONAL_LINK:</span>
+                        <span className="contact-value">LINKEDIN_CONNECT</span>
+                      </div>
+                      <a href={selectedMember.linkedin} className="contact-cta-action" target="_blank" rel="noopener noreferrer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        <span>VIEW_PROFILE</span>
+                      </a>
+                    </div>
+                  )}
+                  {selectedMember.twitter && (
+                    <div className="contact-item">
+                      <div className="contact-info">
+                        <span className="contact-label">SIGNAL_X:</span>
+                        <span className="contact-value">TWITTER_REF</span>
+                      </div>
+                      <a href={selectedMember.twitter} className="contact-cta-action" target="_blank" rel="noopener noreferrer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg>
+                        <span>VIEW_FEED</span>
+                      </a>
+                    </div>
+                  )}
+                  {selectedMember.instagram && (
+                    <div className="contact-item">
+                      <div className="contact-info">
+                        <span className="contact-label">VISUAL_FEED:</span>
+                        <span className="contact-value">INSTAGRAM_ID</span>
+                      </div>
+                      <a href={selectedMember.instagram} className="contact-cta-action" target="_blank" rel="noopener noreferrer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        <span>VIEW_GALLERY</span>
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
+      <section className="roster-section developer-section">
+        <div className="section-label">
+          <div className="section-line" />
+          <span>DESIGNED AND BUILT BY</span>
+          <div className="section-line" />
+        </div>
+        {renderGrid(DEV_TEAM, CORE_TEAM.length)}
+      </section>
+
       {/* Footer */}
       <footer className="roster-footer">
-        <div className="footer-terminal"><span className="blink-cursor">_</span> ENCRYPTED CHANNEL SECURE</div>
-        <div className="footer-loc">SSCBS // NEW DELHI // 28.6139° N, 77.2090° E</div>
+        <div className="footer-main-content">
+          <div className="footer-info-row">
+            <div className="footer-terminal"><span className="blink-cursor">_</span> ENCRYPTED CHANNEL SECURE</div>
+            <div className="footer-loc">SSCBS // NEW DELHI // 28.6139° N, 77.2090° E</div>
+          </div>
+          <div className="footer-divider" />
+        </div>
       </footer>
     </div>
   );
