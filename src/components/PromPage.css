@@ -243,10 +243,11 @@
 .prom-reg-card {
   position: relative;
   width: 320px;
-  background: linear-gradient(145deg, rgba(30, 20, 50, 0.8) 0%, rgba(15, 10, 30, 0.9) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 94, 149, 0.4);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  background: linear-gradient(145deg, rgba(255, 94, 149, 0.08) 0%, rgba(15, 10, 30, 0.5) 100%);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 94, 149, 0.4);
+  box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   border-radius: 20px;
   padding: 50px 30px;
   text-align: center;
@@ -301,13 +302,15 @@
 }
 
 .prom-card-title {
-  font-family: 'Press Start 2P', system-ui, cursive;
-  font-size: 0.75rem;
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 1.1rem;
   line-height: 1.5;
   margin: 0 0 15px;
   color: #fff;
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
 }
 
 .prom-card-desc {
@@ -321,33 +324,35 @@
 }
 
 .prom-cta-btn {
-  background: rgba(255, 94, 149, 0.1);
-  border: 1px solid rgba(255, 94, 149, 0.4);
+  background: rgba(255, 94, 149, 0.08);
+  border: 1px solid rgba(255, 94, 149, 0.5);
   color: var(--neon-pink);
-  padding: 14px 20px;
-  font-family: 'Inter', system-ui, sans-serif;
-  font-weight: 600;
+  padding: 14px 24px;
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  font-weight: 500;
   font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 8px;
+  letter-spacing: 2px;
+  border-radius: 30px; /* Pill shaped for elegance */
   width: 100%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  transition: all 0.3s;
+  gap: 12px;
+  box-shadow: 0 0 20px rgba(255, 94, 149, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .prom-cta-btn:hover {
-  background: rgba(255, 94, 149, 0.2);
-  box-shadow: 0 0 20px rgba(255, 94, 149, 0.3);
-  color: #fff;
+  background: var(--neon-pink);
+  box-shadow: 0 0 30px rgba(255, 94, 149, 0.5);
+  color: #000;
+  transform: translateY(-2px);
 }
 
 .btn-icon {
-  transition: transform 0.3s;
+  transition: transform 0.4s;
 }
 
 .prom-cta-btn:hover .btn-icon {
@@ -356,8 +361,9 @@
 
 /* Guest Card Variant */
 .guest-card {
-  border-color: rgba(0, 242, 255, 0.4);
-  background: linear-gradient(145deg, rgba(20, 25, 50, 0.8) 0%, rgba(10, 15, 30, 0.9) 100%);
+  border-color: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(0, 242, 255, 0.4);
+  background: linear-gradient(145deg, rgba(0, 242, 255, 0.08) 0%, rgba(10, 15, 30, 0.5) 100%);
 }
 
 .guest-card .prom-card-bg-glow {
@@ -365,25 +371,27 @@
 }
 
 .guest-card:hover {
-  border-color: rgba(0, 242, 255, 0.8);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 242, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(0, 242, 255, 0.8);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 242, 255, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .guest-card .prom-card-icon {
   color: var(--neon-blue);
-  filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.6));
+  filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
 }
 
 .guest-btn {
   color: var(--neon-blue);
-  border-color: rgba(0, 242, 255, 0.4);
-  background: rgba(0, 242, 255, 0.1);
+  border-color: rgba(0, 242, 255, 0.5);
+  background: rgba(0, 242, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
 }
 
 .guest-btn:hover {
-  background: rgba(0, 242, 255, 0.2);
-  box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
-  color: #fff;
+  background: var(--neon-blue);
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
+  color: #000;
 }
 
 /* ═══ Mobile Responsive ═══ */
