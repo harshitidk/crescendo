@@ -44,6 +44,7 @@ const CORE_TEAM: TeamMember[] = [
     id: 'c4', 
     name: 'GAURI VERMA', 
     role: 'FEST COORDINATOR', 
+    photo: '/team/gauri.jpg',
     email: 'gauri.24332@sscbs.du.ac.in', 
     phone: '9711135791',
     whatsapp: '9711135791'
