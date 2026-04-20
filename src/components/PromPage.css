@@ -388,29 +388,73 @@
 
 /* ═══ Mobile Responsive ═══ */
 @media (max-width: 768px) {
+  .prom-hero {
+    margin-bottom: 20px;
+    margin-top: -20px;
+  }
+
   .prom-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .prom-tagline {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
   }
 
   .prom-registration-split {
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    align-items: stretch;
+    gap: 15px;
+    width: 100%;
+    max-width: 340px;
   }
 
   .prom-reg-card {
     width: 100%;
-    max-width: 340px;
-    padding: 30px 20px;
+    padding: 15px 20px;
+    border-radius: 12px;
+  }
+
+  .prom-card-content {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+  }
+
+  .prom-card-icon {
+    margin-bottom: 0;
+  }
+
+  .prom-card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .prom-card-title {
+    margin: 0;
+    font-size: 0.55rem;
+    flex: 1;
+  }
+
+  .prom-card-desc {
+    display: none; /* Hide description on mobile to save space */
+  }
+
+  .prom-cta-btn {
+    width: auto;
+    padding: 10px;
+    font-size: 0.6rem;
+  }
+
+  .btn-icon {
+    width: 12px;
+    height: 12px;
   }
   
   .prom-return-btn {
-    top: 20px;
-    left: 20px;
-    font-size: 0.4rem;
+    top: 15px;
+    left: 15px;
+    font-size: 0.35rem;
   }
 }
