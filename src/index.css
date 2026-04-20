@@ -480,14 +480,16 @@ body {
 .home-prom-section {
   position: relative;
   margin-top: 30px;
-  padding: 16px 30px;
-  background: rgba(15, 10, 30, 0.7);
-  border: 1px solid rgba(255, 94, 149, 0.3);
-  border-radius: 12px;
+  padding: 24px 40px;
+  background: linear-gradient(135deg, rgba(255, 94, 149, 0.2), rgba(188, 0, 255, 0.2), rgba(255, 42, 109, 0.2));
+  background-color: rgba(15, 10, 30, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  backdrop-filter: blur(8px);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 94, 149, 0.1);
 }
 
 .home-prom-section:hover {

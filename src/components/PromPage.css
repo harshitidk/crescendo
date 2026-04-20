@@ -244,18 +244,19 @@
   position: relative;
   width: 320px;
   background: 
-    linear-gradient(rgba(255, 94, 149, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 94, 149, 0.05) 1px, transparent 1px),
-    rgba(15, 10, 30, 0.7);
-  background-size: 10px 10px;
-  backdrop-filter: blur(15px);
-  border: 2px solid rgba(255, 94, 149, 0.5);
-  box-shadow: 0 0 15px rgba(255, 94, 149, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.8);
-  border-radius: 0;
-  clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+    linear-gradient(rgba(255, 255, 255, 0.05), transparent),
+    linear-gradient(135deg, rgba(255, 94, 149, 0.1), rgba(188, 0, 255, 0.1), rgba(255, 42, 109, 0.1)),
+    rgba(15, 10, 30, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5), 
+    0 0 30px rgba(255, 94, 149, 0.15),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  border-radius: 40px;
   padding: 50px 30px;
   text-align: center;
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
   overflow: hidden;
 }
@@ -367,12 +368,15 @@
 /* Guest Card Variant */
 .guest-card {
   background: 
-    linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px),
-    rgba(10, 15, 30, 0.7);
-  background-size: 10px 10px;
-  border: 2px solid rgba(0, 242, 255, 0.5);
-  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.8);
+    linear-gradient(rgba(255, 255, 255, 0.05), transparent),
+    linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(188, 0, 255, 0.1), rgba(0, 242, 255, 0.1)),
+    rgba(10, 15, 30, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5), 
+    0 0 30px rgba(0, 242, 255, 0.15),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  border-radius: 40px;
 }
 
 .guest-card .prom-card-bg-glow {
