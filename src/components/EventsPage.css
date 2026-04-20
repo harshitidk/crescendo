@@ -592,31 +592,52 @@
 .events-bg-grid {
   position: fixed;
   inset: 0;
-  background-color: #03030a;
+  background-color: #020208;
   background-image: 
-    radial-gradient(circle at 15% 30%, rgba(188, 0, 255, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 85% 20%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
+    radial-gradient(circle at 15% 30%, rgba(188, 0, 255, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 85% 70%, rgba(0, 242, 255, 0.15) 0%, transparent 40%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
   pointer-events: none;
   z-index: -1;
+  opacity: 0.8;
 }
 
 /* NEW DECORATIONS */
 .cyber-grid-floor {
   position: fixed;
-  bottom: -20vh;
+  bottom: -40vh;
   left: -50vw;
   width: 200vw;
-  height: 50vh;
+  height: 80vh;
   background: 
-    linear-gradient(transparent 95%, rgba(0, 242, 255, 0.4) 100%),
-    linear-gradient(90deg, transparent 95%, rgba(0, 242, 255, 0.4) 100%);
-  background-size: 60px 60px;
-  transform: perspective(600px) rotateX(75deg);
+    linear-gradient(transparent 95%, rgba(0, 242, 255, 0.3) 100%),
+    linear-gradient(90deg, transparent 95%, rgba(0, 242, 255, 0.3) 100%);
+  background-size: 80px 80px;
+  transform: perspective(800px) rotateX(70deg);
   transform-origin: top center;
   pointer-events: none;
   z-index: -1;
-  animation: gridMove 5s linear infinite;
-  opacity: 0.2;
+  animation: gridMove 8s linear infinite;
+  opacity: 0.15;
+}
+
+.cyber-grid-floor::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.8), transparent);
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
+  animation: scanningBeam 4s ease-in-out infinite;
+}
+
+@keyframes scanningBeam {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(100vh); opacity: 0; }
 }
 
 @keyframes gridMove {
@@ -634,14 +655,18 @@
 
 .pixel {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(0, 242, 255, 0.6);
+  width: 2px;
+  height: 2px;
+  background: #fff;
   box-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
   animation-name: floatUp;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  border-radius: 50%;
 }
+
+.pixel:nth-child(3n) { width: 4px; height: 4px; background: #bc00ff; box-shadow: 0 0 15px #bc00ff; }
+.pixel:nth-child(5n) { width: 1px; height: 1px; opacity: 0.4; }
 
 @keyframes floatUp {
   0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
