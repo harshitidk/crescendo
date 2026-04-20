@@ -823,7 +823,18 @@
   .avatar-initials { font-size: 0.75rem; }
   .player-name { font-size: 0.5rem; }
 
-  .profile-panel { padding: 25px 18px; }
+  .profile-overlay {
+    align-items: flex-start;
+    padding: 40px 15px;
+    overflow-y: auto;
+  }
+
+  .profile-panel { 
+    padding: 25px 18px; 
+    margin: auto;
+    max-height: none; /* Allow it to grow, parent will scroll */
+  }
+  
   .profile-name { font-size: 0.85rem; }
   .profile-avatar-lg { width: 80px; height: 80px; font-size: 1.1rem; }
 
