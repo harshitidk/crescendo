@@ -13,19 +13,46 @@ interface TeamMember {
 }
 
 const CORE_TEAM: TeamMember[] = [
-  { id: 'c1', name: 'NAYAN DHAR', role: 'PRESIDENT', photo: '' },
-  { id: 'c2', name: 'VAIBHAV KUMAR', role: 'VICE PRESIDENT', photo: '' },
-  { id: 'c3', name: 'PREETI', role: 'FEST DIRECTOR', photo: '' },
-  { id: 'c4', name: 'KARAN RAINA', role: 'FEST COORDINATOR', photo: '' },
-  { id: 'c5', name: 'GAURI VERMA', role: 'FEST COORDINATOR', photo: '' },
-  { id: 'c6', name: 'GAGAN', role: 'FEST SECRETARY', photo: '' },
-];
-
-const DEPARTMENT_HEADS: TeamMember[] = [
-  { id: 'd1', name: 'HARSHIT', role: 'TECH HEAD', photo: '' },
-  { id: 'd2', name: 'UTKARSH', role: 'HEAD OF MARKETING', photo: '' },
-  { id: 'd3', name: 'ASHISH', role: 'HEAD OF SPONSORSHIP', photo: '' },
-  { id: 'd4', name: 'SAMYAK', role: 'HEAD OF HOSPITALITY', photo: '' },
+  { 
+    id: 'c1', 
+    name: 'NAYAN DHAR', 
+    role: 'PRESIDENT', 
+    email: 'Nayan.23075@sscbs.du.ac.in', 
+    phone: '9958289765',
+    whatsapp: '9958289765'
+  },
+  { 
+    id: 'c2', 
+    name: 'VAIBHAV', 
+    role: 'VICE PRESIDENT', 
+    email: 'vaibhav.23418@sscbs.du.ac.in', 
+    phone: '7834802213',
+    whatsapp: '7834802213'
+  },
+  { 
+    id: 'c3', 
+    name: 'PREETI', 
+    role: 'FEST DIRECTOR', 
+    email: 'Preeti.23266@sscbs.du.ac.in', 
+    phone: '7206260370',
+    whatsapp: '7206260370'
+  },
+  { 
+    id: 'c4', 
+    name: 'GAURI VERMA', 
+    role: 'FEST COORDINATOR', 
+    email: 'gauri.24332@sscbs.du.ac.in', 
+    phone: '9711135791',
+    whatsapp: '9711135791'
+  },
+  { 
+    id: 'c5', 
+    name: 'KARAN RAINA', 
+    role: 'FEST COORDINATOR', 
+    email: 'karan.24118@sscbs.du.ac.in', 
+    phone: '7982047323',
+    whatsapp: '7982047323'
+  },
 ];
 
 export default function ContactPage() {
@@ -45,7 +72,7 @@ export default function ContactPage() {
               <img src={member.photo} alt={member.name} className="player-photo" />
             ) : (
               <span className="avatar-initials">
-                {member.name.split(' ').map(n => n[0]).join('')}
+                {member.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
               </span>
             )}
           </div>
@@ -85,11 +112,11 @@ export default function ContactPage() {
       {/* Hero */}
       <section className="roster-hero">
         <div className="hero-hud">
-          <span className="hud-tag">ROSTER_v2.0</span>
-          <span className="hud-tag">PLAYERS: {CORE_TEAM.length + DEPARTMENT_HEADS.length}</span>
+          <span className="hud-tag">ROSTER_v2.1</span>
+          <span className="hud-tag">PLAYERS: {CORE_TEAM.length}</span>
         </div>
-        <h1 className="roster-title">MEET THE PLAYERS</h1>
-        <p className="roster-sub">Every game has its operators. This one has legends.</p>
+        <h1 className="roster-title">THE CORE TEAM</h1>
+        <p className="roster-sub">Meet the legends orchestrating the game.</p>
       </section>
 
       {/* Core Section */}
@@ -100,16 +127,6 @@ export default function ContactPage() {
           <div className="section-line" />
         </div>
         {renderGrid(CORE_TEAM, 0)}
-      </section>
-
-      {/* Departments Section */}
-      <section className="roster-section">
-        <div className="section-label">
-          <div className="section-line" />
-          <span>DEPARTMENT_HEADS</span>
-          <div className="section-line" />
-        </div>
-        {renderGrid(DEPARTMENT_HEADS, CORE_TEAM.length)}
       </section>
 
       {/* Profile Modal */}
