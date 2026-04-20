@@ -26,6 +26,15 @@ const CORE_TEAM: TeamMember[] = [
     whatsapp: '9958289765'
   },
   { 
+    id: 'c7', 
+    name: 'ARYAN GUPTA', 
+    role: 'CO-PRESIDENT', 
+    photo: '/team/Aryan Gupta.jpeg',
+    email: 'aryan.23282@sscbs.du.ac.in', 
+    phone: '+91 83188 90345',
+    whatsapp: '8318890345'
+  },
+  { 
     id: 'c2', 
     name: 'VAIBHAV', 
     role: 'VICE PRESIDENT', 
@@ -78,7 +87,7 @@ const DEV_TEAM: TeamMember[] = [
     name: 'HARSHIT', 
     role: '', // Role removed as requested since it's now the section title
     photo: '/team/harshit.jpeg',
-    email: 'harshitheya@gmail.com',
+    email: 'harshit.23179@sscbs.du.ac.in',
     linkedin: 'https://www.linkedin.com/in/harshitheya/',
     twitter: 'https://x.com/harshitheya',
     instagram: 'https://www.instagram.com/harshit.senpai/'
