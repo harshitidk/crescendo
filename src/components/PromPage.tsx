@@ -82,7 +82,7 @@ export default function PromPage() {
               
               <button 
                 className="prom-cta-btn" 
-                onClick={() => window.open('https://forms.gle/YMtcRaATu6NddyJC8', '_blank')}
+                onClick={() => window.open('https://forms.gle/hY3BrNTPDseCUJYM9', '_blank')}
               >
                 Register as CBS Student
                 <Navigation size={16} className="btn-icon" />
@@ -102,7 +102,7 @@ export default function PromPage() {
               
               <button 
                 className="prom-cta-btn guest-btn"
-                onClick={() => window.open('https://forms.gle/YMtcRaATu6NddyJC8', '_blank')}
+                onClick={() => window.open('https://forms.gle/wbjnrqZUmAZVE8S99', '_blank')}
               >
                 Register as Guest
                 <Navigation size={16} className="btn-icon" />

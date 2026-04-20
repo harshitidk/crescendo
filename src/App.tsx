@@ -117,19 +117,6 @@ function App() {
               <span className="start-btn-icon">▶</span> ENTER ARCADE
             </button>
 
-            {/* PROM NIGHT SECTION */}
-            <div className="home-prom-section" onClick={() => navigate('/prom')}>
-              <div className="home-prom-bg" />
-              <div className="home-prom-particles">
-                <div className="home-prom-heart" style={{ left: '10%', animationDelay: '0s' }}>💘</div>
-                <div className="home-prom-heart" style={{ left: '80%', animationDelay: '1.5s' }}>💘</div>
-              </div>
-              <div className="home-prom-content">
-                <h3 className="home-prom-title">Prom Night 💘</h3>
-                <p className="home-prom-subtitle">A night beyond the game.</p>
-                <div className="home-prom-cta">Enter Prom</div>
-              </div>
-            </div>
 
             <div className="start-status">
               <div className="start-status-row">
@@ -227,6 +214,22 @@ function App() {
               </ArcadeWindow>
             </div>
           )}
+
+          {/* Floating Prom Card */}
+          <div className="floating-prom-card">
+            <div className="home-prom-section" onClick={() => navigate('/prom')}>
+              <div className="home-prom-bg" />
+              <div className="home-prom-particles">
+                <div className="home-prom-heart" style={{ left: '10%', animationDelay: '0s' }}>💘</div>
+                <div className="home-prom-heart" style={{ left: '80%', animationDelay: '1.5s' }}>💘</div>
+              </div>
+              <div className="home-prom-content">
+                <h3 className="home-prom-title">Prom Night 💘</h3>
+                <p className="home-prom-subtitle">A night beyond the game.</p>
+                <div className="home-prom-cta">Enter Prom</div>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>

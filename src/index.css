@@ -461,6 +461,21 @@ body {
   font-size: 0.5rem;
 }
 
+/* Home Prom Section Floating Wrapper */
+.floating-prom-card {
+  position: absolute;
+  bottom: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: floatUpPromCard 6s ease-in-out infinite alternate;
+}
+
+@keyframes floatUpPromCard {
+  0% { transform: translate(-50%, 0); }
+  100% { transform: translate(-50%, -10px); }
+}
+
 /* Home Prom Section */
 .home-prom-section {
   position: relative;
