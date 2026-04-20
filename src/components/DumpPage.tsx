@@ -15,13 +15,10 @@ interface CardStyle {
 }
 
 function generateCardStyle(index: number, total: number): CardStyle {
-  const cols = Math.max(Math.ceil(Math.sqrt(total)), 1)
-  const rows = Math.max(Math.ceil(total / cols), 1)
-  const baseLeft = (index % cols) / cols * 70 + randomInRange(2, 12)
-  const baseTop = Math.floor(index / cols) / rows * 55 + randomInRange(5, 15)
+  // Use a much wider random spread to fill the screen
   return {
-    left: `${baseLeft}%`,
-    top: `${baseTop}%`,
+    left: `${randomInRange(5, 85)}%`,
+    top: `${randomInRange(5, 75)}%`,
     rotation: randomInRange(-12, 12),
     zIndex: index,
     delay: 0,
@@ -57,6 +54,11 @@ export default function DumpPage() {
   const containerRef = useRef<HTMLDivElement>(null)
   // Get session ID once to check ownership
   const sessionId = useRef(getSessionId()).current
+  
+  // Dragging state
+  const [draggedId, setDraggedId] = useState<string | null>(null)
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
+  const [initialStylePos, setInitialStylePos] = useState({ left: 0, top: 0 })
 
   const visibleDumps = dumps.slice(0, MAX_VISIBLE)
   const hiddenCount = Math.max(0, dumps.length - MAX_VISIBLE)
@@ -162,6 +164,71 @@ export default function DumpPage() {
         return next
       })
     }, 1200)
+  }
+
+  // Global drag listeners
+  useEffect(() => {
+    if (!draggedId || !containerRef.current) return
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const container = containerRef.current
+      if (!container) return
+
+      const rect = container.getBoundingClientRect()
+      const deltaX = e.clientX - dragStart.x
+      const deltaY = e.clientY - dragStart.y
+
+      // Convert delta px to %
+      const deltaXPercent = (deltaX / rect.width) * 100
+      const deltaYPercent = (deltaY / rect.height) * 100
+
+      setCardStyles(prev => {
+        const next = new Map(prev)
+        const style = next.get(draggedId)
+        if (style) {
+          next.set(draggedId, {
+            ...style,
+            left: `${initialStylePos.left + deltaXPercent}%`,
+            top: `${initialStylePos.top + deltaYPercent}%`
+          })
+        }
+        return next
+      })
+    }
+
+    const handleMouseUp = () => {
+      setDraggedId(null)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [draggedId, dragStart, initialStylePos])
+
+  const startDrag = (e: React.MouseEvent, id: string) => {
+    e.preventDefault()
+    const style = cardStyles.get(id)
+    if (!style) return
+
+    setDraggedId(id)
+    setDragStart({ x: e.clientX, y: e.clientY })
+    setInitialStylePos({
+      left: parseFloat(style.left),
+      top: parseFloat(style.top)
+    })
+    
+    // Bring to front temporarily
+    setCardStyles(prev => {
+      const next = new Map(prev)
+      const s = next.get(id)
+      if (s) {
+        next.set(id, { ...s, zIndex: 1000 })
+      }
+      return next
+    })
   }
 
   const handleDrop = async () => {
@@ -290,20 +357,24 @@ export default function DumpPage() {
           return (
             <div
               key={key}
-              className={`dump-card ${isNew ? 'dump-card-new' : ''} ${isSelected ? 'dump-card-selected' : ''}`}
+              className={`dump-card ${isNew ? 'dump-card-new' : ''} ${isSelected ? 'dump-card-selected' : ''} ${draggedId === key ? 'dragging' : ''}`}
               style={{
                 left: style?.left || '20%',
                 top: style?.top || '20%',
                 transform: `rotate(${style?.rotation || 0}deg)`,
-                zIndex: isSelected ? 999 : (style?.zIndex || i),
+                zIndex: isSelected || draggedId === key ? 999 : (style?.zIndex || i),
                 animationDelay: isNew ? '0s' : `${(style?.delay || 0)}s`,
+                cursor: draggedId === key ? 'grabbing' : 'grab'
               }}
-              onClick={() => setSelectedCard(isSelected ? null : d)}
+              onClick={() => {
+                if (!draggedId) setSelectedCard(isSelected ? null : d)
+              }}
+              onMouseDown={(e) => startDrag(e, key)}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.zIndex = '500'
+                if (!draggedId) (e.currentTarget as HTMLElement).style.zIndex = '500'
               }}
               onMouseLeave={(e) => {
-                if (!isSelected) {
+                if (!isSelected && !draggedId) {
                   (e.currentTarget as HTMLElement).style.zIndex = String(style?.zIndex || i)
                 }
               }}
