@@ -119,6 +119,7 @@
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   animation: cardSpawn 0.5s ease forwards;
   opacity: 0;
+  border-radius: 2px;
 }
 
 @keyframes cardSpawn {
@@ -130,7 +131,101 @@
   transform: translateY(-6px);
   border-color: rgba(0, 242, 255, 0.3);
   background: rgba(15, 15, 30, 0.8);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(0, 242, 255, 0.06),
+    inset 0 0 40px rgba(0, 242, 255, 0.02);
+}
+
+/* ── Top Accent Bar ── */
+.card-top-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon-blue, #00f2ff), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.player-card:hover .card-top-accent {
+  opacity: 1;
+}
+
+/* ── Scanline Sweep ── */
+.card-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 242, 255, 0.03) 50%,
+    transparent 100%
+  );
+  background-size: 100% 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.player-card:hover .card-scanline {
+  opacity: 1;
+}
+
+/* ── Corner Notch Decorations ── */
+.card-corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: rgba(0, 242, 255, 0.3);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.player-card:hover .card-corner {
+  opacity: 1;
+}
+
+.card-corner.tl { top: 4px; left: 4px; border-top-width: 1px; border-left-width: 1px; }
+.card-corner.tr { top: 4px; right: 4px; border-top-width: 1px; border-right-width: 1px; }
+.card-corner.bl { bottom: 4px; left: 4px; border-bottom-width: 1px; border-left-width: 1px; }
+.card-corner.br { bottom: 4px; right: 4px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* ── Status Row ── */
+.card-status-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  margin-bottom: -5px;
+}
+
+.status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 6px #00ff88;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.status-tag {
+  font-size: 0.28rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .card-edge-glow {
@@ -146,12 +241,12 @@
   opacity: 0.3;
 }
 
-/* Quick Actions on the card */
+/* ─── QUICK ACTIONS ─── */
 .card-quick-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  opacity: 0.4;
+  gap: 16px;
+  margin-top: 12px;
+  opacity: 0.6;
   transition: opacity 0.3s;
 }
 
@@ -160,8 +255,8 @@
 }
 
 .action-ic.small {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,12 +265,85 @@
   color: var(--neon-blue, #00f2ff);
   text-decoration: none;
   transition: all 0.3s;
+  border-radius: 4px;
 }
 
 .action-ic.small:hover {
   background: var(--neon-blue, #00f2ff);
   color: #000;
-  box-shadow: 0 0 10px var(--neon-blue, #00f2ff);
+  box-shadow: 0 0 15px var(--neon-blue, #00f2ff);
+  transform: scale(1.1);
+}
+
+/* ─── PLAYER CARD COLOR VARIANTS ─── */
+.core-operators-grid .player-card:nth-child(1),
+.core-operators-grid .player-card:nth-child(2) {
+  --card-glow: rgba(255, 215, 0, 0.4);
+  --card-accent: #ffd700; /* Gold for Presidents */
+}
+
+.core-operators-grid .player-card:nth-child(3),
+.core-operators-grid .player-card:nth-child(4),
+.core-operators-grid .player-card:nth-child(5) {
+  --card-glow: rgba(255, 0, 110, 0.4);
+  --card-accent: #ff006e; /* Pink for VP/Director/Secretary */
+}
+
+.core-operators-grid .player-card:nth-child(n+6) {
+  --card-glow: rgba(58, 12, 163, 0.4);
+  --card-accent: #4cc9f0; /* Electric Blue for Coordinators */
+}
+
+.core-operators-grid .player-card {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.core-operators-grid .player-card:hover {
+  border-color: var(--card-accent);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 0 20px var(--card-glow);
+}
+
+.core-operators-grid .player-card .card-top-accent {
+  background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+}
+
+.core-operators-grid .player-card .player-role {
+  color: var(--card-accent);
+  opacity: 0.8;
+}
+
+.core-operators-grid .player-card .status-dot {
+  background: var(--card-accent);
+  box-shadow: 0 0 8px var(--card-accent);
+}
+
+.core-operators-grid .player-card .player-avatar {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.core-operators-grid .player-card:hover .player-avatar {
+  border-color: var(--card-accent);
+}
+
+.core-operators-grid .player-card .action-ic.small {
+  color: var(--card-accent);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.core-operators-grid .player-card .action-ic.small:hover {
+  background: var(--card-accent);
+  color: #000;
+  box-shadow: 0 0 10px var(--card-accent);
+}
+
+.core-operators-grid .player-card .card-hover-cta {
+  color: rgba(255, 255, 255, 0.1);
+}
+
+.core-operators-grid .player-card:hover .card-hover-cta {
+  color: var(--card-accent);
 }
 
 /* Avatar */
@@ -377,9 +545,41 @@
 
 .contact-value {
   font-size: 0.55rem;
-  color: #aaa;
+  color: var(--neon-blue, #00f2ff);
   letter-spacing: 1px;
-  font-family: monospace;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.value-with-copy {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.copy-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.3s;
+  opacity: 0.6;
+}
+
+.copy-btn:hover {
+  color: white;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.copy-btn.copied {
+  color: #00f2ff;
+  opacity: 1;
 }
 
 .contact-cta-action {
@@ -414,7 +614,60 @@
 
 .developer-section .player-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 340px;
+  --card-glow: rgba(180, 100, 255, 0.4);
+  --card-accent: #b464ff;
+}
+
+.developer-section .player-card:hover {
+  border-color: var(--card-accent);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 0 20px var(--card-glow);
+}
+
+.developer-section .card-top-accent {
+  background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+}
+
+.developer-section .card-corner {
+  border-color: rgba(180, 100, 255, 0.4);
+}
+
+.developer-section .card-edge-glow {
+  border-color: var(--card-accent);
+}
+
+.developer-section .status-dot {
+  background: var(--card-accent);
+  box-shadow: 0 0 6px var(--card-accent);
+}
+
+.developer-section .card-hover-cta {
+  color: rgba(180, 100, 255, 0.15);
+}
+
+.developer-section .player-card:hover .card-hover-cta {
+  color: var(--card-accent);
+}
+
+.developer-section .player-role {
+  color: var(--card-accent);
+}
+
+.developer-section .player-card:hover .player-avatar {
+  border-color: var(--card-accent);
+}
+
+.developer-section .action-ic.small {
+  color: var(--card-accent);
+  border-color: rgba(180, 100, 255, 0.15);
+}
+
+.developer-section .action-ic.small:hover {
+  background: var(--card-accent);
+  color: #000;
+  box-shadow: 0 0 10px var(--card-accent);
 }
 
 /* Footer */
@@ -561,7 +814,7 @@
 
   .team-grid,
   .dept-members {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 15px;
   }
 
@@ -577,12 +830,23 @@
   .profile-contact-list { gap: 10px; }
   .contact-item { 
     flex-direction: column; 
-    align-items: flex-start; 
+    align-items: stretch; 
     gap: 12px;
     padding: 15px;
+    box-sizing: border-box;
+    width: 100%;
   }
-  .contact-cta-action { width: 100%; justify-content: center; }
-  .contact-value { font-size: 0.45rem; }
+  .contact-cta-action { 
+    width: 100%; 
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 0.35rem; /* Smaller font on mobile to prevent overflow */
+  }
+  .contact-value { 
+    font-size: 0.42rem; 
+    word-break: break-all; /* Prevent long strings from pushing button out */
+  }
 
   .roster-footer {
     padding: 60px 20px 160px;
@@ -592,5 +856,4 @@
     flex-direction: column;
     gap: 8px;
   }
-}
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Phone, Mail, MessageCircle, X, ChevronRight } from 'lucide-react';
+import { Phone, Mail, MessageCircle, X, ChevronRight, Copy, Check } from 'lucide-react';
 import './ContactPage.css';
 
 interface TeamMember {
@@ -53,6 +53,15 @@ const CORE_TEAM: TeamMember[] = [
     whatsapp: '7206260370'
   },
   { 
+    id: 'c6', 
+    name: 'GAGAN CHOUDHARY', 
+    role: 'FEST SECRETARY',
+    photo: '/team/Gagan.jpeg',
+    phone: '9257476272',
+    email: 'Gaganchoudhary2603@gmail.com',
+    whatsapp: '9257476272'
+  },
+  { 
     id: 'c4', 
     name: 'GAURI VERMA', 
     role: 'FEST COORDINATOR', 
@@ -70,22 +79,13 @@ const CORE_TEAM: TeamMember[] = [
     phone: '7982047323',
     whatsapp: '7982047323'
   },
-  { 
-    id: 'c6', 
-    name: 'GAGAN CHOUDHARY', 
-    role: 'FEST SECRETARY',
-    photo: '/team/Gagan.jpeg',
-    phone: '9257476272',
-    email: 'Gaganchoudhary2603@gmail.com',
-    whatsapp: '9257476272'
-  },
 ];
 
 const DEV_TEAM: TeamMember[] = [
   { 
     id: 'h1', 
     name: 'HARSHIT', 
-    role: '', // Role removed as requested since it's now the section title
+    role: 'TECH HEAD',
     photo: '/team/harshit.jpeg',
     email: 'harshit.23179@sscbs.du.ac.in',
     linkedin: 'https://www.linkedin.com/in/harshitheya/',
@@ -96,9 +96,16 @@ const DEV_TEAM: TeamMember[] = [
 
 export default function ContactPage() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const renderGrid = (members: TeamMember[], startDelay: number = 0) => (
-    <div className="team-grid">
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const renderGrid = (members: TeamMember[], startDelay: number = 0, className: string = '') => (
+    <div className={`team-grid ${className}`}>
       {members.map((member, i) => (
         <div
           key={member.id}
@@ -106,6 +113,15 @@ export default function ContactPage() {
           style={{ animationDelay: `${(i + startDelay) * 0.05}s` }}
           onClick={() => setSelectedMember(member)}
         >
+          <div className="card-top-accent" />
+          <div className="card-scanline" />
+          <div className="card-corner tl" /><div className="card-corner tr" /><div className="card-corner bl" /><div className="card-corner br" />
+
+          <div className="card-status-row">
+            <span className="status-dot" />
+            <span className="status-tag">ONLINE</span>
+          </div>
+
           <div className="player-avatar">
             {member.photo ? (
               <img src={member.photo} alt={member.name} className="player-photo" />
@@ -180,7 +196,7 @@ export default function ContactPage() {
           <span>CORE_OPERATORS</span>
           <div className="section-line" />
         </div>
-        {renderGrid(CORE_TEAM, 0)}
+        {renderGrid(CORE_TEAM, 0, 'core-operators-grid')}
       </section>
 
       {/* Profile Modal */}
@@ -209,7 +225,16 @@ export default function ContactPage() {
                     <div className="contact-item">
                       <div className="contact-info">
                         <span className="contact-label">SIGNAL:</span>
-                        <span className="contact-value">{selectedMember.phone}</span>
+                        <div className="value-with-copy">
+                          <span className="contact-value">{selectedMember.phone}</span>
+                          <button 
+                            className={`copy-btn ${copiedId === 'phone' ? 'copied' : ''}`}
+                            onClick={() => handleCopy(selectedMember.phone!, 'phone')}
+                            title="Copy to clipboard"
+                          >
+                            {copiedId === 'phone' ? <Check size={12} /> : <Copy size={12} />}
+                          </button>
+                        </div>
                       </div>
                       <a href={`tel:${selectedMember.phone}`} className="contact-cta-action">
                         <Phone size={14} />
@@ -222,7 +247,16 @@ export default function ContactPage() {
                     <div className="contact-item">
                       <div className="contact-info">
                         <span className="contact-label">INTEL_NODE:</span>
-                        <span className="contact-value">{selectedMember.email}</span>
+                        <div className="value-with-copy">
+                          <span className="contact-value">{selectedMember.email}</span>
+                          <button 
+                            className={`copy-btn ${copiedId === 'email' ? 'copied' : ''}`}
+                            onClick={() => handleCopy(selectedMember.email!, 'email')}
+                            title="Copy to clipboard"
+                          >
+                            {copiedId === 'email' ? <Check size={12} /> : <Copy size={12} />}
+                          </button>
+                        </div>
                       </div>
                       <a href={`mailto:${selectedMember.email}`} className="contact-cta-action">
                         <Mail size={14} />
