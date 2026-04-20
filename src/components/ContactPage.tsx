@@ -17,7 +17,7 @@ const CORE_TEAM: TeamMember[] = [
     id: 'c1', 
     name: 'NAYAN DHAR', 
     role: 'PRESIDENT', 
-    photo: '/team/Puri Sahab.png',
+    photo: '',
     email: 'Nayan.23075@sscbs.du.ac.in', 
     phone: '9958289765',
     whatsapp: '9958289765'
