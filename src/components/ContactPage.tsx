@@ -53,6 +53,11 @@ const CORE_TEAM: TeamMember[] = [
     phone: '7982047323',
     whatsapp: '7982047323'
   },
+  { 
+    id: 'c6', 
+    name: 'GAGAN', 
+    role: 'FEST SECRETARY'
+  },
 ];
 
 export default function ContactPage() {
