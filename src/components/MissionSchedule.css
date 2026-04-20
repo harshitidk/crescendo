@@ -109,6 +109,13 @@
   color: var(--neon-blue);
 }
 
+.tag-completed {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: line-through;
+}
+
 .tag-tentative {
   background: rgba(255, 157, 0, 0.1);
   border: 1px solid var(--arcade-orange);

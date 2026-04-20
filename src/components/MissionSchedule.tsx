@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import RegisterModal from './RegisterModal';
 import './MissionSchedule.css';
 
-type MissionStatus = 'LIVE' | 'UPCOMING' | 'TENTATIVE';
+type MissionStatus = 'LIVE' | 'UPCOMING' | 'COMPLETED';
 
 interface Mission {
   id: string;
@@ -53,14 +54,26 @@ const MISSIONS: Mission[] = [
     name: 'DAY 2',
     time: '09:00',
     date: 'APRIL 24',
-    status: 'TENTATIVE',
+    status: 'UPCOMING',
     description: 'The grand finale featuring the neon concert, prize distributions, and closing ceremony.',
     venue: 'Main Stage',
     audience: 'Open to All College Students'
   }
 ];
 
+function getMissionStatus(dateStr: string): MissionStatus {
+  const missionDate = new Date(`${dateStr}, 2026`);
+  missionDate.setHours(0, 0, 0, 0);
+  const checkDate = new Date();
+  checkDate.setHours(0, 0, 0, 0);
+
+  if (checkDate.getTime() > missionDate.getTime()) return 'COMPLETED';
+  if (checkDate.getTime() === missionDate.getTime()) return 'LIVE';
+  return 'UPCOMING';
+}
+
 export default function MissionSchedule() {
+  const navigate = useNavigate();
   const [activeMissionId, setActiveMissionId] = useState<string | null>(null);
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const [dayProgress, setDayProgress] = useState(0);
@@ -80,7 +93,8 @@ export default function MissionSchedule() {
         setFocusedIndex(prev => Math.max(prev - 1, 0));
       } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        const mission = MISSIONS[focusedIndex];
+        const computedMissions = MISSIONS.map(m => ({ ...m, status: getMissionStatus(m.date) }));
+        const mission = computedMissions[focusedIndex];
         if (activeMissionId === mission.id) {
           setActiveMissionId(null);
         } else {
@@ -118,7 +132,16 @@ export default function MissionSchedule() {
     setActiveMissionId(prev => prev === missionId ? null : missionId);
   };
 
-  const activeMission = MISSIONS.find(m => m.id === activeMissionId);
+  const computedMissions = MISSIONS.map(m => ({ ...m, status: getMissionStatus(m.date) }));
+  const activeMission = computedMissions.find(m => m.id === activeMissionId);
+
+  const handleRegisterClick = () => {
+    if (!activeMission) return;
+    if (activeMission.id === 'm1' || activeMission.id === 'm3') navigate('/prom');
+    else if (activeMission.id === 'm4') window.open('https://forms.gle/YMtcRaATu6NddyJC8', '_blank');
+    else if (activeMission.id === 'm5') window.open('https://forms.gle/mu4qU5cSUpRy7wKk9', '_blank');
+    else setShowRegister(true);
+  };
 
   return (
     <>
@@ -128,10 +151,10 @@ export default function MissionSchedule() {
       ref={containerRef}
     >
       <div className="mission-list">
-        {MISSIONS.map((mission, index) => {
+        {computedMissions.map((mission, index) => {
           const isActive = activeMissionId === mission.id;
           const isFocused = focusedIndex === index;
-          const isTentative = mission.status === 'TENTATIVE';
+          const isTentative = false; // We no longer use tentative
 
           return (
             <div 
@@ -191,10 +214,10 @@ export default function MissionSchedule() {
 
           <button
             className="panel-register-btn"
-            disabled={activeMission.status === 'TENTATIVE'}
-            onClick={() => { if (activeMission.status !== 'TENTATIVE') setShowRegister(true); }}
+            disabled={activeMission.status === 'COMPLETED'}
+            onClick={activeMission.status === 'COMPLETED' ? undefined : handleRegisterClick}
           >
-            {activeMission.status === 'TENTATIVE' ? 'AWAITING MISSION START' : 'REGISTER NOW'}
+            {activeMission.status === 'COMPLETED' ? 'MISSION ENDED' : 'REGISTER NOW'}
           </button>
         </div>
       )}
