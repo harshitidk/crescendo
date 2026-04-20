@@ -403,27 +403,27 @@
 
   .prom-registration-split {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 15px;
     width: 100%;
-    max-width: 340px;
   }
 
   .prom-reg-card {
     width: 100%;
-    padding: 15px 20px;
+    max-width: 300px; /* Slightly narrower to fit small screens safely */
+    padding: 20px 15px;
     border-radius: 12px;
   }
 
   .prom-card-content {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    gap: 15px;
-    text-align: left;
+    gap: 8px;
+    text-align: center;
   }
 
   .prom-card-icon {
-    margin-bottom: 0;
+    margin-bottom: 5px;
   }
 
   .prom-card-icon svg {
@@ -432,19 +432,19 @@
   }
 
   .prom-card-title {
-    margin: 0;
-    font-size: 0.55rem;
-    flex: 1;
+    margin: 0 0 5px;
+    font-size: 0.75rem;
   }
 
   .prom-card-desc {
-    display: none; /* Hide description on mobile to save space */
+    display: none; /* Hide description on mobile to save vertical space */
   }
 
   .prom-cta-btn {
-    width: auto;
+    width: 100%; /* Fill the constrained width */
     padding: 10px;
-    font-size: 0.6rem;
+    font-size: 0.55rem;
+    justify-content: center;
   }
 
   .btn-icon {
