@@ -24,12 +24,12 @@
   opacity: 1;
 }
 
-/* Base Night Sky */
+/* Base Night Sky / Background Image */
 .prom-bg-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #240b36 100%);
-  opacity: 0.8;
+  background: url('/prom_bg.png') center/cover no-repeat;
+  opacity: 0.9; /* Slight dim to let the vignette and arcade grid pop */
   z-index: 1;
 }
 
