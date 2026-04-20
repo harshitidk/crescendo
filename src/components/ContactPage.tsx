@@ -17,6 +17,7 @@ const CORE_TEAM: TeamMember[] = [
     id: 'c1', 
     name: 'NAYAN DHAR', 
     role: 'PRESIDENT', 
+    photo: '/team/nayan.jpg',
     email: 'Nayan.23075@sscbs.du.ac.in', 
     phone: '9958289765',
     whatsapp: '9958289765'
@@ -25,6 +26,7 @@ const CORE_TEAM: TeamMember[] = [
     id: 'c2', 
     name: 'VAIBHAV', 
     role: 'VICE PRESIDENT', 
+    photo: '/team/vaibhav.jpg',
     email: 'vaibhav.23418@sscbs.du.ac.in', 
     phone: '7834802213',
     whatsapp: '7834802213'
@@ -33,6 +35,7 @@ const CORE_TEAM: TeamMember[] = [
     id: 'c3', 
     name: 'PREETI', 
     role: 'FEST DIRECTOR', 
+    photo: '/team/preeti.jpg',
     email: 'Preeti.23266@sscbs.du.ac.in', 
     phone: '7206260370',
     whatsapp: '7206260370'
@@ -49,6 +52,7 @@ const CORE_TEAM: TeamMember[] = [
     id: 'c5', 
     name: 'KARAN RAINA', 
     role: 'FEST COORDINATOR', 
+    photo: '/team/karan.jpg',
     email: 'karan.24118@sscbs.du.ac.in', 
     phone: '7982047323',
     whatsapp: '7982047323'
