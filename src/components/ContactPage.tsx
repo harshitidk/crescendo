@@ -153,37 +153,59 @@ export default function ContactPage() {
             </div>
 
             <div className="profile-contact-section">
-              <h3 className="section-heading">// DIRECT LINK</h3>
-              <div className="profile-contact-btns">
+              <h3 className="section-heading">// COMMUNICATIONS_LINK</h3>
+              <div className="profile-contact-list">
                 {selectedMember.phone ? (
-                  <a href={`tel:${selectedMember.phone}`} className="contact-action-btn">
-                    <Phone size={18} />
-                    <span>CALL</span>
-                  </a>
+                  <div className="contact-item">
+                    <div className="contact-info">
+                      <span className="contact-label">SIGNAL:</span>
+                      <span className="contact-value">{selectedMember.phone}</span>
+                    </div>
+                    <a href={`tel:${selectedMember.phone}`} className="contact-cta-action">
+                      <Phone size={14} />
+                      <span>INITIALIZE CALL</span>
+                    </a>
+                  </div>
                 ) : (
-                  <div className="contact-action-btn disabled">
-                    <Phone size={18} />
-                    <span>CALL UNKNOWN</span>
+                  <div className="contact-item disabled">
+                    <div className="contact-info">
+                      <span className="contact-label">SIGNAL:</span>
+                      <span className="contact-value">ENCRYPTED/UNKNOWN</span>
+                    </div>
                   </div>
                 )}
                 
                 {selectedMember.email ? (
-                  <a href={`mailto:${selectedMember.email}`} className="contact-action-btn">
-                    <Mail size={18} />
-                    <span>EMAIL</span>
-                  </a>
+                  <div className="contact-item">
+                    <div className="contact-info">
+                      <span className="contact-label">INTEL_NODE:</span>
+                      <span className="contact-value">{selectedMember.email}</span>
+                    </div>
+                    <a href={`mailto:${selectedMember.email}`} className="contact-cta-action">
+                      <Mail size={14} />
+                      <span>SEND TRANSMISSION</span>
+                    </a>
+                  </div>
                 ) : (
-                  <div className="contact-action-btn disabled">
-                    <Mail size={18} />
-                    <span>EMAIL UNKNOWN</span>
+                  <div className="contact-item disabled">
+                    <div className="contact-info">
+                      <span className="contact-label">INTEL_NODE:</span>
+                      <span className="contact-value">REDACTED</span>
+                    </div>
                   </div>
                 )}
 
                 {selectedMember.whatsapp && (
-                  <a href={`https://wa.me/${selectedMember.whatsapp.replace(/[^0-9]/g, '')}`} className="contact-action-btn" target="_blank" rel="noopener noreferrer">
-                    <MessageCircle size={18} />
-                    <span>WHATSAPP</span>
-                  </a>
+                  <div className="contact-item">
+                    <div className="contact-info">
+                      <span className="contact-label">SECURE_CHAT:</span>
+                      <span className="contact-value">WHATSAPP_ID_{selectedMember.whatsapp}</span>
+                    </div>
+                    <a href={`https://wa.me/${selectedMember.whatsapp.replace(/[^0-9]/g, '')}`} className="contact-cta-action" target="_blank" rel="noopener noreferrer">
+                      <MessageCircle size={14} />
+                      <span>START_CHAT</span>
+                    </a>
+                  </div>
                 )}
               </div>
             </div>

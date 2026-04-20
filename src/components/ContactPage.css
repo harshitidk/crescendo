@@ -337,35 +337,73 @@
   font-size: 0.45rem;
   color: #555;
   letter-spacing: 2px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-.profile-contact-btns {
-  display: flex;
-  gap: 12px;
-}
-
-.contact-action-btn {
-  flex: 1;
+.profile-contact-list {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+}
+
+.contact-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  padding: 18px 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  color: #777;
-  text-decoration: none;
-  font-size: 0.38rem;
-  letter-spacing: 1.5px;
+  gap: 15px;
   transition: all 0.3s;
 }
 
-.contact-action-btn:hover {
+.contact-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 242, 255, 0.15);
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-label {
+  font-size: 0.32rem;
+  color: #444;
+  letter-spacing: 1px;
+}
+
+.contact-value {
+  font-size: 0.55rem;
+  color: #aaa;
+  letter-spacing: 1px;
+  font-family: monospace;
+}
+
+.contact-cta-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
   background: rgba(0, 242, 255, 0.08);
-  border-color: var(--neon-blue, #00f2ff);
+  border: 1px solid var(--neon-blue, #00f2ff);
   color: var(--neon-blue, #00f2ff);
-  box-shadow: 0 0 15px rgba(0, 242, 255, 0.12);
+  text-decoration: none;
+  font-size: 0.38rem;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+}
+
+.contact-cta-action:hover {
+  background: var(--neon-blue, #00f2ff);
+  color: #000;
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+}
+
+.contact-item.disabled {
+  opacity: 0.3;
+  filter: grayscale(1);
 }
 
 /* Footer */
@@ -422,7 +460,15 @@
   .profile-name { font-size: 0.85rem; }
   .profile-avatar-lg { width: 80px; height: 80px; font-size: 1.1rem; }
 
-  .profile-contact-btns { flex-direction: column; }
+  .profile-contact-list { gap: 10px; }
+  .contact-item { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 12px;
+    padding: 15px;
+  }
+  .contact-cta-action { width: 100%; justify-content: center; }
+  .contact-value { font-size: 0.45rem; }
 
   .roster-footer {
     flex-direction: column;
