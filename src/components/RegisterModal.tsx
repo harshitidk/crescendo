@@ -8,6 +8,8 @@ interface RegisterModalProps {
 }
 
 const FORM_LINKS = {
+  promCbs: 'https://forms.gle/hY3BrNTPDseCUJYM9',
+  promGuest: 'https://forms.gle/wbjnrqZUmAZVE8S99',
   day1: 'https://forms.gle/YMtcRaATu6NddyJC8',
   day2: 'https://forms.gle/mu4qU5cSUpRy7wKk9',
 };
@@ -75,7 +77,37 @@ export default function RegisterModal({ isOpen, onClose, anchorRef }: RegisterMo
 
         <p className="reg-subtitle">CHOOSE YOUR MISSION DAY</p>
 
-        <div className="reg-options">
+        <div className="reg-options" style={{ maxHeight: '60vh', overflowY: 'auto', paddingRight: '5px' }}>
+          <a
+            href={FORM_LINKS.promCbs}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="reg-option-btn"
+            style={{ borderColor: 'rgba(255, 94, 149, 0.3)' }}
+          >
+            <span className="reg-option-indicator" style={{ color: 'var(--neon-pink)' }}>00</span>
+            <div className="reg-option-info">
+              <span className="reg-option-name" style={{ color: 'var(--neon-pink)' }}>PROM (CBS)</span>
+              <span className="reg-option-date">APRIL 22</span>
+            </div>
+            <span className="reg-option-arrow" style={{ color: 'var(--neon-pink)' }}>→</span>
+          </a>
+
+          <a
+            href={FORM_LINKS.promGuest}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="reg-option-btn"
+            style={{ borderColor: 'rgba(188, 0, 255, 0.3)' }}
+          >
+            <span className="reg-option-indicator" style={{ color: 'var(--neon-purple)' }}>00</span>
+            <div className="reg-option-info">
+              <span className="reg-option-name" style={{ color: 'var(--neon-purple)' }}>PROM (GUEST)</span>
+              <span className="reg-option-date">APRIL 22</span>
+            </div>
+            <span className="reg-option-arrow" style={{ color: 'var(--neon-purple)' }}>→</span>
+          </a>
+
           <a
             href={FORM_LINKS.day1}
             target="_blank"
