@@ -139,9 +139,11 @@ export default function DumpPage() {
 
       const newDump = payload as ArcadeDump
       setDumps((prev) => {
+        const newHandle = newDump.instagram.toLowerCase().trim().replace(/^@/, '')
+        
         // Prevent duplicate if we already have this dump
-        if (prev.some(d => d.id === newDump.id || d.instagram.toLowerCase() === newDump.instagram.toLowerCase())) {
-          return prev.map(d => (d.instagram.toLowerCase() === newDump.instagram.toLowerCase() && (d as any).status === 'optimistic') ? newDump : d)
+        if (prev.some(d => d.id === newDump.id || d.instagram.toLowerCase().trim().replace(/^@/, '') === newHandle)) {
+          return prev.map(d => (d.instagram.toLowerCase().trim().replace(/^@/, '') === newHandle && (d as any).status === 'optimistic') ? newDump : d)
         }
         
         const updated = deduplicateByHandle([newDump, ...prev]).slice(0, 200)
@@ -263,7 +265,9 @@ export default function DumpPage() {
 
     setDumps((prev) => {
       // Check for handle duplicate even in optimistic state
-      if (prev.some(d => d.instagram.toLowerCase() === instagram.toLowerCase())) {
+      const normalized = instagram.toLowerCase().trim().replace(/^@/, '')
+
+      if (prev.some(d => d.instagram.toLowerCase().trim().replace(/^@/, '') === normalized)) {
          setDropping(false)
          return prev 
       }
