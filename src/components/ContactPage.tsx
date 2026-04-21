@@ -86,28 +86,28 @@ const FACULTY_TEAM: TeamMember[] = [
     id: 'f1', 
     name: 'DR. SATISH KUMAR GOEL', 
     role: 'TEACHER IN CHARGE',
-    photo: '', 
+    photo: '/team/satish.jpeg', 
     email: '' 
   },
   { 
     id: 'f2', 
     name: 'DR. RISHI RAJAN SINGH', 
     role: 'TEACHER IN CHARGE',
-    photo: '', 
+    photo: '/team/rishi.jpg', 
     email: '' 
   },
   { 
     id: 'f3', 
     name: 'DR. KUMAR BIJOY', 
     role: 'TEACHER IN CHARGE',
-    photo: '', 
+    photo: '/team/KB.jpg', 
     email: '' 
   },
   { 
     id: 'f4', 
     name: 'DR. TUSHAR MARWAHA', 
     role: 'TEACHER IN CHARGE',
-    photo: '', 
+    photo: '/team/tushar.jpg', 
     email: '' 
   },
 ];
