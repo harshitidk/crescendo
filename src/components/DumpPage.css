@@ -8,8 +8,10 @@
   min-height: 100vh;
   background: #050510;
   overflow-x: hidden;
+  overflow-y: auto;
   font-family: 'Press Start 2P', monospace;
   color: #fff;
+  padding-bottom: 120px; /* Space for the footer/nav */
 }
 
 /* Background grid */
