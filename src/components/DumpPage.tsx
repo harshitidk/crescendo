@@ -48,7 +48,9 @@ function saveLocalDumps(dumps: ArcadeDump[]) {
 function deduplicateByHandle(dumps: ArcadeDump[]): ArcadeDump[] {
   const seen = new Set<string>()
   return dumps.filter(d => {
-    const handle = d.instagram.toLowerCase().trim()
+    // Normalize by lowercasing, trimming, and removing leading '@'
+    const handle = d.instagram.toLowerCase().trim().replace(/^@/, '')
+    if (!handle) return false // Ignore empty handles
     if (seen.has(handle)) return false
     seen.add(handle)
     return true
