@@ -79,6 +79,15 @@ const CORE_TEAM: TeamMember[] = [
     phone: '7982047323',
     whatsapp: '7982047323'
   },
+  // { 
+  //   id: 'c6', 
+  //   name: 'AINESH RAJ', 
+  //   role: 'SEURITY HEAD', 
+  //   photo: '/team/Ainesh.jpeg',
+  //   email: 'ainesh.23136@sscbs.du.ac.in', 
+  //   phone: '9709340856',
+  //   whatsapp: '9709340856'
+  // },
 ];
 
 const FACULTY_TEAM: TeamMember[] = [

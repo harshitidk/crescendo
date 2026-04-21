@@ -191,7 +191,6 @@ export default function DumpPage() {
       const container = containerRef.current
       if (!container) return
 
-    const rect = container.getBoundingClientRect()
       const deltaX = e.clientX - dragStart.x
       const deltaY = e.clientY - dragStart.y
 
