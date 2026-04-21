@@ -10,7 +10,6 @@ interface RegisterModalProps {
 
 const FORM_LINKS = {
   promCbs: 'https://forms.gle/hY3BrNTPDseCUJYM9',
-  promGuest: 'https://forms.gle/wbjnrqZUmAZVE8S99',
   day1: 'https://forms.gle/YMtcRaATu6NddyJC8',
   day2: 'https://forms.gle/mu4qU5cSUpRy7wKk9',
 };

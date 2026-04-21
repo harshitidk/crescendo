@@ -37,7 +37,7 @@ const MISSIONS: Mission[] = [
     description: 'A magical evening of music, dance, and memories under the neon lights.',
     venue: 'College Auditorium',
     link: '/#register',
-    audience: 'SSCBS Students + 1 Guest'
+    audience: 'SSCBS Students Only'
   },
   {
     id: 'm4',

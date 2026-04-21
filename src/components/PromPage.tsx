@@ -71,7 +71,7 @@ export default function PromPage() {
 
         <div className="prom-registration-split">
           {/* Card 1: SSCBS Students */}
-          <div className="prom-reg-card insider-card">
+          <div className="prom-reg-card insider-card" style={{ maxWidth: '450px', margin: '0 auto' }}>
             <div className="prom-card-bg-glow" />
             <div className="prom-card-content">
               <div className="prom-card-icon">
@@ -85,26 +85,6 @@ export default function PromPage() {
                 onClick={() => window.open('https://forms.gle/hY3BrNTPDseCUJYM9', '_blank')}
               >
                 Register as CBS Student
-                <Navigation size={16} className="btn-icon" />
-              </button>
-            </div>
-          </div>
-
-          {/* Card 2: Guest Entry */}
-          <div className="prom-reg-card guest-card">
-            <div className="prom-card-bg-glow" />
-            <div className="prom-card-content">
-              <div className="prom-card-icon">
-                <Heart size={32} />
-              </div>
-              <h2 className="prom-card-title">Guest Entry</h2>
-              <p className="prom-card-desc">For participants beyond SSCBS. Join the celebration.</p>
-              
-              <button 
-                className="prom-cta-btn guest-btn"
-                onClick={() => window.open('https://forms.gle/wbjnrqZUmAZVE8S99', '_blank')}
-              >
-                Register as Guest
                 <Navigation size={16} className="btn-icon" />
               </button>
             </div>
