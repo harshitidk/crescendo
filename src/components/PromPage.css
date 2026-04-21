@@ -232,9 +232,8 @@
 }
 
 /* Registration Cards */
-.prom-registration-split {
+.prom-registration-container {
   display: flex;
-  gap: 30px;
   width: 100%;
   justify-content: center;
   perspective: 1000px;
@@ -379,7 +378,7 @@
     font-size: 0.75rem;
   }
 
-  .prom-registration-split {
+  .prom-registration-container {
     flex-direction: column;
     align-items: center;
     gap: 15px;

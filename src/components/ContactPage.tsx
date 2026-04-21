@@ -134,6 +134,36 @@ const DEV_TEAM: TeamMember[] = [
   },
 ];
 
+const DEPT_HEADS: TeamMember[] = [
+  { 
+    id: 'dh1', 
+    name: 'ASHISH PURI', 
+    role: 'HEAD OF SPONSORSHIPS', 
+    photo: '/team/Ashish.jpeg',
+    email: 'ashish.23283@sscbs.du.ac.in', 
+    phone: '7814481851',
+    whatsapp: '7814481851'
+  },
+  { 
+    id: 'dh2', 
+    name: 'UTKARSH KUMAR', 
+    role: 'HEAD OF MARKETING', 
+    photo: '/team/Utkarsh.jpeg',
+    email: 'utkarsh.23417@sscbs.du.ac.in', 
+    phone: '9835663849',
+    whatsapp: '9835663849'
+  },
+  { 
+    id: 'dh3', 
+    name: 'SAMYAK SINGH', 
+    role: 'HEAD OF HOSPITALITY', 
+    photo: '/team/Samyak.jpg',
+    email: 'samyak.23238@sscbs.du.ac.in', 
+    phone: '9368061981',
+    whatsapp: '9368061981'
+  },
+];
+
 export default function ContactPage() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -223,7 +253,7 @@ export default function ContactPage() {
       <section className="roster-hero">
         <div className="hero-hud">
           <span className="hud-tag">ROSTER_v2.1</span>
-          <span className="hud-tag">OPERATIVES: {FACULTY_TEAM.length + CORE_TEAM.length}</span>
+          <span className="hud-tag">OPERATIVES: {FACULTY_TEAM.length + CORE_TEAM.length + DEPT_HEADS.length + DEV_TEAM.length}</span>
         </div>
         <h1 className="roster-title">THE ROSTER</h1>
         <p className="roster-sub">Meet the legends orchestrating the game.</p>
@@ -239,14 +269,14 @@ export default function ContactPage() {
         {renderGrid(CORE_TEAM, 0, 'core-operators-grid')}
       </section>
 
-      {/* Faculty Section */}
-      <section className="roster-section faculty-section">
+      {/* Department Heads Section */}
+      <section className="roster-section">
         <div className="section-label">
           <div className="section-line" />
-          <span>FACULTY_MENTORS</span>
+          <span>DEPARTMENT_HEADS</span>
           <div className="section-line" />
         </div>
-        {renderGrid(FACULTY_TEAM, CORE_TEAM.length, 'faculty-grid')}
+        {renderGrid(DEPT_HEADS, CORE_TEAM.length)}
       </section>
 
       {/* Profile Modal */}
@@ -384,7 +414,17 @@ export default function ContactPage() {
           <span>DESIGNED AND BUILT BY</span>
           <div className="section-line" />
         </div>
-        {renderGrid(DEV_TEAM, FACULTY_TEAM.length + CORE_TEAM.length)}
+        {renderGrid(DEV_TEAM, CORE_TEAM.length + DEPT_HEADS.length)}
+      </section>
+
+      {/* Faculty Section moved to end */}
+      <section className="roster-section faculty-section">
+        <div className="section-label">
+          <div className="section-line" />
+          <span>FACULTY_MENTORS</span>
+          <div className="section-line" />
+        </div>
+        {renderGrid(FACULTY_TEAM, CORE_TEAM.length + DEPT_HEADS.length + DEV_TEAM.length, 'faculty-grid')}
       </section>
 
       {/* Footer */}

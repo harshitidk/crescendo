@@ -69,9 +69,9 @@ export default function PromPage() {
           </p>
         </header>
 
-        <div className="prom-registration-split">
-          {/* Card 1: SSCBS Students */}
-          <div className="prom-reg-card insider-card" style={{ maxWidth: '450px', margin: '0 auto' }}>
+        <div className="prom-registration-container">
+          {/* SSCBS Students Entry */}
+          <div className="prom-reg-card insider-card">
             <div className="prom-card-bg-glow" />
             <div className="prom-card-content">
               <div className="prom-card-icon">
