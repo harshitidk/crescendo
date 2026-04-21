@@ -81,6 +81,37 @@ const CORE_TEAM: TeamMember[] = [
   },
 ];
 
+const FACULTY_TEAM: TeamMember[] = [
+  { 
+    id: 'f1', 
+    name: 'DR. SATISH KUMAR GOEL', 
+    role: 'TEACHER IN CHARGE',
+    photo: '', 
+    email: '' 
+  },
+  { 
+    id: 'f2', 
+    name: 'DR. RISHI RAJAN SINGH', 
+    role: 'TEACHER IN CHARGE',
+    photo: '', 
+    email: '' 
+  },
+  { 
+    id: 'f3', 
+    name: 'DR. KUMAR BIJOY', 
+    role: 'TEACHER IN CHARGE',
+    photo: '', 
+    email: '' 
+  },
+  { 
+    id: 'f4', 
+    name: 'DR. TUSHAR MARWAHA', 
+    role: 'TEACHER IN CHARGE',
+    photo: '', 
+    email: '' 
+  },
+];
+
 const DEV_TEAM: TeamMember[] = [
   { 
     id: 'h1', 
@@ -183,9 +214,9 @@ export default function ContactPage() {
       <section className="roster-hero">
         <div className="hero-hud">
           <span className="hud-tag">ROSTER_v2.1</span>
-          <span className="hud-tag">PLAYERS: {CORE_TEAM.length}</span>
+          <span className="hud-tag">OPERATIVES: {FACULTY_TEAM.length + CORE_TEAM.length}</span>
         </div>
-        <h1 className="roster-title">THE CORE TEAM</h1>
+        <h1 className="roster-title">THE ROSTER</h1>
         <p className="roster-sub">Meet the legends orchestrating the game.</p>
       </section>
 
@@ -197,6 +228,16 @@ export default function ContactPage() {
           <div className="section-line" />
         </div>
         {renderGrid(CORE_TEAM, 0, 'core-operators-grid')}
+      </section>
+
+      {/* Faculty Section */}
+      <section className="roster-section faculty-section">
+        <div className="section-label">
+          <div className="section-line" />
+          <span>FACULTY_MENTORS</span>
+          <div className="section-line" />
+        </div>
+        {renderGrid(FACULTY_TEAM, CORE_TEAM.length, 'faculty-grid')}
       </section>
 
       {/* Profile Modal */}
@@ -334,7 +375,7 @@ export default function ContactPage() {
           <span>DESIGNED AND BUILT BY</span>
           <div className="section-line" />
         </div>
-        {renderGrid(DEV_TEAM, CORE_TEAM.length)}
+        {renderGrid(DEV_TEAM, FACULTY_TEAM.length + CORE_TEAM.length)}
       </section>
 
       {/* Footer */}

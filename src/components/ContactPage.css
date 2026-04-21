@@ -607,6 +607,65 @@
   filter: grayscale(1);
 }
 
+/* ─── FACULTY SECTION VARIANTS ─── */
+.faculty-section .section-label span {
+  color: #00ff88; /* Emerald for mentors */
+}
+
+.faculty-section .section-line {
+  background: linear-gradient(to right, transparent, rgba(0, 255, 136, 0.2), transparent);
+}
+
+.faculty-grid .player-card {
+  --card-accent: #00ff88;
+  --card-glow: rgba(0, 255, 136, 0.3);
+  border-color: rgba(0, 255, 136, 0.1);
+}
+
+.faculty-grid .player-card:hover {
+  border-color: var(--card-accent);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 0 20px var(--card-glow);
+}
+
+.faculty-grid .player-card .card-top-accent {
+  background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+}
+
+.faculty-grid .player-card .player-role {
+  color: var(--card-accent);
+  opacity: 0.8;
+}
+
+.faculty-grid .player-card .status-dot {
+  background: var(--card-accent);
+  box-shadow: 0 0 8px var(--card-accent);
+}
+
+.faculty-grid .player-card .action-ic.small {
+  color: var(--card-accent);
+  border-color: rgba(0, 255, 136, 0.15);
+}
+
+.faculty-grid .player-card .action-ic.small:hover {
+  background: var(--card-accent);
+  color: #000;
+  box-shadow: 0 0 10px var(--card-accent);
+}
+
+.faculty-grid .player-card:hover .player-avatar {
+  border-color: var(--card-accent);
+}
+
+.faculty-grid .player-card .card-hover-cta {
+  color: rgba(0, 255, 136, 0.1);
+}
+
+.faculty-grid .player-card:hover .card-hover-cta {
+  color: var(--card-accent);
+}
+
 .developer-section .team-grid {
   display: flex;
   justify-content: center;
