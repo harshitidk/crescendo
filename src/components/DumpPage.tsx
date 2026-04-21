@@ -12,6 +12,8 @@ interface CardStyle {
   rotation: number
   zIndex: number
   delay: number
+  offsetX: number
+  offsetY: number
 }
 
 function generateCardStyle(index: number): CardStyle {
@@ -24,7 +26,7 @@ function generateCardStyle(index: number): CardStyle {
     // Add small random offsets for the "random but ordered" feel
     offsetX: randomInRange(-8, 8),
     offsetY: randomInRange(-10, 10),
-  } as any
+  }
 }
 
 // Stored local dumps (so they persist across component remounts within the session)
@@ -41,6 +43,16 @@ function getLocalDumps(): ArcadeDump[] {
 
 function saveLocalDumps(dumps: ArcadeDump[]) {
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dumps.slice(0, 200)))
+}
+
+function deduplicateByHandle(dumps: ArcadeDump[]): ArcadeDump[] {
+  const seen = new Set<string>()
+  return dumps.filter(d => {
+    const handle = d.instagram.toLowerCase().trim()
+    if (seen.has(handle)) return false
+    seen.add(handle)
+    return true
+  })
 }
 
 export default function DumpPage() {
@@ -60,7 +72,7 @@ export default function DumpPage() {
   // Dragging state
   const [draggedId, setDraggedId] = useState<string | null>(null)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
-  const [initialStylePos, setInitialStylePos] = useState({ left: 0, top: 0 })
+  const [initialStylePos, setInitialStylePos] = useState({ x: 0, y: 0 })
 
   const visibleDumps = dumps.slice(0, MAX_VISIBLE)
   const hiddenCount = Math.max(0, dumps.length - MAX_VISIBLE)
@@ -76,23 +88,20 @@ export default function DumpPage() {
 
     getDumps()
       .then((data) => {
-        // Automatically push backward-compatible offline drops to the live backend
         syncLocalDumpsToServer()
-
         if (data.length > 0) {
-          setDumps(data)
-          // Build styles for initial set
+          const unique = deduplicateByHandle(data)
+          setDumps(unique)
           const initialMap = new Map<string, CardStyle>()
-          data.forEach((d, i) => {
+          unique.forEach((d, i) => {
             const id = d.id || `${d.instagram}-${i}`
             initialMap.set(id, generateCardStyle(i))
           })
           setCardStyles(initialMap)
-          saveLocalDumps(data)
+          saveLocalDumps(unique)
         } else {
-          const local = getLocalDumps()
+          const local = deduplicateByHandle(getLocalDumps())
           setDumps(local)
-          // Build styles for local fallback
           const localMap = new Map<string, CardStyle>()
           local.forEach((d, i) => {
             const id = d.id || `${d.instagram}-${i}`
@@ -103,7 +112,7 @@ export default function DumpPage() {
       })
       .catch(() => {
         syncLocalDumpsToServer()
-        const local = getLocalDumps()
+        const local = deduplicateByHandle(getLocalDumps())
         setDumps(local)
         const localMap = new Map<string, CardStyle>()
         local.forEach((d, i) => {
@@ -128,15 +137,13 @@ export default function DumpPage() {
 
       const newDump = payload as ArcadeDump
       setDumps((prev) => {
-        // Prevent duplicate if we already have this dump (from local optimistic update)
-        if (prev.some(d => d.id === newDump.id || (d.instagram === newDump.instagram && (d as any).status === 'optimistic'))) {
-          // If it was optimistic, replace it with the real one
-          return prev.map(d => (d.instagram === newDump.instagram && (d as any).status === 'optimistic') ? newDump : d)
+        // Prevent duplicate if we already have this dump
+        if (prev.some(d => d.id === newDump.id || d.instagram.toLowerCase() === newDump.instagram.toLowerCase())) {
+          return prev.map(d => (d.instagram.toLowerCase() === newDump.instagram.toLowerCase() && (d as any).status === 'optimistic') ? newDump : d)
         }
         
-        const updated = [newDump, ...prev].slice(0, 200)
+        const updated = deduplicateByHandle([newDump, ...prev]).slice(0, 200)
         
-        // Only generate style for the NEW card
         setCardStyles(prevStyles => {
           const next = new Map(prevStyles)
           const key = newDump.id || `${newDump.instagram}-new`
@@ -176,13 +183,9 @@ export default function DumpPage() {
       const container = containerRef.current
       if (!container) return
 
-      const rect = container.getBoundingClientRect()
+    const rect = container.getBoundingClientRect()
       const deltaX = e.clientX - dragStart.x
       const deltaY = e.clientY - dragStart.y
-
-      // Convert delta px to %
-      const deltaXPercent = (deltaX / rect.width) * 100
-      const deltaYPercent = (deltaY / rect.height) * 100
 
       setCardStyles(prev => {
         const next = new Map(prev)
@@ -190,8 +193,8 @@ export default function DumpPage() {
         if (style) {
           next.set(draggedId, {
             ...style,
-            left: `${initialStylePos.left + deltaXPercent}%`,
-            top: `${initialStylePos.top + deltaYPercent}%`
+            offsetX: initialStylePos.x + deltaX,
+            offsetY: initialStylePos.y + deltaY
           })
         }
         return next
@@ -218,8 +221,8 @@ export default function DumpPage() {
     setDraggedId(id)
     setDragStart({ x: e.clientX, y: e.clientY })
     setInitialStylePos({
-      left: parseFloat(style.left),
-      top: parseFloat(style.top)
+      x: style.offsetX || 0,
+      y: style.offsetY || 0
     })
     
     // Bring to front temporarily
@@ -241,6 +244,11 @@ export default function DumpPage() {
     const instagram = dropInsta.trim().startsWith('@') ? dropInsta.trim() : `@${dropInsta.trim()}`
     const localId = `local-${Date.now()}`
 
+    if (dumps.some(d => d.instagram === instagram)) {
+      setDropping(false)
+      return
+    }
+
     // Optimistic Update
     const newDump: ArcadeDump & { status?: string } = {
       id: localId,
@@ -252,11 +260,12 @@ export default function DumpPage() {
     }
 
     setDumps((prev) => {
-      if (prev.some(d => d.instagram === instagram)) {
+      // Check for handle duplicate even in optimistic state
+      if (prev.some(d => d.instagram.toLowerCase() === instagram.toLowerCase())) {
          setDropping(false)
-         return prev // Don't allow duplicates of same handle in one session
+         return prev 
       }
-      const updated = [newDump, ...prev].slice(0, 200)
+      const updated = deduplicateByHandle([newDump, ...prev]).slice(0, 200)
       
       setCardStyles(prevStyles => {
         const next = new Map(prevStyles)
@@ -367,10 +376,20 @@ export default function DumpPage() {
               style={{
                 zIndex: isSelected || draggedId === key ? 999 : (style?.zIndex || i),
                 animationDelay: isNew ? '0s' : `${(style?.delay || 0)}s`,
-                transform: `translate(${(style as any)?.offsetX || 0}px, ${(style as any)?.offsetY || 0}px) rotate(${style?.rotation || 0}deg)`,
+                transform: `translate(${style?.offsetX || 0}px, ${style?.offsetY || 0}px) rotate(${style?.rotation || 0}deg)`,
+                cursor: draggedId === key ? 'grabbing' : 'grab'
               }}
               onClick={() => {
                 if (!draggedId) setSelectedCard(isSelected ? null : d)
+              }}
+              onMouseDown={(e) => startDrag(e, key)}
+              onMouseEnter={(e) => {
+                if (!draggedId) (e.currentTarget as HTMLElement).style.zIndex = '500'
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected && !draggedId) {
+                  (e.currentTarget as HTMLElement).style.zIndex = String(style?.zIndex || i)
+                }
               }}
             >
               <div className="card-top-tag">TAG_v2.0</div>

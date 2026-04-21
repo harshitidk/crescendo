@@ -2,15 +2,15 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
-import App from './App.tsx'
-import DumpPage from './components/DumpPage.tsx'
-import EventsPage from './components/EventsPage.tsx'
-import ContactPage from './components/ContactPage.tsx'
-import ArcadeLayer from './components/ArcadeLayer.tsx'
-import GlobalNav from './components/GlobalNav.tsx'
+import App from './App'
+import DumpPage from './components/DumpPage'
+import EventsPage from './components/EventsPage'
+import ContactPage from './components/ContactPage'
+import ArcadeLayer from './components/ArcadeLayer'
+import GlobalNav from './components/GlobalNav'
 
-import AboutPage from './components/AboutPage.tsx'
-import PromPage from './components/PromPage.tsx'
+import AboutPage from './components/AboutPage'
+import PromPage from './components/PromPage'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

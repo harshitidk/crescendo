@@ -4,11 +4,9 @@
 
 .contact-roster {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #03030a;
   color: white;
-  overflow-x: hidden;
-  overflow-y: auto;
   padding-bottom: 240px;
   position: relative;
 }

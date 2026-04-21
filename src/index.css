@@ -39,7 +39,8 @@ body {
   width: 100vw;
   min-height: 100vh;
   background-color: transparent;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   color: white;
 }
 

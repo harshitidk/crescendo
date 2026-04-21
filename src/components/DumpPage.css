@@ -7,8 +7,6 @@
   width: 100vw;
   min-height: 100vh;
   background: #050510;
-  overflow-x: hidden;
-  overflow-y: auto;
   font-family: 'Press Start 2P', monospace;
   color: #fff;
   padding-bottom: 120px; /* Space for the footer/nav */
@@ -289,13 +287,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 .dump-card-name {
-  font-size: 0.32rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.35rem;
+  color: var(--arcade-orange);
+  margin-bottom: 4px;
   letter-spacing: 1px;
   text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
 .dump-card-selected {
@@ -306,18 +307,6 @@
   transform: rotate(0deg) scale(1.08) !important;
 }
 
-.dump-card-handle {
-  font-size: 0.5rem;
-  color: var(--neon-purple);
-  margin-bottom: 2px;
-}
-
-.dump-card-insta {
-  font-size: 0.4rem;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.5px;
-}
-
 .dump-card-details {
   margin-top: 8px;
   padding-top: 6px;
@@ -325,11 +314,7 @@
   animation: fadeIn 0.2s ease;
 }
 
-.dump-card-name {
-  font-size: 0.35rem;
-  color: var(--arcade-orange);
-  margin-bottom: 4px;
-}
+
 
 .dump-card-link {
   font-size: 0.32rem;
