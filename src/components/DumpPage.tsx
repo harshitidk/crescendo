@@ -358,46 +358,46 @@ export default function DumpPage() {
       <div 
         className="dump-pit" 
         ref={containerRef}
-        style={{ height: `${Math.max(600, Math.ceil(visibleDumps.length / 5) * 100 + 150)}px` }}
       >
         {visibleDumps.map((d, i) => {
           const key = d.id || `${d.instagram}-${i}`
           const style = cardStyles.get(key)
           const isNew = newCardIds.has(key)
           const isSelected = selectedCard?.id === d.id
+          const username = d.instagram.replace('@', '')
 
           return (
             <div
               key={key}
               className={`dump-card ${isNew ? 'dump-card-new' : ''} ${isSelected ? 'dump-card-selected' : ''} ${draggedId === key ? 'dragging' : ''}`}
               style={{
-                left: style?.left || '20%',
-                top: style?.top || '20%',
-                transform: `rotate(${style?.rotation || 0}deg)`,
                 zIndex: isSelected || draggedId === key ? 999 : (style?.zIndex || i),
                 animationDelay: isNew ? '0s' : `${(style?.delay || 0)}s`,
-                cursor: draggedId === key ? 'grabbing' : 'grab'
+                transform: `rotate(${style?.rotation || 0}deg)`,
               }}
               onClick={() => {
                 if (!draggedId) setSelectedCard(isSelected ? null : d)
               }}
-              onMouseDown={(e) => startDrag(e, key)}
-              onMouseEnter={(e) => {
-                if (!draggedId) (e.currentTarget as HTMLElement).style.zIndex = '500'
-              }}
-              onMouseLeave={(e) => {
-                if (!isSelected && !draggedId) {
-                  (e.currentTarget as HTMLElement).style.zIndex = String(style?.zIndex || i)
-                }
-              }}
             >
-              <div className="dump-card-handle">@</div>
-              <div className="dump-card-insta">{d.instagram}</div>
+              <div className="dump-card-pfp">
+                <img 
+                  src={`https://unavatar.io/instagram/${username}`} 
+                  alt={d.instagram}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${username}&background=random`
+                  }}
+                />
+              </div>
+              
+              <div className="dump-card-info">
+                <div className="dump-card-insta">{d.instagram}</div>
+                <div className="dump-card-name">{d.name}</div>
+              </div>
+
               {isSelected && (
                 <div className="dump-card-details">
-                  <div className="dump-card-name">{d.name}</div>
                   <a
-                    href={`https://instagram.com/${d.instagram.replace('@', '')}`}
+                    href={`https://instagram.com/${username}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="dump-card-link"
