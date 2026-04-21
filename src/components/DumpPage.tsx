@@ -15,11 +15,19 @@ interface CardStyle {
 }
 
 function generateCardStyle(index: number): CardStyle {
-  // Use a much wider random spread to fill the screen
+  const columns = 5;
+  const col = index % columns;
+  const row = Math.floor(index / columns);
+  
+  // Create a clean grid but keep the absolute positioning for drag support
+  // Using fixed steps for better reliability across different screen sizes
+  const left = (col * 20);
+  const top = (row * 100) + 40; 
+  
   return {
-    left: `${randomInRange(5, 85)}%`,
-    top: `${randomInRange(5, 75)}%`,
-    rotation: randomInRange(-12, 12),
+    left: `${left}%`,
+    top: `${top}px`,
+    rotation: randomInRange(-2.5, 2.5), // Subtle rotation for a "hand-placed" feel
     zIndex: index,
     delay: 0,
   }
@@ -347,7 +355,11 @@ export default function DumpPage() {
       )}
 
       {/* Card pile */}
-      <div className="dump-pit" ref={containerRef}>
+      <div 
+        className="dump-pit" 
+        ref={containerRef}
+        style={{ height: `${Math.max(600, Math.ceil(visibleDumps.length / 5) * 100 + 150)}px` }}
+      >
         {visibleDumps.map((d, i) => {
           const key = d.id || `${d.instagram}-${i}`
           const style = cardStyles.get(key)
