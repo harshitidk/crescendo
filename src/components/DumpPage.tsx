@@ -381,11 +381,8 @@ export default function DumpPage() {
             >
               <div className="dump-card-pfp">
                 <img 
-                  src={`https://unavatar.io/instagram/${username}`} 
+                  src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${username}&backgroundColor=b6e3f4,c0aede,d1d4f9`} 
                   alt={d.instagram}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${username}&background=random`
-                  }}
                 />
               </div>
               
