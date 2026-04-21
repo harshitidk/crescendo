@@ -408,23 +408,23 @@ export default function ContactPage() {
         </div>
       )}
 
-      <section className="roster-section developer-section">
-        <div className="section-label">
-          <div className="section-line" />
-          <span>DESIGNED AND BUILT BY</span>
-          <div className="section-line" />
-        </div>
-        {renderGrid(DEV_TEAM, CORE_TEAM.length + DEPT_HEADS.length)}
-      </section>
-
-      {/* Faculty Section moved to end */}
+      {/* Faculty Section */}
       <section className="roster-section faculty-section">
         <div className="section-label">
           <div className="section-line" />
           <span>FACULTY_MENTORS</span>
           <div className="section-line" />
         </div>
-        {renderGrid(FACULTY_TEAM, CORE_TEAM.length + DEPT_HEADS.length + DEV_TEAM.length, 'faculty-grid')}
+        {renderGrid(FACULTY_TEAM, CORE_TEAM.length + DEPT_HEADS.length, 'faculty-grid')}
+      </section>
+
+      <section className="roster-section developer-section">
+        <div className="section-label">
+          <div className="section-line" />
+          <span>DESIGNED AND BUILT BY</span>
+          <div className="section-line" />
+        </div>
+        {renderGrid(DEV_TEAM, CORE_TEAM.length + DEPT_HEADS.length + FACULTY_TEAM.length)}
       </section>
 
       {/* Footer */}
