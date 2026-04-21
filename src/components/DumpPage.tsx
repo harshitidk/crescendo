@@ -17,15 +17,19 @@ interface CardStyle {
 }
 
 function generateCardStyle(index: number): CardStyle {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+  const rangeX = isMobile ? 3 : 8
+  const rangeY = isMobile ? 4 : 10
+
   return {
     left: '0', 
     top: '0',
-    rotation: randomInRange(-4, 4),
+    rotation: randomInRange(-3, 3), // Slightly less rotation too
     zIndex: index,
     delay: index * 0.02,
     // Add small random offsets for the "random but ordered" feel
-    offsetX: randomInRange(-8, 8),
-    offsetY: randomInRange(-10, 10),
+    offsetX: randomInRange(-rangeX, rangeX),
+    offsetY: randomInRange(-rangeY, rangeY),
   }
 }
 
