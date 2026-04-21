@@ -87,28 +87,28 @@ const FACULTY_TEAM: TeamMember[] = [
     name: 'DR. SATISH KUMAR GOEL', 
     role: 'TEACHER IN CHARGE',
     photo: '/team/satish.jpeg', 
-    email: '' 
+    email: 'satish@sscbsdu.ac.in' 
   },
   { 
     id: 'f2', 
-    name: 'DR. RISHI RAJAN SINGH', 
+    name: 'DR. RAJAN SAHAY', 
     role: 'TEACHER IN CHARGE',
     photo: '/team/rishi.jpg', 
-    email: '' 
+    email: 'rajansahay@sscbsdu.ac.in' 
   },
   { 
     id: 'f3', 
     name: 'DR. KUMAR BIJOY', 
     role: 'TEACHER IN CHARGE',
     photo: '/team/KB.jpg', 
-    email: '' 
+    email: 'kumarbijoy@sscbsdu.ac.in' 
   },
   { 
     id: 'f4', 
     name: 'DR. TUSHAR MARWAHA', 
     role: 'TEACHER IN CHARGE',
     photo: '/team/tushar.jpg', 
-    email: '' 
+    email: 'tusharmarwaha@sscbsdu.ac.in' 
   },
 ];
 
