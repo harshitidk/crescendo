@@ -15,22 +15,16 @@ interface CardStyle {
 }
 
 function generateCardStyle(index: number): CardStyle {
-  const columns = 5;
-  const col = index % columns;
-  const row = Math.floor(index / columns);
-  
-  // Create a clean grid but keep the absolute positioning for drag support
-  // Using fixed steps for better reliability across different screen sizes
-  const left = (col * 20);
-  const top = (row * 100) + 40; 
-  
   return {
-    left: `${left}%`,
-    top: `${top}px`,
-    rotation: randomInRange(-2.5, 2.5), // Subtle rotation for a "hand-placed" feel
+    left: '0', 
+    top: '0',
+    rotation: randomInRange(-4, 4),
     zIndex: index,
-    delay: 0,
-  }
+    delay: index * 0.02,
+    // Add small random offsets for the "random but ordered" feel
+    offsetX: randomInRange(-8, 8),
+    offsetY: randomInRange(-10, 10),
+  } as any
 }
 
 // Stored local dumps (so they persist across component remounts within the session)
@@ -373,23 +367,27 @@ export default function DumpPage() {
               style={{
                 zIndex: isSelected || draggedId === key ? 999 : (style?.zIndex || i),
                 animationDelay: isNew ? '0s' : `${(style?.delay || 0)}s`,
-                transform: `rotate(${style?.rotation || 0}deg)`,
+                transform: `translate(${(style as any)?.offsetX || 0}px, ${(style as any)?.offsetY || 0}px) rotate(${style?.rotation || 0}deg)`,
               }}
               onClick={() => {
                 if (!draggedId) setSelectedCard(isSelected ? null : d)
               }}
             >
+              <div className="card-top-tag">TAG_v2.0</div>
               <div className="dump-card-pfp">
                 <img 
                   src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${username}&backgroundColor=b6e3f4,c0aede,d1d4f9`} 
                   alt={d.instagram}
                 />
+                <div className="pfp-glitch-overlay" />
               </div>
               
               <div className="dump-card-info">
                 <div className="dump-card-insta">{d.instagram}</div>
                 <div className="dump-card-name">{d.name}</div>
               </div>
+
+              <div className="card-corner-accent" />
 
               {isSelected && (
                 <div className="dump-card-details">
