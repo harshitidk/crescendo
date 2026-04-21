@@ -373,7 +373,7 @@ export default function DumpPage() {
           const style = cardStyles.get(key)
           const isNew = newCardIds.has(key)
           const isSelected = selectedCard?.id === d.id
-          const username = d.instagram.replace('@', '')
+          const username = d.instagram.toLowerCase().trim().replace(/^@/, '')
 
           return (
             <div
