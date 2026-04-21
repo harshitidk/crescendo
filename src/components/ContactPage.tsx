@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Phone, Mail, MessageCircle, X, ChevronRight, Copy, Check } from 'lucide-react';
 import './ContactPage.css';
 

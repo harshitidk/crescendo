@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { getDumps, dropInstagram, subscribeToDumps, getStoredUser, deleteDump, getSessionId, syncLocalDumpsToServer, type ArcadeDump } from '../lib/arcadeDB'
 import './DumpPage.css'
 
