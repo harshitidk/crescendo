@@ -8,7 +8,7 @@ const logoUrl = '/logo.png'
 const bikeUrl = '/bike.png'
 const cityBgUrl = '/city-bg.jpg'
 
-const ArcadeWindow = ({ title, children, style, isClosed, onClose }: { title: string, children: React.ReactNode, style?: any, isClosed?: boolean, onClose?: () => void }) => {
+const ArcadeWindow = ({ title, children, style, isClosed, onClose }: { title: string, children: React.ReactNode, style?: React.CSSProperties, isClosed?: boolean, onClose?: () => void }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const dragStart = useRef({ x: 0, y: 0 });
