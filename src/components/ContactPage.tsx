@@ -92,30 +92,30 @@ const CORE_TEAM: TeamMember[] = [
 
 const FACULTY_TEAM: TeamMember[] = [
   { 
+    id: 'f3', 
+    name: 'DR. KUMAR BIJOY', 
+    role: 'CONVENOR, TEACHER IN CHARGE',
+    photo: '/team/KB.jpg', 
+    email: 'kumarbijoy@sscbsdu.ac.in' 
+  },
+  { 
     id: 'f1', 
     name: 'DR. SATISH KUMAR GOEL', 
-    role: 'TEACHER IN CHARGE',
+    role: 'CONVENOR, TEACHER IN CHARGE',
     photo: '/team/satish.jpeg', 
     email: 'satish@sscbsdu.ac.in' 
   },
   { 
     id: 'f2', 
     name: 'DR. RAJAN SAHAY', 
-    role: 'TEACHER IN CHARGE',
+    role: 'CONVENOR, TEACHER IN CHARGE',
     photo: '/team/rishi.jpg', 
     email: 'rajansahay@sscbsdu.ac.in' 
   },
   { 
-    id: 'f3', 
-    name: 'DR. KUMAR BIJOY', 
-    role: 'TEACHER IN CHARGE',
-    photo: '/team/KB.jpg', 
-    email: 'kumarbijoy@sscbsdu.ac.in' 
-  },
-  { 
     id: 'f4', 
     name: 'DR. TUSHAR MARWAHA', 
-    role: 'TEACHER IN CHARGE',
+    role: 'CONVENOR, TEACHER IN CHARGE',
     photo: '/team/tushar.jpg', 
     email: 'tusharmarwaha@sscbsdu.ac.in' 
   },
