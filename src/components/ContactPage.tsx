@@ -44,15 +44,6 @@ const CORE_TEAM: TeamMember[] = [
     whatsapp: '7834802213'
   },
   { 
-    id: 'c3', 
-    name: 'PREETI', 
-    role: 'FEST DIRECTOR', 
-    photo: '/team/Preeti.jpeg',
-    email: 'preeti.23266@sscbs.du.ac.in', 
-    phone: '7206260370',
-    whatsapp: '7206260370'
-  },
-  { 
     id: 'c6', 
     name: 'GAGAN CHOUDHARY', 
     role: 'FEST SECRETARY',
@@ -60,6 +51,15 @@ const CORE_TEAM: TeamMember[] = [
     phone: '9257476272',
     email: 'gagan.23285@sscbs.du.ac.in',
     whatsapp: '9257476272'
+  },
+  { 
+    id: 'c3', 
+    name: 'PREETI', 
+    role: 'FEST DIRECTOR', 
+    photo: '/team/Preeti.jpeg',
+    email: 'preeti.23266@sscbs.du.ac.in', 
+    phone: '7206260370',
+    whatsapp: '7206260370'
   },
   { 
     id: 'c4', 
