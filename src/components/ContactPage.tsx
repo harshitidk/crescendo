@@ -112,12 +112,20 @@ const FACULTY_TEAM: TeamMember[] = [
     photo: '/team/rishi.jpg', 
     email: 'rajansahay@sscbsdu.ac.in' 
   },
-  { 
-    id: 'f4', 
-    name: 'DR. TUSHAR MARWAHA', 
+  {
+    id: 'f4',
+    name: 'DR. TUSHAR MARWAHA',
     role: 'CONVENOR, TEACHER IN CHARGE',
-    photo: '/team/tushar.jpg', 
-    email: 'tusharmarwaha@sscbsdu.ac.in' 
+    photo: '/team/tushar.jpg',
+    email: 'tusharmarwaha@sscbsdu.ac.in'
+  },
+  {
+    id: 'f5',
+    name: 'NEERAJ KUMAR SEHRAWAT',
+    role: 'CONVENOR, TEACHER IN CHARGE',
+    photo: '/team/Neeraj.jpg',
+    email: 'nrjsehrawat@sscbsdu.ac.in',
+    phone: '70154 48335'
   },
 ];
 
